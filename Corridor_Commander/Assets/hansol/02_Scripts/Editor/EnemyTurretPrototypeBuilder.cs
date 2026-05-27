@@ -210,6 +210,10 @@ namespace CorridorCommander.EditorTools
 
             Health health = barricade.AddComponent<Health>();
             SetHealthValues(health, 40f, true);
+            MapObstacle obstacle = barricade.AddComponent<MapObstacle>();
+            SerializedObject serializedObstacle = new SerializedObject(obstacle);
+            serializedObstacle.FindProperty("obstacleKind").enumValueIndex = (int)MapObstacleKind.Breakable;
+            serializedObstacle.ApplyModifiedPropertiesWithoutUndo();
 
             GameObject prefab = PrefabUtility.SaveAsPrefabAsset(barricade, BarricadePrefabPath);
             UnityEngine.Object.DestroyImmediate(barricade);

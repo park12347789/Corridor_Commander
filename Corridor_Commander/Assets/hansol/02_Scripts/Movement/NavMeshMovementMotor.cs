@@ -74,6 +74,12 @@ namespace CorridorCommander
                 return;
             }
 
+            int notWalkableArea = NavMesh.GetAreaFromName("Not Walkable");
+            if (notWalkableArea >= 0)
+            {
+                agent.areaMask = NavMesh.AllAreas & ~(1 << notWalkableArea);
+            }
+
             agent.speed = stats.moveSpeed;
             agent.angularSpeed = stats.rotationSpeed;
             agent.acceleration = stats.acceleration;
