@@ -1,0 +1,8 @@
+# Local MCP/editor automation files
+Assets/MCP/
+Assets/MCP.meta
+Assets/**/MCP/
+Assets/**/MCP.meta
+.mcp/
+.mcp.json
+mcp.json
