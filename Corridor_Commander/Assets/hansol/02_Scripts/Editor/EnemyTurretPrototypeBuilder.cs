@@ -16,13 +16,14 @@ namespace CorridorCommander.EditorTools
 {
     public static class EnemyTurretPrototypeBuilder
     {
-        private const string ScenePath = "Assets/hansol/01_Scenes/EnemyBackgroundTest.unity";
+        private const string ScenePath = "Assets/hansol/01_Scenes/test1/EnemyBackgroundTest.unity";
         private const string EnemyPrefabPath = "Assets/hansol/03_Prefabs/Enemy_Basic.prefab";
         private const string BarricadePrefabPath = "Assets/hansol/03_Prefabs/Barricade_Basic.prefab";
         private const string TurretPrefabPath = "Assets/hansol/03_Prefabs/Turret_Basic.prefab";
         private const string ProjectilePrefabPath = "Assets/hansol/03_Prefabs/Prototype_Bullet.prefab";
         private const string EnemyBehaviorPath = "Assets/hansol/09_Settings/Behavior/Enemy_Basic_Unity_Behavior.asset";
         private const string TurretBehaviorPath = "Assets/hansol/09_Settings/Behavior/Turret_Basic_Unity_Behavior.asset";
+        private const string KoreanFontPath = "Assets/hansol/09_Settings/Font/BMJUA/BMJUA_ttf.ttf";
 
         [MenuItem("Corridor Commander/Build Enemy Turret Prototype")]
         public static void Build()
@@ -433,10 +434,11 @@ namespace CorridorCommander.EditorTools
             canvasScaler.referenceResolution = new Vector2(1920f, 1080f);
             canvasObject.AddComponent<GraphicRaycaster>();
 
-            Font font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            Font font = AssetDatabase.LoadAssetAtPath<Font>(KoreanFontPath);
             if (font == null)
             {
-                font = Resources.GetBuiltinResource<Font>("Arial.ttf");
+                Debug.LogError($"Required Korean font is missing: {KoreanFontPath}");
+                return;
             }
 
             GameObject promptRoot = CreateUiPanel("TEMP_UI_InteractionPrompt_E", canvasObject.transform, new Vector2(0.5f, 0.16f), new Vector2(360f, 64f), new Color(0f, 0f, 0f, 0.72f));

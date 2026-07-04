@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c5b868dc67446369f63ba43634f0009, type: 3}
+  m_Name: RegionModifier_MainScene_SectorA
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.RegionWaveModifierSO
+  regionId: MainScene_Sector_A
+  minWaveOffsetAfterOpen: 1
+  applyMode: 1
+  extraPhases:
+  - delay: 0
+    announcementText: 
+    spawnRules:
+    - spawnGroup: {fileID: 11400000, guid: 07d24355f5d49a04b83b8141e4b0b400, type: 2}
+      spawnerNameContains: MainScene_Sector_A
+      spawnCount: 2
+      spawnInterval: 0.5
+      enemyEntries:
+      - enemy: {fileID: 11400000, guid: 8f000000000000000000000000000001, type: 2}
+        weight: 1

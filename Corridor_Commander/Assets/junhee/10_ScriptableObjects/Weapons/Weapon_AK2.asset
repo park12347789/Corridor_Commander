@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1061edae711c4fb48bf864f13f1f9d03, type: 3}
+  m_Name: Weapon_AK2
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.PlayerCombat.WeaponItemDefinitionSO
+  weaponId: weapon_ak2
+  displayName: AK-2
+  icon: {fileID: 21300000, guid: 8eb4a8cd8c1a14740987bef7de198470, type: 3}
+  weaponPrefab: {fileID: 4318073352953623844, guid: e5ba9bb01f0432843ba60e59cd10b520, type: 3}
+  animationType: 2
+  unaimedFirstShotDelay: 0.12
+  fireDefinition: {fileID: 11400000, guid: e64fd3b7bb1747549bf6fd7353d9db7e, type: 2}
+  audioDefinition: {fileID: 11400000, guid: c2496739b0fee1c49911ae1a6889afee, type: 2}
+  magazineSize: 30
+  reloadTime: 1.5
+  ammoDefinition: {fileID: 11400000, guid: 1e8f8f1d28205404b9f7230a51f5030a, type: 2}

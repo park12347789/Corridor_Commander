@@ -13,6 +13,7 @@ namespace CorridorCommander.EditorTools
     public static class BehaviorNodeGraphBuilder
     {
         private const string EnemyPrefabPath = "Assets/hansol/03_Prefabs/Enemy_Basic.prefab";
+        private const string ZombieEnemyPrefabPath = "Assets/hansol/03_Prefabs/Enemy_Zombie_Basic.prefab";
         private const string TurretPrefabPath = "Assets/hansol/03_Prefabs/Turret_Basic.prefab";
         private const string EnemyBehaviorPath = "Assets/hansol/09_Settings/Behavior/Enemy_Basic_Unity_Behavior.asset";
         private const string TurretBehaviorPath = "Assets/hansol/09_Settings/Behavior/Turret_Basic_Unity_Behavior.asset";
@@ -33,6 +34,7 @@ namespace CorridorCommander.EditorTools
             BehaviorGraph spawnerGraph = BuildSpawnerGraph();
 
             AssignPrefabGraph(EnemyPrefabPath, enemyGraph);
+            AssignPrefabGraph(ZombieEnemyPrefabPath, enemyGraph);
             AssignPrefabGraph(TurretPrefabPath, turretGraph);
             AssignSceneSpawnerGraph(spawnerGraph, saveOpenScene);
 
@@ -49,13 +51,16 @@ namespace CorridorCommander.EditorTools
             NodeModel parallel = CreateBehaviorNode(graph, typeof(ParallelAllComposite), new Vector2(260f, 0f));
             NodeModel movement = CreateBehaviorNode(graph, typeof(CCRunEnemyMovementAction), new Vector2(560f, -80f));
             NodeModel melee = CreateBehaviorNode(graph, typeof(CCRunEnemyMeleeAttackAction), new Vector2(560f, 100f));
+            NodeModel animation = CreateBehaviorNode(graph, typeof(CCRunEnemyAnimationAction), new Vector2(560f, 280f));
 
             LinkSelf(graph, movement, "Agent");
             LinkSelf(graph, melee, "Agent");
+            LinkSelf(graph, animation, "Agent");
 
             ConnectDefault(graph, start, parallel);
             ConnectDefault(graph, parallel, movement);
             ConnectDefault(graph, parallel, melee);
+            ConnectDefault(graph, parallel, animation);
 
             return SaveRuntimeGraph(graph);
         }
@@ -163,7 +168,7 @@ namespace CorridorCommander.EditorTools
 
         private static void AssignPrefabGraph(string prefabPath, BehaviorGraph graph)
         {
-            if (graph == null)
+            if (graph == null || !System.IO.File.Exists(prefabPath))
             {
                 return;
             }

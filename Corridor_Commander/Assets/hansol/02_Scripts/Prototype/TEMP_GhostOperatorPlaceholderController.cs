@@ -40,7 +40,7 @@ namespace CorridorCommander
 
         private void Update()
         {
-            Keyboard keyboard = Keyboard.current;
+            Keyboard keyboard = KeyboardInputMessenger.CurrentKeyboard;
             Mouse mouse = Mouse.current;
 
             if (keyboard == null)
@@ -55,7 +55,7 @@ namespace CorridorCommander
                 Cursor.visible = true;
             }
 
-            if (mouse != null)
+            if (mouse != null && !TEMP_CommandInputState.BlocksLookInput)
             {
                 Vector2 lookDelta = mouse.delta.ReadValue() * mouseSensitivity;
                 transform.Rotate(0f, lookDelta.x, 0f);

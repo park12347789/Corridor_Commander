@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace CorridorCommander
@@ -12,8 +13,10 @@ namespace CorridorCommander
         [SerializeField] private bool runUpdateLoop = true;
 
         private EnemyMovementController movementController;
-        private Health currentTarget;
+        private IDamageTarget currentTarget;
         private float nextAttackTime;
+
+        public event Action AttackPerformed;
 
         private void Awake()
         {
@@ -46,11 +49,12 @@ namespace CorridorCommander
                 return;
             }
 
-            FaceTarget(currentTarget.transform.position);
+            FaceTarget(currentTarget.Transform.position);
 
             if (Time.time >= nextAttackTime)
             {
-                currentTarget.TakeDamage(new DamageInfo(damage, gameObject, currentTarget.transform.position));
+                currentTarget.TakeDamage(new DamageInfo(damage, gameObject, currentTarget.Transform.position));
+                AttackPerformed?.Invoke();
                 nextAttackTime = Time.time + attackInterval;
             }
         }
@@ -60,44 +64,83 @@ namespace CorridorCommander
             runUpdateLoop = enabled;
         }
 
-        private Health FindClosestAttackTarget()
+        private IDamageTarget FindClosestAttackTarget()
         {
             Collider[] hits = Physics.OverlapSphere(transform.position, attackRange, targetLayers, QueryTriggerInteraction.Ignore);
-            Health closestTarget = null;
+            IDamageTarget closestTarget = null;
             float closestDistance = float.MaxValue;
 
             foreach (Collider hit in hits)
             {
-                Health health = hit.GetComponentInParent<Health>();
-                if (!IsTargetValid(health))
+                IDamageTarget target = ResolveDamageTarget(hit);
+                if (!IsTargetValid(target))
                 {
                     continue;
                 }
 
-                float distance = Vector3.SqrMagnitude(health.transform.position - transform.position);
+                float distance = Vector3.SqrMagnitude(target.Transform.position - transform.position);
                 if (distance < closestDistance)
                 {
                     closestDistance = distance;
-                    closestTarget = health;
+                    closestTarget = target;
                 }
             }
 
             return closestTarget;
         }
 
-        private bool IsTargetValid(Health health)
+        private static IDamageTarget ResolveDamageTarget(Collider hit)
         {
-            if (health == null || !health.IsAlive || health.transform.root == transform.root)
+            if (hit == null)
+            {
+                return null;
+            }
+
+            IDamageTarget target = ResolveDamageTarget(hit.GetComponentsInParent<MonoBehaviour>());
+            if (target != null)
+            {
+                return target;
+            }
+
+            return ResolveDamageTarget(hit.transform.root.GetComponentsInChildren<MonoBehaviour>());
+        }
+
+        private static IDamageTarget ResolveDamageTarget(MonoBehaviour[] behaviours)
+        {
+            if (behaviours == null)
+            {
+                return null;
+            }
+
+            for (int i = 0; i < behaviours.Length; i++)
+            {
+                if (behaviours[i] is IDamageTarget target)
+                {
+                    return target;
+                }
+            }
+
+            return null;
+        }
+
+        private bool IsTargetValid(IDamageTarget target)
+        {
+            if (target == null || !target.IsAlive || target.Transform.root == transform.root)
             {
                 return false;
             }
 
-            if (health.GetComponentInParent<EnemyMovementController>() != null)
+            if (target.Transform.GetComponentInParent<EnemyMovementController>() != null)
             {
                 return false;
             }
 
-            return Vector3.Distance(transform.position, health.transform.position) <= attackRange;
+            if (target.Transform.GetComponentInParent<TurretTargetingController>() != null)
+            {
+                return false;
+            }
+
+            return Vector3.Distance(transform.position, target.Transform.position) <= attackRange;
         }
 
         private void FaceTarget(Vector3 targetPosition)

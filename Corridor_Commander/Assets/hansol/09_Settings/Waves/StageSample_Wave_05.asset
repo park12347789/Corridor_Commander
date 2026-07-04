@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23815f5e32c653049b5d6566d28073ad, type: 3}
+  m_Name: StageSample_Wave_05
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.EnemyWaveDefinition
+  waveId: StageOne_Wave_05_FinalVault
+  waveType: 0
+  autoStartDelay: 999
+  spawnRules:
+  - spawnGroup: {fileID: 0}
+    spawnerNameContains: Stage1_Spawn_FinalVault
+    spawnCount: 10
+    spawnInterval: 0.35
+    enemyEntries: []
+  spawnPhases: []

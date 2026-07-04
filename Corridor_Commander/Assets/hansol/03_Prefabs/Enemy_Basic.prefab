@@ -10,15 +10,15 @@ GameObject:
   m_Component:
   - component: {fileID: 8703738378237776921}
   - component: {fileID: 3377244251654332450}
-  - component: {fileID: 6122513693209473944}
   - component: {fileID: 2718658223132323482}
-  - component: {fileID: 2246759821477168041}
-  - component: {fileID: 3451584888143318707}
   - component: {fileID: 5648434808922480358}
   - component: {fileID: 1152176104203743065}
   - component: {fileID: 3372538282560072911}
   - component: {fileID: 5151383698608419721}
-  m_Layer: 0
+  - component: {fileID: -2282015237946837178}
+  - component: {fileID: -4198151983083396364}
+  - component: {fileID: -1553789417117854311}
+  m_Layer: 7
   m_Name: Enemy_Basic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,29 +48,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8472111322137235816}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!136 &6122513693209473944
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8472111322137235816}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &2718658223132323482
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -120,45 +97,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!195 &2246759821477168041
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8472111322137235816}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5000001
-  m_Speed: 2.6
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 540
-  m_StoppingDistance: 0.35
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 1
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
---- !u!114 &3451584888143318707
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8472111322137235816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60f97a5545181c648b4e75800834237a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.NavMeshMovementMotor
-  stats:
-    moveSpeed: 2.6
-    rotationSpeed: 540
-    acceleration: 8
-    stoppingDistance: 0.35
 --- !u!114 &5648434808922480358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,6 +110,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.EnemyMovementController
   target: {fileID: 0}
+  waypointReachDistance: 0.65
   refreshInterval: 0.25
   runUpdateLoop: 1
 --- !u!114 &1152176104203743065
@@ -205,7 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34b74cb4b71f52e4c9e03ebbfccb8908, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.Health
-  maxHitPoints: 120
+  maxHitPoints: 30
   destroyOnDeath: 1
   died:
     m_PersistentCalls:
@@ -224,14 +163,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.Behavior::Unity.Behavior.BehaviorGraphAgent
   m_Graph: {fileID: 8049505295741742834, guid: f8b36823f4b6545488413527b7425026, type: 2}
   m_BlackboardVariableOverridesList:
-  - rid: 7056966394665762984
+  - rid: 3552225842092835340
   m_OriginalGraph: {fileID: 8049505295741742834, guid: f8b36823f4b6545488413527b7425026, type: 2}
   m_IsInitialised: 0
   m_IsStarted: 0
   references:
     version: 2
     RefIds:
-    - rid: 7056966394665762984
+    - rid: 3552225842092835340
       type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]', ns: Unity.Behavior, asm: Unity.Behavior}
       data:
         GUID:
@@ -239,3 +178,70 @@ MonoBehaviour:
           m_Value1: 0
         Name: Self
         m_Value: {fileID: 8472111322137235816}
+--- !u!143 &-2282015237946837178
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8472111322137235816}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 2
+  m_Radius: 0.45
+  m_SlopeLimit: 55
+  m_StepOffset: 0.35
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-4198151983083396364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8472111322137235816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a950dd485d0fe1478524b70448b4639, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DirectCharacterMovementMotor
+  stats:
+    moveSpeed: 2.6
+    rotationSpeed: 540
+    acceleration: 8
+    stoppingDistance: 0.35
+  gravity: -18
+  rotateTowardMovement: 1
+--- !u!136 &-1553789417117854311
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8472111322137235816}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5000001
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}

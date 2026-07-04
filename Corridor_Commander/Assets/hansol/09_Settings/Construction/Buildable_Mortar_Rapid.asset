@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 852d61b1b7239564e8ee48c5e65387b0, type: 3}
+  m_Name: Buildable_Mortar_Rapid
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.BuildableDefinitionSO
+  buildableId: mortar_rapid
+  displayName: "\uAC10\uC18D\uC7A5\uD310"
+  kind: 2
+  category: 2
+  prefab: {fileID: 4604350452111614253, guid: a4ca3f0d2c854682a394eda8d247aecb, type: 3}
+  price: 30
+  explanation: Provides a slowing field skill
+  icon: {fileID: 21300000, guid: aae76651dfbc2a24892060d280670ed8, type: 3}
+  rotateBeforeInstall: 0
+  roleDefinitions:
+  - {fileID: 11400000, guid: 26d09d6fd6ac4f0cae89c32162fae3ec, type: 2}

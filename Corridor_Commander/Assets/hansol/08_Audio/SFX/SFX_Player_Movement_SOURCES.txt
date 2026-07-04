@@ -1,0 +1,19 @@
+Player movement SFX sources
+
+Footsteps:
+Kenney RPG Audio
+https://kenney.nl/assets/rpg-audio
+License: Creative Commons CC0
+Files used: footstep00.ogg, footstep01.ogg, footstep02.ogg, footstep03.ogg
+
+Jump:
+Kenney Retro Sounds 1
+https://gamesounds.xyz/?dir=Kenney%27s+Sound+Pack%2FRetro+Sounds+1
+License: Creative Commons CC0
+File used: jump1.ogg
+
+Landing:
+BigSoundBank - Jumping on Concrete #2
+https://bigsoundbank.com/jumping-on-concrete-2-s1836.html
+License: CC0 public domain
+File used: 1836.ogg

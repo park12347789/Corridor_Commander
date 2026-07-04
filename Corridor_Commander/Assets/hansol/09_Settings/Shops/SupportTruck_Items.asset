@@ -1,0 +1,121 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d17ff9c7e0c9cf54f9e27f6380af7ee9, type: 3}
+  m_Name: SupportTruck_Items
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.SupportTruckShopOfferListSO
+  category: 0
+  displayName: Items
+  offers:
+  - offerId: weapon_ak2
+    displayName: AK2 Rifle
+    description: Reliable automatic rifle. Includes a full magazine.
+    icon: {fileID: 21300000, guid: 8eb4a8cd8c1a14740987bef7de198470, type: 3}
+    cost: 40
+    action: 1
+    itemGrant: 1
+    unlockKey: 0
+    squadMemberPrefab: {fileID: 0}
+    itemDefinition: {fileID: 0}
+    itemAmount: 1
+    weaponDefinition: {fileID: 11400000, guid: f06dbb740edc4317bacdcc707832d580, type: 2}
+    fillWeaponMagazine: 1
+  - offerId: item_heal
+    displayName: Medkit
+    description: Restores health during combat.
+    icon: {fileID: 21300000, guid: bc2f82255487bc74084ac409188d2226, type: 3}
+    cost: 30
+    action: 1
+    itemGrant: 2
+    unlockKey: 0
+    squadMemberPrefab: {fileID: 0}
+    itemDefinition: {fileID: 11400000, guid: 50883044f2687e64d9fa0db3b783e49c, type: 2}
+    itemAmount: 1
+    weaponDefinition: {fileID: 0}
+    fillWeaponMagazine: 0
+  - offerId: item_grenade
+    displayName: Grenade
+    description: Throwable explosive for clustered enemies.
+    icon: {fileID: 21300000, guid: b8d14864a8edd69479eedc778c985fab, type: 3}
+    cost: 40
+    action: 1
+    itemGrant: 3
+    unlockKey: 0
+    squadMemberPrefab: {fileID: 0}
+    itemDefinition: {fileID: 11400000, guid: 9880bcacef3a1e1418b0d6a7fc7fbed5, type: 2}
+    itemAmount: 1
+    weaponDefinition: {fileID: 0}
+    fillWeaponMagazine: 0
+  - offerId: Weapon_Shotgun
+    displayName: Shotgun
+    description: Close-range burst weapon. Strong against rushing enemies.
+    icon: {fileID: 21300000, guid: 5eb5fa132dac0654f9f862179d68a381, type: 3}
+    cost: 60
+    action: 1
+    itemGrant: 1
+    unlockKey: 0
+    squadMemberPrefab: {fileID: 0}
+    itemDefinition: {fileID: 0}
+    itemAmount: 1
+    weaponDefinition: {fileID: 11400000, guid: 6ff2f135c4644cf28ab326dc05551e57, type: 2}
+    fillWeaponMagazine: 1
+  - offerId: Weapon_Pistol
+    displayName: Pistol
+    description: Light sidearm with stable single-shot accuracy.
+    icon: {fileID: 21300000, guid: 86fe3ca94cfd06443917fa7c9e6a3de0, type: 3}
+    cost: 50
+    action: 1
+    itemGrant: 1
+    unlockKey: 0
+    squadMemberPrefab: {fileID: 0}
+    itemDefinition: {fileID: 0}
+    itemAmount: 1
+    weaponDefinition: {fileID: 11400000, guid: ef18d53ffa54428087d07951a7327b75, type: 2}
+    fillWeaponMagazine: 1
+  - offerId: Weapon_laser gun
+    displayName: Laser Gun
+    description: Continuous energy weapon for precise sustained fire.
+    icon: {fileID: 21300000, guid: 8e5cacd5f0e986749aa6878a3f5dfe34, type: 3}
+    cost: 100
+    action: 1
+    itemGrant: 1
+    unlockKey: 0
+    squadMemberPrefab: {fileID: 0}
+    itemDefinition: {fileID: 0}
+    itemAmount: 1
+    weaponDefinition: {fileID: 11400000, guid: 274bfc2185ab4fd39ac224919a4feb6a, type: 2}
+    fillWeaponMagazine: 1
+  - offerId: Weapon_Beam Canon
+    displayName: Beam Cannon
+    description: Heavy beam weapon with high burst damage.
+    icon: {fileID: 21300000, guid: abddae68e1edf8044b0e0baf4ecee671, type: 3}
+    cost: 120
+    action: 1
+    itemGrant: 1
+    unlockKey: 0
+    squadMemberPrefab: {fileID: 0}
+    itemDefinition: {fileID: 0}
+    itemAmount: 1
+    weaponDefinition: {fileID: 11400000, guid: 1387d77111ef4be0a46e827c4e682b96, type: 2}
+    fillWeaponMagazine: 1
+  - offerId: Weapon_Generated launcher
+    displayName: Grenade Launcher
+    description: Launches explosive rounds for area control.
+    icon: {fileID: 21300000, guid: 5197704be23e5f74782114f8b217d65c, type: 3}
+    cost: 130
+    action: 1
+    itemGrant: 1
+    unlockKey: 0
+    squadMemberPrefab: {fileID: 0}
+    itemDefinition: {fileID: 0}
+    itemAmount: 1
+    weaponDefinition: {fileID: 11400000, guid: 158dfa4552754e60af6dac2d0908cf09, type: 2}
+    fillWeaponMagazine: 1

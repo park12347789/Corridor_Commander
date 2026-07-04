@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d17ff9c7e0c9cf54f9e27f6380af7ee9, type: 3}
+  m_Name: SupportTruck_Squad
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.SupportTruckShopOfferListSO
+  category: 1
+  displayName: Squad
+  offers:
+  - offerId: squad_dummy_rifle
+    displayName: rifle
+    description: Follows behind the player
+    icon: {fileID: 21300000, guid: 6ab5ee2bac15f654a8c52949c412b264, type: 3}
+    cost: 180
+    action: 2
+    itemGrant: 0
+    unlockKey: 0
+    squadMemberPrefab: {fileID: 3650481975506721561, guid: 33418fa55bb579d47b19b5893a71bbcb, type: 3}
+    itemDefinition: {fileID: 0}
+    itemAmount: 1
+    weaponDefinition: {fileID: 0}
+    fillWeaponMagazine: 1
+  - offerId: squad_dummy_blue
+    displayName: Shotgun
+    description: Blue squadmate
+    icon: {fileID: 21300000, guid: ba5ae746ecabbe24aa3d8b4e8f5c8430, type: 3}
+    cost: 200
+    action: 2
+    itemGrant: 0
+    unlockKey: 0
+    squadMemberPrefab: {fileID: 6113499055741579157, guid: c9545c9774dd65d4facf17532eb0e9c9, type: 3}
+    itemDefinition: {fileID: 0}
+    itemAmount: 1
+    weaponDefinition: {fileID: 0}
+    fillWeaponMagazine: 1
+  - offerId: squad_dummy_red
+    displayName: lasergun
+    description: Red squadmate
+    icon: {fileID: 21300000, guid: 02133836f8e8bbb48b47807f3a710a47, type: 3}
+    cost: 250
+    action: 2
+    itemGrant: 0
+    unlockKey: 0
+    squadMemberPrefab: {fileID: 3650481975506721561, guid: 84a7cbad3ca33764e9ed78579766461b, type: 3}
+    itemDefinition: {fileID: 0}
+    itemAmount: 1
+    weaponDefinition: {fileID: 0}
+    fillWeaponMagazine: 1
+  - offerId: squad_dummy_purple
+    displayName: Cannon
+    description: Purple squadmate
+    icon: {fileID: 21300000, guid: 8a83bdc4e5901344cad01d0e8b3440b1, type: 3}
+    cost: 280
+    action: 2
+    itemGrant: 0
+    unlockKey: 0
+    squadMemberPrefab: {fileID: 3650481975506721561, guid: 4eb863ccf5c124d4ab7c594d1e2aea3a, type: 3}
+    itemDefinition: {fileID: 0}
+    itemAmount: 1
+    weaponDefinition: {fileID: 0}
+    fillWeaponMagazine: 1

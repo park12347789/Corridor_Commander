@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -6,11 +7,14 @@ namespace CorridorCommander
     [DisallowMultipleComponent]
     public sealed class GameManager : MonoBehaviour
     {
+        [SerializeField] private Transform mainTarget;
         [SerializeField] private UnityEvent gameOver;
 
         public static GameManager Instance { get; private set; }
+        public Transform MainTarget => mainTarget;
         public bool IsGameOver { get; private set; }
         public string GameOverReason { get; private set; }
+        public event Action<string> GameOverTriggered;
 
         private void Awake()
         {
@@ -43,7 +47,13 @@ namespace CorridorCommander
             IsGameOver = true;
             GameOverReason = string.IsNullOrWhiteSpace(reason) ? "Game Over" : reason;
             Debug.Log($"Game Over: {GameOverReason}", this);
+            GameOverTriggered?.Invoke(GameOverReason);
             gameOver?.Invoke();
+        }
+
+        public void SetMainTarget(Transform target)
+        {
+            mainTarget = target;
         }
     }
 }

@@ -10,8 +10,16 @@ namespace CorridorCommander
         [SerializeField] private MapObstacleKind obstacleKind = MapObstacleKind.Solid;
 
         public MapObstacleKind ObstacleKind => obstacleKind;
-        public bool BlocksNavigation => obstacleKind == MapObstacleKind.Solid;
+        public bool BlocksNavigation => obstacleKind == MapObstacleKind.Solid
+            || obstacleKind == MapObstacleKind.Breakable;
         public bool CanBeDestroyed => obstacleKind == MapObstacleKind.Breakable && TryGetComponent(out Health _);
+
+        public void Configure(MapObstacleKind configuredKind)
+        {
+            obstacleKind = configuredKind;
+            ConfigureCollider();
+            ConfigureNavigationObstacle();
+        }
 
         private void Awake()
         {

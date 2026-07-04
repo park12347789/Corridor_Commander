@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8295d4e349cfe274b838a192751939cf, type: 3}
+  m_Name: Projectile_Bullet_556
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.PlayerCombat.ProjectileDefinitionSO
+  projectilePrefab: {fileID: 3256113843764181270, guid: 90e104b71b921384d8a42c7ce0027ad9, type: 3}
+  damage: 8
+  speed: 45
+  lifeTime: 2
+  moveType: 0
+  gravity: -9.81
+  useSplashDamage: 0
+  splashRadius: 2
+  splashDamage: 10
+  hitLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  initialPoolSize: 60
+  hitVfxPrefab: {fileID: 0}
+  hitVfxLifeTime: 1.5

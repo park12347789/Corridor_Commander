@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f19dc1b008caaf4b983e91978cd322c, type: 3}
+  m_Name: Role_Mortar_Rapid
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.MortarSkillRoleDefinitionSO
+  roleId: mortar_rapid_skill_provider
+  displayName: "\uAC10\uC18D\uC7A5\uD310 \uC2A4\uD0AC \uC81C\uACF5"
+  skillDefinition: {fileID: 11400000, guid: 3ae5bde9e562476397d776779ef54bde, type: 2}
+  projectilePrefab: {fileID: 3070169769673607023, guid: 62ef1fcaf8242ec42a22efb1fbaa8203, type: 3}
+  muzzleVfxPrefab: {fileID: 4923943776502386270, guid: 394604f44ab074c429badaf66872a6b4, type: 3}
+  muzzleVfxScale: 1
+  projectileVfxPrefab: {fileID: 6552020721635043375, guid: 304070f67a81e6a4b818ce95a0d66078, type: 3}
+  impactVfxPrefab: {fileID: 5034279496472576074, guid: 41d3339366645dd43a014d521fd298dc, type: 3}
+  fireAudioClips:
+  - {fileID: 8300000, guid: 86e88d09e41a788459203fe721775f00, type: 3}
+  impactAudioClips:
+  - {fileID: 8300000, guid: 54244df20b2699a489f3bd7f54301d78, type: 3}
+  fireAudioVolume: 0.8
+  impactAudioVolume: 0.8
+  flightTime: 1
+  arcHeight: 5

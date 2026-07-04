@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1061edae711c4fb48bf864f13f1f9d03, type: 3}
+  m_Name: Weapon_Shotgun
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.PlayerCombat.WeaponItemDefinitionSO
+  weaponId: weapon_shotgun
+  displayName: Shotgun
+  icon: {fileID: 21300000, guid: 5eb5fa132dac0654f9f862179d68a381, type: 3}
+  weaponPrefab: {fileID: 1205966136548227427, guid: eb56f738d48fdc347a902732756f0f1a, type: 3}
+  animationType: 2
+  unaimedFirstShotDelay: 0.18
+  fireDefinition: {fileID: 11400000, guid: 81b863da9508dd0438f63003f2bf2ff4, type: 2}
+  audioDefinition: {fileID: 11400000, guid: 6e9b1ec08c6bd1e4a9fc5d885e9c3b59, type: 2}
+  magazineSize: 6
+  reloadTime: 1.5
+  ammoDefinition: {fileID: 11400000, guid: d8927b4a5adf5f8458a43cdbc3a4dd20, type: 2}

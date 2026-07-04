@@ -14,6 +14,7 @@ namespace CorridorCommander
         [SerializeField] private Text interactionPromptText;
         [SerializeField] private GameObject buildPanelRoot;
         [SerializeField] private Text buildPanelText;
+        [SerializeField] private PlacementPreviewController previewController;
 
         private PlacementPoint currentPlacementPoint;
         private bool isPanelOpen;
@@ -22,10 +23,22 @@ namespace CorridorCommander
         public PlacementPoint CurrentPlacementPoint => currentPlacementPoint;
         public bool IsPanelOpen => isPanelOpen;
 
+        private void OnDestroy()
+        {
+            UiInputCoordinator.EndContextIfActive(this);
+        }
+
         private void Update()
         {
-            Keyboard keyboard = Keyboard.current;
+            Keyboard keyboard = KeyboardInputMessenger.CurrentKeyboard;
             currentPlacementPoint = FindClosestPlacementPoint();
+
+            if (previewController != null && previewController.IsActive)
+            {
+                previewController.Tick();
+                RefreshUi();
+                return;
+            }
 
             if (keyboard != null)
             {
@@ -34,16 +47,28 @@ namespace CorridorCommander
                     TogglePanel();
                 }
 
-                if (isPanelOpen && keyboard.digit1Key.wasPressedThisFrame)
+                if (isPanelOpen
+                    && keyboard.digit1Key.wasPressedThisFrame
+                    && UiInputCoordinator.Instance.TryConsumeMenuSlot(this, 1))
                 {
                     selectedKind = BuildableKind.Turret;
                     TryBuildCurrent(BuildableKind.Turret);
                 }
 
-                if (isPanelOpen && keyboard.digit2Key.wasPressedThisFrame)
+                if (isPanelOpen
+                    && keyboard.digit2Key.wasPressedThisFrame
+                    && UiInputCoordinator.Instance.TryConsumeMenuSlot(this, 2))
                 {
                     selectedKind = BuildableKind.Barricade;
                     TryBuildCurrent(BuildableKind.Barricade);
+                }
+
+                if (isPanelOpen
+                    && keyboard.digit3Key.wasPressedThisFrame
+                    && UiInputCoordinator.Instance.TryConsumeMenuSlot(this, 3))
+                {
+                    selectedKind = BuildableKind.Mortar;
+                    TryBuildCurrent(BuildableKind.Mortar);
                 }
             }
 
@@ -54,6 +79,12 @@ namespace CorridorCommander
         {
             if (placementPoint == null)
             {
+                return null;
+            }
+
+            if (placementPoint.RequiresPreviewRotation(kind))
+            {
+                BeginPreview(placementPoint, kind);
                 return null;
             }
 
@@ -69,6 +100,13 @@ namespace CorridorCommander
                 return false;
             }
 
+            if (!UiInputCoordinator.Instance.TryBeginContext(this, UiInputContext.LegacyBuildMenu, true))
+            {
+                isPanelOpen = false;
+                RefreshUi();
+                return false;
+            }
+
             isPanelOpen = true;
             RefreshUi();
             return true;
@@ -77,6 +115,7 @@ namespace CorridorCommander
         public void ClosePanel()
         {
             isPanelOpen = false;
+            UiInputCoordinator.Instance.EndContext(this);
             RefreshUi();
         }
 
@@ -99,7 +138,38 @@ namespace CorridorCommander
                 return;
             }
 
+            if (currentPlacementPoint == null || currentPlacementPoint.IsOccupied)
+            {
+                TryOpenPanel();
+                return;
+            }
+
+            if (!UiInputCoordinator.Instance.TryConsumeInteract(this))
+            {
+                return;
+            }
+
             TryOpenPanel();
+        }
+
+        private bool BeginPreview(PlacementPoint placementPoint, BuildableKind kind)
+        {
+            ResolvePreviewController();
+            ClosePanel();
+            if (previewController == null || !previewController.Begin(placementPoint, kind, gameObject))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private void ResolvePreviewController()
+        {
+            if (previewController == null)
+            {
+                Debug.LogWarning("[TEMP_GhostOperatorBuildInput] PlacementPreviewController is not assigned.", this);
+            }
         }
 
         private PlacementPoint FindClosestPlacementPoint()
@@ -135,26 +205,28 @@ namespace CorridorCommander
         private void RefreshUi()
         {
             bool hasPoint = currentPlacementPoint != null && !currentPlacementPoint.IsOccupied;
+            bool isPreviewing = previewController != null && previewController.IsActive;
+            bool canUseInteraction = UiInputCoordinator.Instance.CanUseWorldInteraction(this);
 
             if (interactionPromptRoot != null)
             {
-                interactionPromptRoot.SetActive(hasPoint && !isPanelOpen);
+                interactionPromptRoot.SetActive(hasPoint && canUseInteraction && !isPanelOpen && !isPreviewing);
             }
 
             if (interactionPromptText != null)
             {
-                interactionPromptText.text = hasPoint ? "E  건설 메뉴" : string.Empty;
+                interactionPromptText.text = hasPoint && canUseInteraction && !isPreviewing ? "E  건설 메뉴" : string.Empty;
             }
 
             if (buildPanelRoot != null)
             {
-                buildPanelRoot.SetActive(hasPoint && isPanelOpen);
+                buildPanelRoot.SetActive(hasPoint && isPanelOpen && !isPreviewing);
             }
 
             if (buildPanelText != null)
             {
-                buildPanelText.text = hasPoint
-                    ? "건설 선택\n\n[1] 포탑\n사거리 안의 적을 자동으로 공격\n\n[2] 바리케이드\n적 진로를 막고 체력으로 버팀\n\n[E] 닫기"
+                buildPanelText.text = hasPoint && !isPreviewing
+                    ? "\uAC74\uC124 \uC120\uD0DD\n\n[1] \uD3EC\uD0D1\n\uC0AC\uAC70\uB9AC \uC548\uC758 \uC801\uC744 \uC790\uB3D9\uC73C\uB85C \uACF5\uACA9\n\n[2] \uBC29\uBCBD\nR/\uD720 \uD68C\uC804, E/\uC6B0\uD074\uB9AD \uC124\uCE58\n\n[3] \uBC15\uACA9\uD3EC\n\uC870\uC900 \uC704\uCE58 \uD3EC\uACA9 \uC2A4\uD0AC \uC81C\uACF5\n\n[E] \uB2EB\uAE30"
                     : string.Empty;
             }
         }

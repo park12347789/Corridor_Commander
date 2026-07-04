@@ -8,13 +8,38 @@ namespace CorridorCommander
         [SerializeField] private float range = 7f;
         [SerializeField] private float fireInterval = 0.75f;
         [SerializeField] private float damage = 10f;
+        [SerializeField] private TurretAttackMode attackMode = TurretAttackMode.PulseHitscan;
+        [SerializeField, Min(0f)] private float attackWindupTime;
         [SerializeField] private LayerMask targetLayers = ~0;
-        [SerializeField] private Transform muzzle;
-        [SerializeField] private Projectile projectilePrefab;
+        [SerializeField] private ProjectileFirePoint firePoint;
+        [SerializeField] private StatusEffectDefinitionSO[] hitEffects;
         [SerializeField] private bool runUpdateLoop = true;
 
+        private Vector3 aimUpAxis = Vector3.up;
         private Health currentTarget;
+        private Health sustainedBeamTarget;
         private float nextFireTime;
+
+        public float CurrentRange => range;
+        public float CurrentFireInterval => fireInterval;
+        public float CurrentDamage => damage;
+
+        private void Reset()
+        {
+            ResolveFirePointReference();
+        }
+
+        private void Awake()
+        {
+            ResolveFirePointReference();
+        }
+
+#if UNITY_EDITOR
+        private void OnValidate()
+        {
+            ResolveFirePointReference();
+        }
+#endif
 
         private void Update()
         {
@@ -28,15 +53,23 @@ namespace CorridorCommander
         {
             if (!IsTargetValid(currentTarget))
             {
+                sustainedBeamTarget = null;
                 currentTarget = FindClosestTarget();
             }
 
             if (currentTarget == null)
             {
+                sustainedBeamTarget = null;
                 return;
             }
 
             AimAt(currentTarget.transform.position);
+
+            if (attackMode == TurretAttackMode.SustainedBeam)
+            {
+                TickSustainedBeam(currentTarget);
+                return;
+            }
 
             if (Time.time >= nextFireTime)
             {
@@ -48,6 +81,70 @@ namespace CorridorCommander
         public void SetUpdateLoopEnabled(bool enabled)
         {
             runUpdateLoop = enabled;
+        }
+
+        public void SetAimUpAxis(Vector3 upAxis)
+        {
+            aimUpAxis = upAxis.sqrMagnitude > 0.0001f
+                ? upAxis.normalized
+                : Vector3.up;
+        }
+
+        public void Configure(float configuredRange, float configuredFireInterval, float configuredDamage)
+        {
+            Configure(configuredRange, configuredFireInterval, configuredDamage, null);
+        }
+
+        public void Configure(
+            float configuredRange,
+            float configuredFireInterval,
+            float configuredDamage,
+            StatusEffectDefinitionSO[] configuredHitEffects)
+        {
+            Configure(
+                configuredRange,
+                configuredFireInterval,
+                configuredDamage,
+                configuredHitEffects,
+                TurretAttackMode.PulseHitscan,
+                0f);
+        }
+
+        public void Configure(
+            float configuredRange,
+            float configuredFireInterval,
+            float configuredDamage,
+            StatusEffectDefinitionSO[] configuredHitEffects,
+            TurretAttackMode configuredAttackMode,
+            float configuredAttackWindupTime)
+        {
+            range = Mathf.Max(0f, configuredRange);
+            fireInterval = Mathf.Max(0.01f, configuredFireInterval);
+            damage = Mathf.Max(0f, configuredDamage);
+            hitEffects = configuredHitEffects;
+            attackMode = configuredAttackMode;
+            attackWindupTime = Mathf.Max(0f, configuredAttackWindupTime);
+            currentTarget = null;
+            sustainedBeamTarget = null;
+            nextFireTime = Time.time + (attackMode == TurretAttackMode.SustainedBeam
+                ? attackWindupTime
+                : fireInterval);
+        }
+
+        public void Configure(TurretAttackDefinitionSO attackDefinition, int upgradeLevel)
+        {
+            if (attackDefinition == null)
+            {
+                return;
+            }
+
+            Configure(
+                attackDefinition.GetRange(upgradeLevel),
+                attackDefinition.GetFireInterval(upgradeLevel),
+                attackDefinition.GetDamage(upgradeLevel),
+                attackDefinition.HitEffects,
+                attackDefinition.AttackMode,
+                attackDefinition.AttackWindupTime);
         }
 
         private Health FindClosestTarget()
@@ -93,30 +190,69 @@ namespace CorridorCommander
 
         private void AimAt(Vector3 targetPosition)
         {
-            Vector3 direction = targetPosition - transform.position;
-            direction.y = 0f;
+            Vector3 upAxis = ResolveAimUpAxis();
+            Vector3 direction = Vector3.ProjectOnPlane(targetPosition - transform.position, upAxis);
 
             if (direction.sqrMagnitude <= 0.0001f)
             {
                 return;
             }
 
-            transform.rotation = Quaternion.LookRotation(direction.normalized, Vector3.up);
+            transform.rotation = Quaternion.LookRotation(direction.normalized, upAxis);
         }
 
         private void FireAt(Health target)
         {
-            if (projectilePrefab == null)
+            if (firePoint == null)
             {
                 return;
             }
 
-            Vector3 origin = muzzle != null ? muzzle.position : transform.position + transform.forward;
             Vector3 aimPoint = target.transform.position + Vector3.up * 0.75f;
-            Vector3 direction = (aimPoint - origin).normalized;
+            Vector3 direction = (aimPoint - firePoint.Position).normalized;
+            Vector3 hitPoint = ResolveHitPoint(target, firePoint.Position, aimPoint);
+            firePoint.FireHitscan(target, direction, hitPoint, damage, gameObject, hitEffects);
+        }
 
-            Projectile projectile = Instantiate(projectilePrefab, origin, Quaternion.LookRotation(direction, Vector3.up));
-            projectile.Launch(direction, damage, gameObject);
+        private void TickSustainedBeam(Health target)
+        {
+            if (target != sustainedBeamTarget)
+            {
+                sustainedBeamTarget = target;
+                nextFireTime = Time.time + attackWindupTime;
+                firePoint?.PlayChargeAudio();
+            }
+
+            if (Time.time < nextFireTime)
+            {
+                return;
+            }
+
+            FireAt(target);
+            nextFireTime = Time.time + fireInterval;
+        }
+
+        private void ResolveFirePointReference()
+        {
+            if (firePoint != null)
+            {
+                return;
+            }
+
+            firePoint = GetComponentInChildren<ProjectileFirePoint>(true);
+        }
+
+        private static Vector3 ResolveHitPoint(Health target, Vector3 origin, Vector3 fallback)
+        {
+            Collider targetCollider = target.GetComponentInChildren<Collider>();
+            return targetCollider != null ? targetCollider.ClosestPoint(origin) : fallback;
+        }
+
+        private Vector3 ResolveAimUpAxis()
+        {
+            return aimUpAxis.sqrMagnitude > 0.0001f
+                ? aimUpAxis.normalized
+                : Vector3.up;
         }
 
         private void OnDrawGizmosSelected()

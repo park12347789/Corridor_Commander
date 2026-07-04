@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23815f5e32c653049b5d6566d28073ad, type: 3}
+  m_Name: Test_Large_Wave_12
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.EnemyWaveDefinition
+  waveId: Test_Large_Wave_12
+  waveType: 0
+  autoStartDelay: 30
+  spawnRules:
+  - spawnGroup: {fileID: 11400000, guid: 07d24355f5d49a04b83b8141e4b0b400, type: 2}
+    spawnerNameContains: 
+    spawnCount: 12
+    spawnInterval: 0.6
+    enemyEntries:
+    - enemy: {fileID: 11400000, guid: db62d65c405bc7040a93db1068614238, type: 2}
+      weight: 0.4
+    - enemy: {fileID: 11400000, guid: 654959fd7622f284a84d8c956875a2ab, type: 2}
+      weight: 0.5
+    - enemy: {fileID: 11400000, guid: 1d4e31e4b839c504bb4d5b56ab0df6e1, type: 2}
+      weight: 0.1
+  spawnPhases: []

@@ -3,17 +3,20 @@ using UnityEngine;
 namespace CorridorCommander
 {
     [RequireComponent(typeof(CharacterController))]
-    public sealed class CharacterMovementMotor : MonoBehaviour, IMovementMotor
+    public sealed class CharacterMovementMotor : MonoBehaviour, IMovementMotor, IMoveSpeedMultiplierReceiver
     {
         [SerializeField] private MovementStats stats = new MovementStats();
         [SerializeField] private float gravity = -18f;
 
         private CharacterController characterController;
+        private IStatusEffectReceiver statusEffectReceiver;
+        private float moveSpeedMultiplier = 1f;
         private float verticalVelocity;
 
         private void Awake()
         {
             characterController = GetComponent<CharacterController>();
+            ResolveStatusEffectReceiver();
         }
 
         public void Move(Vector3 direction)
@@ -35,7 +38,7 @@ namespace CorridorCommander
             }
 
             verticalVelocity += gravity * Time.deltaTime;
-            Vector3 velocity = flattenedDirection * stats.moveSpeed;
+            Vector3 velocity = flattenedDirection * GetMoveSpeed();
             velocity.y = verticalVelocity;
             characterController.Move(velocity * Time.deltaTime);
         }
@@ -49,6 +52,36 @@ namespace CorridorCommander
         public void Stop()
         {
             Move(Vector3.zero);
+        }
+
+        public void SetMoveSpeedMultiplier(float multiplier)
+        {
+            moveSpeedMultiplier = Mathf.Max(0.01f, multiplier);
+        }
+
+        private float GetMoveSpeed()
+        {
+            ResolveStatusEffectReceiver();
+            float statusMultiplier = statusEffectReceiver != null ? statusEffectReceiver.MoveSpeedMultiplier : 1f;
+            return stats.moveSpeed * moveSpeedMultiplier * statusMultiplier;
+        }
+
+        private void ResolveStatusEffectReceiver()
+        {
+            if (statusEffectReceiver != null)
+            {
+                return;
+            }
+
+            MonoBehaviour[] behaviours = GetComponents<MonoBehaviour>();
+            for (int i = 0; i < behaviours.Length; i++)
+            {
+                if (behaviours[i] is IStatusEffectReceiver receiver)
+                {
+                    statusEffectReceiver = receiver;
+                    return;
+                }
+            }
         }
     }
 }

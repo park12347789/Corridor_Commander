@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d512af91a6f6baa4b870e1323cb8a2ee, type: 3}
+  m_Name: Hitscan_Pistol
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.PlayerCombat.HitscanDefinitionSO
+  damage: 12
+  range: 60
+  hitLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  useSplashDamage: 0
+  splashRadius: 0
+  splashDamage: 0
+  beamVfxPrefab: {fileID: 6724971032020575412, guid: bf2bb33c7b2e4301ac2c0cc3ad200aa4, type: 3}
+  hitVfxPrefab: {fileID: 6724971032020575412, guid: 981859af9cc04007bc69f8f06bf70794, type: 3}
+  beamVisibleTime: 0.085
+  beamVfxRotationOffset: {x: 0, y: 0, z: 0}
+  stretchBeamVfxToHitPoint: 0
+  beamVfxReferenceLength: 1
+  beamVfxStretchAxis: 2
+  beamVfxStretchTransformName: position
+  beamVfxStretchChildNameContains: line
+  moveBeamVfxToHitPoint: 1
+  beamVfxTravelSpeed: 110
+  beamVfxMovingSegmentLength: 1.8
+  beamVfxMovingLineWidth: 0.045
+  drawDebugRay: 1

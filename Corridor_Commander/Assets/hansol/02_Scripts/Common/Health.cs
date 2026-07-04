@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 namespace CorridorCommander
 {
-    public sealed class Health : MonoBehaviour, IDamageable
+    public sealed class Health : MonoBehaviour, IDamageTarget
     {
         [SerializeField] private float maxHitPoints = 30f;
         [SerializeField] private bool destroyOnDeath = true;
@@ -16,7 +16,10 @@ namespace CorridorCommander
         public float CurrentHitPoints => currentHitPoints;
         public float MaxHitPoints => maxHitPoints;
         public bool IsAlive => !isDead;
+        public bool DestroyOnDeath => destroyOnDeath;
+        public Transform Transform => transform;
 
+        public event Action<Health, float> Damaged;
         public event Action<Health> Died;
 
         private void Awake()
@@ -32,11 +35,77 @@ namespace CorridorCommander
                 return;
             }
 
-            currentHitPoints = Mathf.Max(0f, currentHitPoints - damageInfo.Amount);
+            float damageAmount = damageInfo.Amount;
+            currentHitPoints = Mathf.Max(0f, currentHitPoints - damageAmount);
+            Damaged?.Invoke(this, damageAmount);
+
             if (currentHitPoints <= 0f)
             {
                 Die();
             }
+        }
+
+        public void Configure(float configuredMaxHitPoints, bool configuredDestroyOnDeath)
+        {
+            maxHitPoints = Mathf.Max(1f, configuredMaxHitPoints);
+            destroyOnDeath = configuredDestroyOnDeath;
+            currentHitPoints = maxHitPoints;
+            isDead = false;
+        }
+
+        public void Kill(GameObject source, Vector3 hitPoint)
+        {
+            if (isDead)
+            {
+                return;
+            }
+
+            TakeDamage(new DamageInfo(Mathf.Max(1f, currentHitPoints), source, hitPoint));
+        }
+
+        public void ScaleMaxHitPoints(float multiplier)
+        {
+            if (multiplier <= 0f)
+            {
+                return;
+            }
+
+            maxHitPoints = Mathf.Max(1f, maxHitPoints * multiplier);
+            currentHitPoints = maxHitPoints;
+            isDead = false;
+        }
+
+        public void Restore(float amount)
+        {
+            if (isDead || amount <= 0f)
+            {
+                return;
+            }
+
+            currentHitPoints = Mathf.Min(maxHitPoints, currentHitPoints + amount);
+        }
+
+        public bool Repair(float amount)
+        {
+            if (isDead || amount <= 0f || currentHitPoints >= maxHitPoints)
+            {
+                return false;
+            }
+
+            float previousHitPoints = currentHitPoints;
+            currentHitPoints = Mathf.Min(maxHitPoints, currentHitPoints + amount);
+            return currentHitPoints > previousHitPoints;
+        }
+
+        public bool RestoreToFull()
+        {
+            if (isDead || currentHitPoints >= maxHitPoints)
+            {
+                return false;
+            }
+
+            currentHitPoints = maxHitPoints;
+            return true;
         }
 
         private void Die()

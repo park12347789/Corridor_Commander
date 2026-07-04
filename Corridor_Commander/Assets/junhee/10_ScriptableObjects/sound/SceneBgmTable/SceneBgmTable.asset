@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ea5216382a0b674f8e60d2df88ffacb, type: 3}
+  m_Name: SceneBgmTable
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.Audio.SceneBgmTableSO
+  fallbackBgm: {fileID: 11400000, guid: 05d4747537c5fe143ad3548155567b85, type: 2}
+  entries:
+  - sceneName: StartMenu
+    bgm: {fileID: 11400000, guid: 10e3fa339400f86408f901bf889e31b2, type: 2}
+  - sceneName: MainScene
+    bgm: {fileID: 11400000, guid: 05d4747537c5fe143ad3548155567b85, type: 2}
+  - sceneName: TutorialMap
+    bgm: {fileID: 11400000, guid: 767e73270dfd0ed4b89e3552e15b9687, type: 2}
+  - sceneName: GameOver
+    bgm: {fileID: 11400000, guid: d8edbf82c7799af44b91359ee7287da7, type: 2}
+  - sceneName: MainScenejun
+    bgm: {fileID: 11400000, guid: 05d4747537c5fe143ad3548155567b85, type: 2}
+  - sceneName: MainSceneto
+    bgm: {fileID: 11400000, guid: 05d4747537c5fe143ad3548155567b85, type: 2}

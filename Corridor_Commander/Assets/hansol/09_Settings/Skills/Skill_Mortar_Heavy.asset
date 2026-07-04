@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 433ccc82944653146b701eb0327442e6, type: 3}
+  m_Name: Skill_Mortar_Heavy
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.SkillDefinitionSO
+  skillId: mortar_heavy
+  displayName: "\uAC15\uB825 \uBC15\uACA9\uD3EC\uD0D1"
+  icon: {fileID: 21300000, guid: 9c3014786222d60428e31263ea9967af, type: 3}
+  cooldown: 16
+  range: 40
+  damage: 85
+  radius: 4
+  targetLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  hitEffects: []

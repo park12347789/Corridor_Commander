@@ -32,7 +32,6 @@ namespace Unity.Behavior
                 return Status.Failure;
             }
 
-            controller.SetUpdateLoopEnabled(false);
             return Status.Running;
         }
 
@@ -49,11 +48,6 @@ namespace Unity.Behavior
 
         protected override void OnEnd()
         {
-            if (controller != null)
-            {
-                controller.SetUpdateLoopEnabled(true);
-            }
-
             controller = null;
         }
 

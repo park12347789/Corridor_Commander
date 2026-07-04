@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 936196b002f10a44791134d9b77f6cfd, type: 3}
+  m_Name: Stage_RoomCorridorSamples
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.StageDefinitionSO
+  stageId: stage_room_corridor_samples
+  displayName: Stage One Prototype
+  waves:
+  - {fileID: 11400000, guid: 9c08e0c0294a2934d9df4d7da258f7b9, type: 2}
+  - {fileID: 11400000, guid: 839c8cb2e2ed55641b27861c7fa91367, type: 2}
+  - {fileID: 11400000, guid: 1387699a16a02c64b990ff21edb4e143, type: 2}
+  - {fileID: 11400000, guid: 4d2daf912698b664fa1c7ca9e2dbf80e, type: 2}
+  - {fileID: 11400000, guid: db8f45954b87db64e89cb7bcbf941083, type: 2}
+  rewardTable: {fileID: 11400000, guid: 88e307f1c887d8f45ae0a6f028b5e0e0, type: 2}
+  supportTruckCatalog: {fileID: 11400000, guid: a33e1fece020401419ed00bd327d0159, type: 2}
+  buildableDefinitions:
+  - {fileID: 11400000, guid: 793be1229e3abba4e9795e6687d56a64, type: 2}
+  - {fileID: 11400000, guid: 7f836393323b44e788340bc082120de3, type: 2}
+  - {fileID: 11400000, guid: a75793cca61f4fc7aa82f3ff5e5ddab0, type: 2}
+  - {fileID: 11400000, guid: c7fa94035e344184dae3b91395bff126, type: 2}
+  - {fileID: 11400000, guid: 1e25c7ae54baf014285899c44b9cb701, type: 2}
+  - {fileID: 11400000, guid: ff8c5439fe027ac4fbd37b369662fb33, type: 2}
+  - {fileID: 11400000, guid: 47f3163a752b46ffbeccb891d4371447, type: 2}
+  - {fileID: 11400000, guid: 9d11d878e43346b995d38abe6c064c9a, type: 2}
+  enemyPrefab: {fileID: 7710001000000000001, guid: 8e8f7e2fadc44dd4a94e389c57e348f9, type: 3}
+  enemyCatalog: {fileID: 11400000, guid: 8f000000000000000000000000000003, type: 2}
+  difficultyProgression: {fileID: 11400000, guid: 8f000000000000000000000000000004, type: 2}
+  regionWaveModifiers: []
+  periodicWaveModifiers: []
+  bossSchedule: {fileID: 11400000, guid: 8f000000000000000000000000000005, type: 2}

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c5b868dc67446369f63ba43634f0010, type: 3}
+  m_Name: BossSchedule_MainScene
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.BossScheduleSO
+  everyNWave: 3
+  firstBossWaveIndex: 2
+  phaseDelay: 4
+  spawnGroup: {fileID: 11400000, guid: 07d24355f5d49a04b83b8141e4b0b400, type: 2}
+  spawnCount: 0
+  additionalCountPerPeriod: 1
+  spawnInterval: 0
+  bossEnemies:
+  - enemy: {fileID: 11400000, guid: 8f000000000000000000000000000002, type: 2}
+    weight: 1

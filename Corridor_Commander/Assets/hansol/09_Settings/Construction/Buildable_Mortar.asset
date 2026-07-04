@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 852d61b1b7239564e8ee48c5e65387b0, type: 3}
+  m_Name: Buildable_Mortar
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.BuildableDefinitionSO
+  buildableId: mortar
+  displayName: Mortar
+  kind: 2
+  category: 2
+  prefab: {fileID: 4604350452111614253, guid: c78f7a4bb03d9774eabea6632379e9cd, type: 3}
+  price: 60
+  explanation: Calls mortar fire at a target point
+  icon: {fileID: 21300000, guid: 6cce57cf3c3d63049bf7241d39abf6d6, type: 3}
+  rotateBeforeInstall: 0
+  roleDefinitions:
+  - {fileID: 11400000, guid: 477d514304431d642a0aecf3a853a200, type: 2}

@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: ce47b9045a7a3214ca1379e605f54d9f
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures: []
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 362904
+  packageName: Game VFX - Stylized Beams
+  packageVersion: 1.0
+  assetPath: Assets/90_ThirdParty/Eric VFX Studio/Resource/Shader/AdditiveFlow.shader
+  uploadId: 866028

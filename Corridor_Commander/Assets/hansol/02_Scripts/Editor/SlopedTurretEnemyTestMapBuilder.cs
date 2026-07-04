@@ -13,11 +13,19 @@ namespace CorridorCommander.EditorTools
 {
     public static class SlopedTurretEnemyTestMapBuilder
     {
-        private const string ScenePath = "Assets/hansol/01_Scenes/SlopedTurretEnemyTest.unity";
+        private const string ScenePath = "Assets/hansol/01_Scenes/test1/SlopedTurretEnemyTest.unity";
         private const string EnemyPrefabPath = "Assets/hansol/03_Prefabs/Enemy_Basic.prefab";
         private const string BarricadePrefabPath = "Assets/hansol/03_Prefabs/Barricade_Basic.prefab";
         private const string TurretPrefabPath = "Assets/hansol/03_Prefabs/Turret_Basic.prefab";
         private const string SpawnerBehaviorPath = "Assets/hansol/09_Settings/Behavior/EnemySpawner_Unity_Behavior.asset";
+        private const string TestMapPrefabFolder = "Assets/hansol/03_Prefabs/TestMap";
+        private const string SolidBlockPrefabPath = TestMapPrefabFolder + "/Map_Solid_Block.prefab";
+        private const string BreakableBlockPrefabPath = TestMapPrefabFolder + "/Map_Breakable_HP_Block.prefab";
+        private const string EnemyGoalPrefabPath = TestMapPrefabFolder + "/Enemy_Goal.prefab";
+        private const string EnemySpawnerPrefabPath = TestMapPrefabFolder + "/Enemy_SpawnPoint.prefab";
+        private const string PlacementPointPrefabPath = TestMapPrefabFolder + "/PlacementPoint.prefab";
+        private const string ExpansionDoorPrefabPath = TestMapPrefabFolder + "/MapExpansion_Door.prefab";
+        private const string TemporaryPlayerPrefabPath = TestMapPrefabFolder + "/TEMP_GhostOperator_Player.prefab";
 
         private const float LowerSurfaceY = 0f;
         private const float UpperSurfaceY = 1.5f;
@@ -31,6 +39,42 @@ namespace CorridorCommander.EditorTools
         public static void BuildForAutomation()
         {
             BuildInternal(askBeforeReplacingOpenScene: false);
+        }
+
+        [MenuItem("Corridor Commander/Create Sloped Test Reusable Prefabs")]
+        public static void CreateReusablePrefabs()
+        {
+            EnsureFolders();
+
+            GameObject enemyPrefab = LoadRequiredAsset<GameObject>(EnemyPrefabPath);
+            GameObject barricadePrefab = LoadRequiredAsset<GameObject>(BarricadePrefabPath);
+            GameObject turretPrefab = LoadRequiredAsset<GameObject>(TurretPrefabPath);
+            if (enemyPrefab == null || barricadePrefab == null || turretPrefab == null)
+            {
+                return;
+            }
+
+            Material obstacleMaterial = CreateMaterial("Assets/hansol/04_Materials/TestMap_Obstacle_Stone.mat", new Color(0.38f, 0.36f, 0.32f));
+            Material breakableMaterial = CreateMaterial("Assets/hansol/04_Materials/TestMap_Breakable_Blocker_Orange.mat", new Color(0.95f, 0.5f, 0.12f));
+            Material placementMaterial = CreateMaterial("Assets/hansol/04_Materials/Prototype_PlacementPoint_Green.mat", new Color(0.05f, 1f, 0.2f));
+            Material spawnMaterial = CreateMaterial("Assets/hansol/04_Materials/Prototype_SpawnPoint_Red.mat", new Color(1f, 0.15f, 0.12f));
+            Material goalMaterial = CreateMaterial("Assets/hansol/04_Materials/Prototype_Goal_Yellow.mat", new Color(1f, 0.86f, 0.05f));
+            Material playerMaterial = CreateMaterial("Assets/hansol/04_Materials/TEMP_Prototype_Player_Purple.mat", new Color(0.55f, 0.18f, 0.95f));
+            Material doorMaterial = CreateMaterial("Assets/hansol/04_Materials/TestMap_Expansion_Door_Blue.mat", new Color(0.05f, 0.35f, 0.95f));
+
+            SavePrefab(
+                CreateBlockingCube("Map_Solid_Block", null, Vector3.zero, Vector3.one, obstacleMaterial),
+                SolidBlockPrefabPath);
+            SavePrefab(CreateBreakableBlockPrefabRoot(breakableMaterial), BreakableBlockPrefabPath);
+            SavePrefab(CreateGoal(null, goalMaterial), EnemyGoalPrefabPath);
+            SavePrefab(CreateEnemySpawnerPrefabRoot(enemyPrefab, spawnMaterial), EnemySpawnerPrefabPath);
+            SavePrefab(CreatePlacementPointPrefabRoot(turretPrefab, barricadePrefab, placementMaterial), PlacementPointPrefabPath);
+            SavePrefab(CreateExpansionDoorPrefabRoot(doorMaterial), ExpansionDoorPrefabPath);
+            SavePrefab(CreateTemporaryPlayerPrefabRoot(playerMaterial), TemporaryPlayerPrefabPath);
+
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+            Debug.Log($"Sloped test reusable prefabs created under {TestMapPrefabFolder}");
         }
 
         private static void BuildInternal(bool askBeforeReplacingOpenScene)
@@ -168,6 +212,7 @@ namespace CorridorCommander.EditorTools
         private static void EnsureFolders()
         {
             EnsureFolder("Assets/hansol/01_Scenes");
+            EnsureFolder(TestMapPrefabFolder);
             EnsureFolder("Assets/hansol/04_Materials");
         }
 
@@ -490,6 +535,169 @@ namespace CorridorCommander.EditorTools
             visualizer.Refresh();
         }
 
+        private static GameObject CreateBreakableBlockPrefabRoot(Material breakableMaterial)
+        {
+            GameObject blocker = CreateCube("Map_Breakable_HP_Block", null, Vector3.zero, Vector3.one, breakableMaterial);
+
+            Rigidbody rigidbody = blocker.AddComponent<Rigidbody>();
+            rigidbody.useGravity = false;
+            rigidbody.isKinematic = true;
+
+            Health health = blocker.AddComponent<Health>();
+            SetHealthValues(health, 55f, true);
+
+            MapObstacle mapObstacle = blocker.AddComponent<MapObstacle>();
+            SerializedObject serializedObstacle = new SerializedObject(mapObstacle);
+            serializedObstacle.FindProperty("obstacleKind").enumValueIndex = (int)MapObstacleKind.Breakable;
+            serializedObstacle.ApplyModifiedPropertiesWithoutUndo();
+            return blocker;
+        }
+
+        private static GameObject CreateEnemySpawnerPrefabRoot(GameObject enemyPrefab, Material spawnMaterial)
+        {
+            GameObject spawnPoint = CreateCube("Enemy_SpawnPoint", null, Vector3.zero, Vector3.one, spawnMaterial);
+            Collider spawnCollider = spawnPoint.GetComponent<Collider>();
+            spawnCollider.isTrigger = true;
+
+            GameObject spawnAnchor = new GameObject("EnemySpawnAnchor");
+            spawnAnchor.transform.SetParent(spawnPoint.transform);
+            spawnAnchor.transform.localPosition = new Vector3(0f, 0.4f, 0f);
+            spawnAnchor.transform.localRotation = Quaternion.identity;
+
+            EnemySpawner spawner = spawnPoint.AddComponent<EnemySpawner>();
+            SerializedObject serializedSpawner = new SerializedObject(spawner);
+            serializedSpawner.FindProperty("enemyPrefab").objectReferenceValue = enemyPrefab;
+            serializedSpawner.FindProperty("spawnPoint").objectReferenceValue = spawnAnchor.transform;
+            serializedSpawner.FindProperty("spawnCount").intValue = 10;
+            serializedSpawner.FindProperty("spawnInterval").floatValue = 1.35f;
+            serializedSpawner.FindProperty("initialDelay").floatValue = 0.4f;
+            serializedSpawner.ApplyModifiedPropertiesWithoutUndo();
+
+            BehaviorGraph spawnerGraph = AssetDatabase.LoadAssetAtPath<BehaviorGraph>(SpawnerBehaviorPath);
+            if (spawnerGraph != null)
+            {
+                BehaviorGraphAgent behaviorAgent = spawnPoint.AddComponent<BehaviorGraphAgent>();
+                SerializedObject serializedAgent = new SerializedObject(behaviorAgent);
+                serializedAgent.FindProperty("m_Graph").objectReferenceValue = spawnerGraph;
+                serializedAgent.ApplyModifiedPropertiesWithoutUndo();
+            }
+
+            return spawnPoint;
+        }
+
+        private static GameObject CreatePlacementPointPrefabRoot(GameObject turretPrefab, GameObject barricadePrefab, Material placementMaterial)
+        {
+            GameObject point = CreateCube("PlacementPoint", null, Vector3.zero, new Vector3(1.55f, 0.08f, 1.55f), placementMaterial);
+            Collider collider = point.GetComponent<Collider>();
+            collider.isTrigger = true;
+
+            GameObject anchor = new GameObject("BuildAnchor");
+            anchor.transform.SetParent(point.transform);
+            anchor.transform.localPosition = new Vector3(0f, 0.51f, 0f);
+            anchor.transform.localRotation = Quaternion.identity;
+
+            PlacementPoint placementPoint = point.AddComponent<PlacementPoint>();
+            SerializedObject serializedPoint = new SerializedObject(placementPoint);
+            serializedPoint.FindProperty("buildAnchor").objectReferenceValue = anchor.transform;
+            serializedPoint.FindProperty("turretPrefab").objectReferenceValue = turretPrefab;
+            serializedPoint.FindProperty("barricadePrefab").objectReferenceValue = barricadePrefab;
+            serializedPoint.FindProperty("indicatorRenderer").objectReferenceValue = point.GetComponent<Renderer>();
+            serializedPoint.ApplyModifiedPropertiesWithoutUndo();
+            return point;
+        }
+
+        private static GameObject CreateExpansionDoorPrefabRoot(Material doorMaterial)
+        {
+            GameObject doorRoot = new GameObject("MapExpansion_Door");
+
+            GameObject blocker = CreateBlockingCube("MapExpansion_Door_Blocker", doorRoot.transform, Vector3.zero, Vector3.one, doorMaterial);
+
+            GameObject trigger = new GameObject("MapExpansion_Door_Trigger");
+            trigger.transform.SetParent(doorRoot.transform);
+            trigger.transform.localPosition = new Vector3(-0.85f, 0f, 0f);
+            BoxCollider triggerCollider = trigger.AddComponent<BoxCollider>();
+            triggerCollider.size = new Vector3(2.4f, 1.8f, 3.2f);
+            triggerCollider.isTrigger = true;
+
+            GameObject prompt = CreateDoorPrompt(trigger.transform);
+            prompt.SetActive(false);
+
+            MapExpansionDoorOpener doorOpener = doorRoot.AddComponent<MapExpansionDoorOpener>();
+            SerializedObject serializedOpener = new SerializedObject(doorOpener);
+            serializedOpener.FindProperty("closedDoorRoot").objectReferenceValue = blocker;
+            serializedOpener.ApplyModifiedPropertiesWithoutUndo();
+
+            MapExpansionDoorInteraction interaction = trigger.AddComponent<MapExpansionDoorInteraction>();
+            SerializedObject serializedInteraction = new SerializedObject(interaction);
+            serializedInteraction.FindProperty("doorOpener").objectReferenceValue = doorOpener;
+            serializedInteraction.FindProperty("interactionPromptRoot").objectReferenceValue = prompt;
+            serializedInteraction.ApplyModifiedPropertiesWithoutUndo();
+            return doorRoot;
+        }
+
+        private static GameObject CreateDoorPrompt(Transform parent)
+        {
+            GameObject prompt = new GameObject("MapExpansion_Door_Prompt_E_Open");
+            prompt.transform.SetParent(parent);
+            prompt.transform.localPosition = new Vector3(0f, 1.4f, 0f);
+            prompt.transform.localRotation = Quaternion.Euler(55f, 0f, 0f);
+
+            TextMesh textMesh = prompt.AddComponent<TextMesh>();
+            textMesh.text = "E Open";
+            textMesh.anchor = TextAnchor.MiddleCenter;
+            textMesh.alignment = TextAlignment.Center;
+            textMesh.characterSize = 0.22f;
+            textMesh.color = Color.white;
+            return prompt;
+        }
+
+        private static GameObject CreateTemporaryPlayerPrefabRoot(Material playerMaterial)
+        {
+            GameObject playerRoot = new GameObject("TEMP_GhostOperator_Player");
+            playerRoot.tag = "Player";
+
+            CharacterController characterController = playerRoot.AddComponent<CharacterController>();
+            characterController.height = 1.8f;
+            characterController.radius = 0.35f;
+            characterController.center = new Vector3(0f, 0.9f, 0f);
+            playerRoot.AddComponent<CharacterMovementMotor>();
+
+            GameObject body = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+            body.name = "TEMP_VISUAL_ReplaceWithRealCharacter";
+            body.transform.SetParent(playerRoot.transform);
+            body.transform.localPosition = new Vector3(0f, 0.9f, 0f);
+            body.transform.localRotation = Quaternion.identity;
+            body.transform.localScale = new Vector3(0.7f, 0.9f, 0.7f);
+            if (body.TryGetComponent(out Collider bodyCollider))
+            {
+                Object.DestroyImmediate(bodyCollider);
+            }
+            if (body.TryGetComponent(out Renderer bodyRenderer))
+            {
+                bodyRenderer.sharedMaterial = playerMaterial;
+            }
+
+            GameObject cameraPivot = new GameObject("TEMP_CameraPitchPivot_DoNotShip");
+            cameraPivot.transform.SetParent(playerRoot.transform);
+            cameraPivot.transform.localPosition = new Vector3(0f, 1.45f, 0f);
+            cameraPivot.transform.localRotation = Quaternion.Euler(12f, 0f, 0f);
+
+            GameObject cameraObject = new GameObject("Main Camera");
+            cameraObject.transform.SetParent(cameraPivot.transform);
+            cameraObject.transform.localPosition = new Vector3(0.7f, 0.15f, -3.6f);
+            cameraObject.transform.localRotation = Quaternion.identity;
+            cameraObject.AddComponent<Camera>();
+            cameraObject.AddComponent<AudioListener>();
+
+            TEMP_GhostOperatorPlaceholderController controller = playerRoot.AddComponent<TEMP_GhostOperatorPlaceholderController>();
+            SerializedObject serializedController = new SerializedObject(controller);
+            serializedController.FindProperty("cameraPitchPivot").objectReferenceValue = cameraPivot.transform;
+            serializedController.ApplyModifiedPropertiesWithoutUndo();
+
+            playerRoot.AddComponent<TEMP_GhostOperatorBuildInput>();
+            return playerRoot;
+        }
+
         private static void CreatePlacementPoints(GameObject turretPrefab, GameObject barricadePrefab, Material placementMaterial)
         {
             CreatePlacementPoint("PlacementPoint_01_GREEN_LowerCorner", new Vector3(-4.1f, LowerSurfaceY, -7.2f), turretPrefab, barricadePrefab, placementMaterial);
@@ -498,6 +706,12 @@ namespace CorridorCommander.EditorTools
             CreatePlacementPoint("PlacementPoint_04_GREEN_UpperCenter", new Vector3(-1f, UpperSurfaceY, 2.8f), turretPrefab, barricadePrefab, placementMaterial);
             CreatePlacementPoint("PlacementPoint_05_GREEN_UpperRight", new Vector3(2.3f, UpperSurfaceY, 3.4f), turretPrefab, barricadePrefab, placementMaterial);
             CreatePlacementPoint("PlacementPoint_06_GREEN_GoalSide", new Vector3(5.1f, UpperSurfaceY, 6.8f), turretPrefab, barricadePrefab, placementMaterial);
+        }
+
+        private static void SavePrefab(GameObject root, string path)
+        {
+            PrefabUtility.SaveAsPrefabAsset(root, path);
+            Object.DestroyImmediate(root);
         }
 
         private static void CreatePlacementPoint(string name, Vector3 surfacePosition, GameObject turretPrefab, GameObject barricadePrefab, Material placementMaterial)

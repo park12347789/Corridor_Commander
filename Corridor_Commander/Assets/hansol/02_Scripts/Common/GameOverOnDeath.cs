@@ -40,7 +40,10 @@ namespace CorridorCommander
             if (manager != null)
             {
                 manager.TriggerGameOver(reason);
+                return;
             }
+
+            Debug.LogError("[GameOverOnDeath] GameManager was not found.", this);
         }
     }
 }

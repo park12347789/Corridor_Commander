@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 392028e82ec188741bc8d01e415a0218
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 362904
+  packageName: Game VFX - Stylized Beams
+  packageVersion: 1.0
+  assetPath: Assets/90_ThirdParty/Eric VFX Studio/Resource/Materials/grad12_06_Builtin.mat
+  uploadId: 866028

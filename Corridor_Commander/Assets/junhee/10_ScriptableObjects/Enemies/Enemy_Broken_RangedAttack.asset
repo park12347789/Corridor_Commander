@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3a01b7fa6404f46b490c8c1cda11301, type: 3}
+  m_Name: Enemy_Broken_RangedAttack
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.Enemy.EnemyRangedAttackDefinitionSO
+  detectionRange: 12
+  attackRange: 10
+  targetRefreshInterval: 0.25
+  requireLineOfSight: 1
+  windupDuration: 0.48
+  attackInterval: 2.2
+  projectilePrefab: {fileID: 7301000000000000004, guid: e3a01b7fa6404f46b490c8c1cda11306, type: 3}
+  projectileVisualPrefab: {fileID: 6510442276777787686, guid: 33f898f96156d9f429a40dd4b0f5f206, type: 3}
+  projectileVisualScale: {x: 1, y: 1, z: 1}
+  damage: 12
+  projectileSpeed: 11
+  useBallisticArc: 1
+  ballisticArcHeight: 2.5
+  projectileGravity: -12
+  projectileLifetime: 4
+  targetHeightOffset: 0.1
