@@ -6,11 +6,11 @@ The player moves through connected corridor rooms, installs defensive objects, s
 
 ## Portfolio Links
 
-- Windows build zip: [`PortfolioBuild/CorridorCommander_Portfolio_Windows_20260704.zip`](PortfolioBuild/CorridorCommander_Portfolio_Windows_20260704.zip)
+- Windows build zip: [Google Drive download](https://drive.google.com/file/d/1dHVtDKgETCLsThsMmeswfj3E63z64yZ-/view?usp=drivesdk)
 - Presentation 1: [Google Slides / PPT](https://docs.google.com/presentation/d/1579NT0hhQuaNCDzXyZhSzl37Eex6q3nc/edit?usp=drive_link&ouid=102732633125904936006&rtpof=true&sd=true)
 - Presentation 2: [Google Slides](https://docs.google.com/presentation/d/1NOByJ79yPvUn_pBVQOPu-5o4Vlr-AZosu3-prOZ6jY8/edit?usp=drive_link)
 
-The build zip includes `조작법_README.txt` with basic controls and play-flow notes.
+The build zip includes a controls README text file with basic controls and play-flow notes.
 
 ## Controls
 
@@ -47,7 +47,7 @@ This repository is kept portfolio-focused. Generated Unity folders and local-onl
 - generated build folders
 - local captures, recovery files, and editor cache
 
-Large executable builds are normally better as GitHub Release assets. This portfolio snapshot also keeps one compressed Windows build under `PortfolioBuild/` so reviewers can download and run it directly from the repository.
+Large executable builds are kept outside Git and linked from Google Drive or GitHub Releases so the repository stays light.
 
 ## Unity
 

@@ -2,10 +2,10 @@
 
 ## Build
 
-- Repository build zip: [`../PortfolioBuild/CorridorCommander_Portfolio_Windows_20260704.zip`](../PortfolioBuild/CorridorCommander_Portfolio_Windows_20260704.zip)
+- Google Drive build zip: https://drive.google.com/file/d/1dHVtDKgETCLsThsMmeswfj3E63z64yZ-/view?usp=drivesdk
 - The zip includes `조작법_README.txt`.
 
-GitHub Releases are still recommended for future builds, but this snapshot keeps one compressed build in the repository so portfolio reviewers can download it without extra setup.
+GitHub Releases are also good for future builds, but this snapshot uses Google Drive so the repository stays light.
 
 ## Presentation
 
