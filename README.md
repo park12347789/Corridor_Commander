@@ -1,20 +1,56 @@
 # Corridor Commander
 
-3D 3인칭 복도 디펜스 MVP를 위한 Unity 프로토타입입니다.
+Unity 3D corridor-defense MVP for portfolio review.
 
-## 현재 작업 슬라이스
+The player moves through connected corridor rooms, installs defensive objects, survives enemy waves, opens gates, and reaches a mission clear / final settlement flow.
 
-- Unity 프로젝트: `Corridor_Commander`
-- 메인 테스트 씬: `Assets/01_Scenes/EnemyBackgroundTest.unity`
-- 현재 범위: 적 스폰/이동/근접공격, 포탑 사격, 바리케이드/목표 체력, 임시 건설 상호작용, 1차 Unity Behavior 그래프 전환
-- 팀원이 추가로 설치해야 하는 로컬 에디터 자동화 도구는 없습니다.
-- Unity Behavior 패키지는 프로젝트 의존성으로 포함됩니다.
+## Portfolio Links
 
-## 팀 작업 기준
+- Windows build zip: [`PortfolioBuild/CorridorCommander_Portfolio_Windows_20260704.zip`](PortfolioBuild/CorridorCommander_Portfolio_Windows_20260704.zip)
+- Presentation 1: [Google Slides / PPT](https://docs.google.com/presentation/d/1579NT0hhQuaNCDzXyZhSzl37Eex6q3nc/edit?usp=drive_link&ouid=102732633125904936006&rtpof=true&sd=true)
+- Presentation 2: [Google Slides](https://docs.google.com/presentation/d/1NOByJ79yPvUn_pBVQOPu-5o4Vlr-AZosu3-prOZ6jY8/edit?usp=drive_link)
 
-- 인터페이스 스크립트는 항상 `I`로 시작합니다.
-- 이동, 데미지, 체력처럼 공유되는 기능은 OOP 경계를 유지합니다.
-- 프로토타입 콘텐츠는 씬/하이어라키/프리팹 배치를 우선합니다.
-- 임시 플레이어 스크립트는 일부러 `TEMP_...` 이름을 사용합니다. 캐릭터 담당자가 나중에 교체할 대상입니다.
+The build zip includes `조작법_README.txt` with basic controls and play-flow notes.
 
-현재 인수인계는 [MVP1 Behavior Node Checkpoint](docs/01-mvp-behavior-node-checkpoint.md)를 보면 됩니다.
+## Controls
+
+- Move: `WASD`
+- Look / aim: mouse
+- Interact / open install menu: `E`
+- Select / confirm: left mouse button
+- Cancel / back / pause: `ESC`
+
+## Project Focus
+
+- Gameplay/client programming in Unity
+- Scene and prefab-driven UI wiring
+- Placement/buildable object flow
+- Wave, enemy route, reward, shop, gate, and extraction flow
+- Portfolio-ready documentation and build packaging
+
+## Key Systems
+
+- Build placement: `PlacementPoint`, `BuildableDefinitionSO`, `IBuildableInstallable`, `BuildContext`
+- UI flow: `MainCanvas`, support truck shop, reward popup, pause/options, mission clear settlement
+- Stage flow: gate activation, room progression, final extraction objective
+- Combat flow: wave director, enemy spawn/route flow, turret/projectile behavior
+
+## Repository Policy
+
+This repository is kept portfolio-focused. Generated Unity folders and local-only files are excluded:
+
+- `Library/`
+- `Temp/`
+- `obj/`
+- `Logs/`
+- `UserSettings/`
+- generated build folders
+- local captures, recovery files, and editor cache
+
+Large executable builds are normally better as GitHub Release assets. This portfolio snapshot also keeps one compressed Windows build under `PortfolioBuild/` so reviewers can download and run it directly from the repository.
+
+## Unity
+
+- Project folder in this repository: `Corridor_Commander/`
+- Main development scope: `Assets/hansol`
+- Unity version used locally: `6000.3.9f1`
