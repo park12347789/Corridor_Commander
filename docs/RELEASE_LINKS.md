@@ -9,7 +9,7 @@ GitHub Releases are also good for future builds, but this snapshot uses Google D
 
 ## Presentation
 
-- Portfolio deck 1: https://docs.google.com/presentation/d/1579NT0hhQuaNCDzXyZhSzl37Eex6q3nc/edit?usp=drive_link&ouid=102732633125904936006&rtpof=true&sd=true
+- Portfolio deck 1 (final original PPTX): https://docs.google.com/presentation/d/1gYejjoN0kCB_yNOQE9mG2c-ESh7AZIp4/edit?usp=drivesdk
 - Portfolio deck 2: https://docs.google.com/presentation/d/1NOByJ79yPvUn_pBVQOPu-5o4Vlr-AZosu3-prOZ6jY8/edit?usp=drive_link
 
 ## Future Media
