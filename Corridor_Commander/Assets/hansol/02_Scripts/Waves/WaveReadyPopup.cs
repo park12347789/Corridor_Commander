@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace CorridorCommander
@@ -8,6 +9,7 @@ namespace CorridorCommander
     public sealed class WaveReadyPopup : MonoBehaviour
     {
         [SerializeField] private GameObject root;
+        [SerializeField] private DotweenUiPanelTransition panelTransition;
         [SerializeField] private Text messageText;
         [SerializeField] private TMP_Text messageTmpText;
         [SerializeField] private Button readyButton;
@@ -19,7 +21,7 @@ namespace CorridorCommander
 
         private void Awake()
         {
-            Hide();
+            HideImmediate();
 
             if (readyButton != null)
             {
@@ -54,17 +56,40 @@ namespace CorridorCommander
         {
             SetText(message);
 
-            if (root != null)
+            if (panelTransition != null)
+            {
+                panelTransition.Show();
+            }
+            else if (root != null)
             {
                 root.SetActive(true);
             }
 
             PopupDimOverlayController.RequestShow(this, root != null ? root.transform : transform);
+            SelectReadyButton();
         }
 
         public void Hide()
         {
-            if (root != null)
+            if (panelTransition != null)
+            {
+                panelTransition.Hide();
+            }
+            else if (root != null)
+            {
+                root.SetActive(false);
+            }
+
+            PopupDimOverlayController.Release(this);
+        }
+
+        private void HideImmediate()
+        {
+            if (panelTransition != null)
+            {
+                panelTransition.HideImmediate();
+            }
+            else if (root != null)
             {
                 root.SetActive(false);
             }
@@ -80,6 +105,16 @@ namespace CorridorCommander
         private void Cancel()
         {
             director?.CancelReady();
+        }
+
+        private void SelectReadyButton()
+        {
+            if (readyButton == null || !readyButton.gameObject.activeInHierarchy || EventSystem.current == null)
+            {
+                return;
+            }
+
+            EventSystem.current.SetSelectedGameObject(readyButton.gameObject);
         }
 
         private void SetText(string message)

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -10,6 +11,10 @@ namespace CorridorCommander.PlayerUI
     public sealed class PlayerCommandHotbarPresenter : MonoBehaviour
     {
         public const int MaxSlotCount = 5;
+
+        private const float SlotIconPopScale = 1.05f;
+        private const float SlotIconPopUpDuration = 0.07f;
+        private const float SlotIconPopDownDuration = 0.09f;
 
         [Header("References")]
         [SerializeField] private GameObject panelRoot;
@@ -38,6 +43,7 @@ namespace CorridorCommander.PlayerUI
 
         private readonly List<string> lastSlotLabels = new List<string>(MaxSlotCount);
         private readonly List<Sprite> lastSlotIcons = new List<Sprite>(MaxSlotCount);
+        private readonly Sequence[] slotIconPopSequences = new Sequence[MaxSlotCount];
         private string lastTitle;
         private string lastStatus;
         private string lastHint;
@@ -58,6 +64,15 @@ namespace CorridorCommander.PlayerUI
             DisableConflictingPresentersIfNeeded();
             WarnIfBoundUnderForbiddenUi();
             SetPanelActive(true);
+        }
+
+        private void OnDisable()
+        {
+            for (int i = 0; i < MaxSlotCount; i++)
+            {
+                Image iconImage = GetSlotIconImage(i);
+                KillSlotIconPop(i, iconImage != null ? iconImage.rectTransform : null);
+            }
         }
 
         private void LateUpdate()
@@ -238,13 +253,68 @@ namespace CorridorCommander.PlayerUI
                 return;
             }
 
+            bool shouldPop = hasEntry
+                             && icon != null
+                             && (!iconImage.enabled || iconImage.sprite != icon);
+
             iconImage.sprite = icon;
             iconImage.color = Color.white;
             iconImage.enabled = hasEntry && icon != null;
             iconImage.preserveAspect = true;
             ApplySlotIconLayout(slotIndex, iconImage.rectTransform);
             HideUnboundSlotIcons(slotIndex, iconImage);
-            SetSlotPlaceholderVisible(slotIndex, !hasEntry);
+            SetSlotPlaceholderVisible(slotIndex, false);
+
+            if (shouldPop)
+            {
+                PlaySlotIconPop(slotIndex, iconImage.rectTransform);
+            }
+            else if (!iconImage.enabled)
+            {
+                KillSlotIconPop(slotIndex, iconImage.rectTransform);
+            }
+        }
+
+        private void PlaySlotIconPop(int slotIndex, RectTransform iconRectTransform)
+        {
+            if (slotIndex < 0 || slotIndex >= slotIconPopSequences.Length || iconRectTransform == null)
+            {
+                return;
+            }
+
+            KillSlotIconPop(slotIndex, iconRectTransform);
+
+            Sequence sequence = DOTween.Sequence();
+            slotIconPopSequences[slotIndex] = sequence;
+            sequence.SetUpdate(true);
+            sequence.SetTarget(iconRectTransform);
+            sequence.Append(iconRectTransform
+                .DOScale(Vector3.one * SlotIconPopScale, SlotIconPopUpDuration)
+                .SetEase(Ease.OutQuad));
+            sequence.Append(iconRectTransform
+                .DOScale(Vector3.one, SlotIconPopDownDuration)
+                .SetEase(Ease.InOutQuad));
+            sequence.OnKill(() =>
+            {
+                if (slotIconPopSequences[slotIndex] == sequence)
+                {
+                    slotIconPopSequences[slotIndex] = null;
+                }
+            });
+        }
+
+        private void KillSlotIconPop(int slotIndex, RectTransform iconRectTransform)
+        {
+            if (slotIndex >= 0 && slotIndex < slotIconPopSequences.Length)
+            {
+                slotIconPopSequences[slotIndex]?.Kill(false);
+                slotIconPopSequences[slotIndex] = null;
+            }
+
+            if (iconRectTransform != null)
+            {
+                iconRectTransform.localScale = Vector3.one;
+            }
         }
 
         private Image ResolveSlotIconImage(int slotIndex)

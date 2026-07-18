@@ -14,10 +14,10 @@ namespace CorridorCommander.PlayerUI
     [DisallowMultipleComponent]
     public sealed class MainCanvasReferenceAutoBinder : MonoBehaviour
     {
+#if UNITY_EDITOR
         [SerializeField] private bool includeInactive = true;
         [SerializeField] private bool logResults = true;
 
-#if UNITY_EDITOR
         [ContextMenu("Auto Bind UI References")]
         public void AutoBindUiReferences()
         {

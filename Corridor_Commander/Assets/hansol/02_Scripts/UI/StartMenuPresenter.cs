@@ -15,6 +15,8 @@ namespace CorridorCommander
         [SerializeField] private GameObject mainRoot;
         [SerializeField] private GameObject optionsRoot;
         [SerializeField] private StartMenuStageSelectPresenter stageSelectPopup;
+        [SerializeField] private DotweenUiPanelTransition mainTransition;
+        [SerializeField] private DotweenUiPanelTransition optionsTransition;
 
         [Header("Buttons")]
         [SerializeField] private Button startGameButton;
@@ -49,6 +51,7 @@ namespace CorridorCommander
                 optionsController = GetComponent<GameplayOptionsController>();
             }
 
+            optionsTransition?.HideImmediate();
             ShowMain();
             SyncControlsFromOptions();
         }
@@ -92,12 +95,20 @@ namespace CorridorCommander
 
         public void ShowOptions()
         {
-            if (mainRoot != null)
+            if (mainTransition != null)
+            {
+                mainTransition.Hide();
+            }
+            else if (mainRoot != null)
             {
                 mainRoot.SetActive(false);
             }
 
-            if (optionsRoot != null)
+            if (optionsTransition != null)
+            {
+                optionsTransition.Show();
+            }
+            else if (optionsRoot != null)
             {
                 optionsRoot.SetActive(true);
             }
@@ -107,12 +118,20 @@ namespace CorridorCommander
 
         public void ShowMain()
         {
-            if (mainRoot != null)
+            if (mainTransition != null)
+            {
+                mainTransition.Show();
+            }
+            else if (mainRoot != null)
             {
                 mainRoot.SetActive(true);
             }
 
-            if (optionsRoot != null)
+            if (optionsTransition != null)
+            {
+                optionsTransition.Hide();
+            }
+            else if (optionsRoot != null)
             {
                 optionsRoot.SetActive(false);
             }

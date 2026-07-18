@@ -136,6 +136,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 8f000000000000000000000000000008, type: 2}
   periodicWaveModifiers: []
   bossSchedule: {fileID: 11400000, guid: 8f000000000000000000000000000005, type: 2}
+  inputController: {fileID: 0}
   startWaitingOnEnable: 0
   startWaitingOnFirstRegionOpened: 1
   disableSpawnerAutomationOnEnable: 1
@@ -152,6 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.WaveReadyPopup
   root: {fileID: 6162504355093691621}
+  panelTransition: {fileID: 2965214667398337481}
   messageText: {fileID: 4408319646206097703}
   messageTmpText: {fileID: 0}
   readyButton: {fileID: 790584004303380995}
@@ -251,7 +253,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4468587025180172957, guid: 3fdc78f834cc61e459873c5d4f834f1d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3200926578367258427}
+    - targetCorrespondingSourceObject: {fileID: 4468587025180172957, guid: 3fdc78f834cc61e459873c5d4f834f1d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2965214667398337481}
   m_SourcePrefab: {fileID: 100100000, guid: 3fdc78f834cc61e459873c5d4f834f1d, type: 3}
 --- !u!114 &790584004303380995 stripped
 MonoBehaviour:
@@ -285,6 +293,46 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4468587025180172957, guid: 3fdc78f834cc61e459873c5d4f834f1d, type: 3}
   m_PrefabInstance: {fileID: 7747881543864983160}
   m_PrefabAsset: {fileID: 0}
+--- !u!225 &3200926578367258427
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6162504355093691621}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &2965214667398337481
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6162504355093691621}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3ee6a656bb7202428402a875390e921, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiPanelTransition
+  activationRoot: {fileID: 6162504355093691621}
+  motionRoot: {fileID: 4179955996156477586}
+  canvasGroup: {fileID: 3200926578367258427}
+  useFade: 1
+  useScale: 1
+  useHorizontalOffset: 0
+  useVerticalOffset: 1
+  playShowOnEnable: 0
+  manageCanvasInteraction: 1
+  hiddenScaleMultiplier: 0.965
+  hiddenHorizontalOffset: 0
+  hiddenVerticalOffset: -16
+  showDuration: 0.18
+  hideDuration: 0.13
+  showEase: 9
+  hideEase: 8
 --- !u!114 &8065943190899698943 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 318064173008171655, guid: 3fdc78f834cc61e459873c5d4f834f1d, type: 3}

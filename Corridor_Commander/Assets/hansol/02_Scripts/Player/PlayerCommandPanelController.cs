@@ -95,7 +95,6 @@ namespace CorridorCommander.PlayerControl
                 inputController.CommandRadialOpenRequested += HandleCommandRadialOpenRequested;
                 inputController.CommandRadialConfirmRequested += HandleCommandRadialConfirmRequested;
                 inputController.CommandRadialCloseRequested += HandleCommandRadialCloseRequested;
-                inputController.QuickItemUseRequested += HandleQuickItemUseRequested;
                 inputController.ItemRadialOpenRequested += HandleItemRadialOpenRequested;
                 inputController.ItemRadialConfirmRequested += HandleItemRadialConfirmRequested;
                 inputController.ItemRadialCloseRequested += HandleItemRadialCloseRequested;
@@ -132,7 +131,6 @@ namespace CorridorCommander.PlayerControl
                 inputController.CommandRadialOpenRequested -= HandleCommandRadialOpenRequested;
                 inputController.CommandRadialConfirmRequested -= HandleCommandRadialConfirmRequested;
                 inputController.CommandRadialCloseRequested -= HandleCommandRadialCloseRequested;
-                inputController.QuickItemUseRequested -= HandleQuickItemUseRequested;
                 inputController.ItemRadialOpenRequested -= HandleItemRadialOpenRequested;
                 inputController.ItemRadialConfirmRequested -= HandleItemRadialConfirmRequested;
                 inputController.ItemRadialCloseRequested -= HandleItemRadialCloseRequested;
@@ -294,13 +292,6 @@ namespace CorridorCommander.PlayerControl
         private void HandleCommandRadialCloseRequested()
         {
             commandRadialPresenter?.Hide();
-        }
-
-        private void HandleQuickItemUseRequested()
-        {
-            PlayerItemRuntimeEntry item = GetQuickItem();
-            string status = UseItem(item, "Quick item");
-            RefreshCommandPanel(status);
         }
 
         private void HandleItemRadialOpenRequested()
@@ -533,24 +524,6 @@ namespace CorridorCommander.PlayerControl
 
             activeThrowableSlotIndex = -1;
             throwableItemController?.CancelAim();
-        }
-
-        private PlayerItemRuntimeEntry GetQuickItem()
-        {
-            if (itemInventory == null)
-            {
-                return null;
-            }
-
-            PlayerItemRuntimeEntry healItem =
-                itemInventory.GetFirstAvailableItemByType(PlayerItemUseType.Heal);
-
-            if (healItem != null)
-            {
-                return healItem;
-            }
-
-            return itemInventory.GetFirstAvailableItem();
         }
 
         private void RefreshCommandPanel(string status)

@@ -15,6 +15,7 @@ namespace CorridorCommander
         WaveReadyPopup = 10,
         TutorialDialogue = 11,
         GameOverScreen = 12,
-        MissionClearScreen = 13
+        MissionClearScreen = 13,
+        PlayerStatsArtifactPopup = 14
     }
 }

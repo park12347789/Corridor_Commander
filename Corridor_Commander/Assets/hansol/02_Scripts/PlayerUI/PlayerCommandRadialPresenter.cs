@@ -12,6 +12,7 @@ namespace CorridorCommander.PlayerUI
 
         [Header("References")]
         [SerializeField] private GameObject panelRoot;
+        [SerializeField] private DotweenUiPanelTransition panelTransition;
         [SerializeField] private TMP_Text titleText;
         [SerializeField] private TMP_Text hintText;
 
@@ -48,7 +49,7 @@ namespace CorridorCommander.PlayerUI
 
             if (hideOnAwake)
             {
-                Hide();
+                HideImmediate();
             }
         }
 
@@ -61,7 +62,11 @@ namespace CorridorCommander.PlayerUI
 
             Refresh();
 
-            if (panelRoot != null)
+            if (panelTransition != null)
+            {
+                panelTransition.Show();
+            }
+            else if (panelRoot != null)
             {
                 panelRoot.SetActive(true);
             }
@@ -73,7 +78,23 @@ namespace CorridorCommander.PlayerUI
 
         public void Hide()
         {
-            if (panelRoot != null)
+            if (panelTransition != null)
+            {
+                panelTransition.Hide();
+            }
+            else if (panelRoot != null)
+            {
+                panelRoot.SetActive(false);
+            }
+        }
+
+        private void HideImmediate()
+        {
+            if (panelTransition != null)
+            {
+                panelTransition.HideImmediate();
+            }
+            else if (panelRoot != null)
             {
                 panelRoot.SetActive(false);
             }

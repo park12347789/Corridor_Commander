@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 9129536447459414631}
   - component: {fileID: 7673121608624090682}
   - component: {fileID: 1421046939798156627}
+  - component: {fileID: 8808965251473740336}
   m_Layer: 0
   m_Name: Button01_l_BtnText_White
   m_TagString: Untagged
@@ -123,6 +124,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &8808965251473740336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 126326282784013832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec1a6fba8de74174697ec65e67fa683d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiButtonFeedback
+  motionRoot: {fileID: 0}
+  hoverScaleMultiplier: 1.035
+  pressedScaleMultiplier: 0.96
+  hoverDuration: 0.1
+  pressedDuration: 0.06
+  hoverEase: 9
+  pressedEase: 6
 --- !u!1 &403057375862458099
 GameObject:
   m_ObjectHideFlags: 0
@@ -226,6 +246,7 @@ GameObject:
   - component: {fileID: 6678839975072825743}
   - component: {fileID: 399143299584989600}
   - component: {fileID: 458733727059361753}
+  - component: {fileID: 6367395610452286269}
   m_Layer: 0
   m_Name: Button01_l_BtnText_White
   m_TagString: Untagged
@@ -337,6 +358,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6367395610452286269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 496001719811310536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec1a6fba8de74174697ec65e67fa683d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiButtonFeedback
+  motionRoot: {fileID: 0}
+  hoverScaleMultiplier: 1.035
+  pressedScaleMultiplier: 0.96
+  hoverDuration: 0.1
+  pressedDuration: 0.06
+  hoverEase: 9
+  pressedEase: 6
 --- !u!1 &817165747302499983
 GameObject:
   m_ObjectHideFlags: 0
@@ -1172,6 +1212,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8527158335684222196}
   - component: {fileID: 6447448363738041928}
+  - component: {fileID: 2979598921906561248}
+  - component: {fileID: 348211861333199691}
   m_Layer: 0
   m_Name: PlayerCommandRadialPanel
   m_TagString: Untagged
@@ -1215,6 +1257,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2546217213143449265}
   m_CullTransparentMesh: 1
+--- !u!225 &2979598921906561248
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2546217213143449265}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &348211861333199691
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2546217213143449265}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3ee6a656bb7202428402a875390e921, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiPanelTransition
+  activationRoot: {fileID: 2546217213143449265}
+  motionRoot: {fileID: 8527158335684222196}
+  canvasGroup: {fileID: 2979598921906561248}
+  useFade: 1
+  useScale: 1
+  useHorizontalOffset: 0
+  useVerticalOffset: 0
+  playShowOnEnable: 0
+  manageCanvasInteraction: 1
+  hiddenScaleMultiplier: 0.9
+  hiddenHorizontalOffset: 0
+  hiddenVerticalOffset: 0
+  showDuration: 0.08
+  hideDuration: 0.06
+  showEase: 9
+  hideEase: 8
 --- !u!1 &2785000555656521550
 GameObject:
   m_ObjectHideFlags: 0
@@ -2254,6 +2336,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.PlayerUI.PlayerCommandRadialPresenter
   panelRoot: {fileID: 2546217213143449265}
+  panelTransition: {fileID: 348211861333199691}
   titleText: {fileID: 0}
   hintText: {fileID: 0}
   sectorImages:
@@ -2286,6 +2369,7 @@ GameObject:
   - component: {fileID: 5388303531050976451}
   - component: {fileID: 8183495801432146838}
   - component: {fileID: 4267882187937430340}
+  - component: {fileID: 5069843182546558347}
   m_Layer: 0
   m_Name: Button01_l_BtnText_White
   m_TagString: Untagged
@@ -2397,6 +2481,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5069843182546558347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6278205049367150929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec1a6fba8de74174697ec65e67fa683d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiButtonFeedback
+  motionRoot: {fileID: 0}
+  hoverScaleMultiplier: 1.035
+  pressedScaleMultiplier: 0.96
+  hoverDuration: 0.1
+  pressedDuration: 0.06
+  hoverEase: 9
+  pressedEase: 6
 --- !u!1 &6371040860937923794
 GameObject:
   m_ObjectHideFlags: 0

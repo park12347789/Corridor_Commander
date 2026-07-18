@@ -30,28 +30,28 @@ MonoBehaviour:
   - rewardId: artifact_turret_lens
     displayName: "\uD3EC\uD0D1 \uC870\uC900 \uB80C\uC988"
     amount: 1
-    icon: {fileID: 21300000, guid: 4785e65da4ba3fb4290153256d322e47, type: 3}
+    icon: {fileID: 21300000, guid: cfbe50187f859e144a2d58b7a6aff420, type: 3}
     grantType: 5
     itemDefinition: {fileID: 0}
     artifactDefinition: {fileID: 11400000, guid: 79713fc864059b84daab3e8eba2eecfb, type: 2}
   - rewardId: artifact_mortar_core
     displayName: "\uBC15\uACA9\uD3EC \uC555\uCD95 \uCF54\uC5B4"
     amount: 1
-    icon: {fileID: 21300000, guid: a679c3d32c446c74ab20a428fa7999e1, type: 3}
+    icon: {fileID: 21300000, guid: 87f2ce339dd44bb4e9248b67f3dc793b, type: 3}
     grantType: 5
     itemDefinition: {fileID: 0}
     artifactDefinition: {fileID: 11400000, guid: c615561fa91b0e94d8bb5792cb2214b4, type: 2}
   - rewardId: artifact_squad_relay
     displayName: "\uBD84\uB300 \uC804\uC220 \uB9B4\uB808\uC774"
     amount: 1
-    icon: {fileID: 21300000, guid: 10f530821c95ada4c9469576398de5de, type: 3}
+    icon: {fileID: 21300000, guid: 8650c4c089388ba4e9d6204ae3209b9f, type: 3}
     grantType: 5
     itemDefinition: {fileID: 0}
     artifactDefinition: {fileID: 11400000, guid: 0eb2864ccd80d4e40ad80ef38925d9b8, type: 2}
   - rewardId: artifact_player_exoframe
     displayName: "\uC804\uC220 \uC678\uACE8\uACA9 \uD504\uB808\uC784"
     amount: 1
-    icon: {fileID: 21300000, guid: 7400e59427e0f52408db68a10a3fddc3, type: 3}
+    icon: {fileID: 21300000, guid: 972deef4c9b4ed042b0e72c57c3c3b82, type: 3}
     grantType: 5
     itemDefinition: {fileID: 0}
     artifactDefinition: {fileID: 11400000, guid: 08004ccf18e34704aaa39f12b82fa972, type: 2}

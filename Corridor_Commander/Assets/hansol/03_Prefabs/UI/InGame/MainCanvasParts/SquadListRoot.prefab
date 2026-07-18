@@ -356,6 +356,7 @@ GameObject:
   - component: {fileID: 7526279362563775769}
   - component: {fileID: 20417489278191738}
   - component: {fileID: 6203445899515482531}
+  - component: {fileID: 3768790906844611607}
   m_Layer: 0
   m_Name: HealthText
   m_TagString: Untagged
@@ -482,6 +483,22 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &3768790906844611607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 741096474948787193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37fda0e214532d149b6811970a45b171, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiValueChangeFeedback
+  observedText: {fileID: 0}
+  motionRoot: {fileID: 0}
+  pulseScaleMultiplier: 1.05
+  pulseDuration: 0.14
 --- !u!1 &1052627222938068520
 GameObject:
   m_ObjectHideFlags: 0
@@ -3181,6 +3198,7 @@ GameObject:
   - component: {fileID: 2494935599316674194}
   - component: {fileID: 6652739944944112268}
   - component: {fileID: 3270937644558753021}
+  - component: {fileID: 8360470235800384099}
   m_Layer: 0
   m_Name: HealthText
   m_TagString: Untagged
@@ -3307,6 +3325,22 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &8360470235800384099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5353673126496119535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37fda0e214532d149b6811970a45b171, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiValueChangeFeedback
+  observedText: {fileID: 0}
+  motionRoot: {fileID: 0}
+  pulseScaleMultiplier: 1.05
+  pulseDuration: 0.14
 --- !u!1 &5414717300925000795
 GameObject:
   m_ObjectHideFlags: 0
@@ -4568,6 +4602,7 @@ GameObject:
   - component: {fileID: 3270999575513769097}
   - component: {fileID: 5258841752793214636}
   - component: {fileID: 2860847271870196476}
+  - component: {fileID: 4675563500592932575}
   m_Layer: 0
   m_Name: HealthText
   m_TagString: Untagged
@@ -4694,6 +4729,22 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4675563500592932575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6400674668741825263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37fda0e214532d149b6811970a45b171, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiValueChangeFeedback
+  observedText: {fileID: 0}
+  motionRoot: {fileID: 0}
+  pulseScaleMultiplier: 1.05
+  pulseDuration: 0.14
 --- !u!1 &6535781120960863593
 GameObject:
   m_ObjectHideFlags: 0
@@ -4705,6 +4756,7 @@ GameObject:
   - component: {fileID: 743985574617894940}
   - component: {fileID: 8176387757131755211}
   - component: {fileID: 5955808916698132319}
+  - component: {fileID: 78926531419880146}
   m_Layer: 0
   m_Name: HealthText
   m_TagString: Untagged
@@ -4831,6 +4883,22 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &78926531419880146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6535781120960863593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37fda0e214532d149b6811970a45b171, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiValueChangeFeedback
+  observedText: {fileID: 0}
+  motionRoot: {fileID: 0}
+  pulseScaleMultiplier: 1.05
+  pulseDuration: 0.14
 --- !u!1 &6599377021631625749
 GameObject:
   m_ObjectHideFlags: 0
@@ -5648,6 +5716,7 @@ GameObject:
   - component: {fileID: 7676388482053536355}
   - component: {fileID: 4532042336838758748}
   - component: {fileID: 8140711012601205142}
+  - component: {fileID: 8147460187104656711}
   m_Layer: 0
   m_Name: HealthText
   m_TagString: Untagged
@@ -5774,6 +5843,22 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &8147460187104656711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7272616745811295643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37fda0e214532d149b6811970a45b171, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiValueChangeFeedback
+  observedText: {fileID: 0}
+  motionRoot: {fileID: 0}
+  pulseScaleMultiplier: 1.05
+  pulseDuration: 0.14
 --- !u!1 &8331258266353624149
 GameObject:
   m_ObjectHideFlags: 0

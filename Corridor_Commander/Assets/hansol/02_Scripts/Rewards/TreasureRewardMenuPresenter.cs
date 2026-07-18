@@ -24,14 +24,15 @@ namespace CorridorCommander
         private static readonly Color RewardTextColor = new Color(0.96f, 0.98f, 1f, 1f);
         private static readonly Color RewardMutedTextColor = new Color(0.70f, 0.83f, 0.92f, 1f);
         private static readonly Color RewardAmountColor = new Color(1f, 0.90f, 0.42f, 1f);
-        private static readonly Color RewardSelectionColor = new Color(0.12f, 0.92f, 1f, 0.18f);
+        private static readonly Color RewardSelectionColor = new Color(0.12f, 0.92f, 1f, 0.28f);
         private static readonly Color ClaimEnabledColor = new Color(1f, 0.67f, 0.12f, 1f);
         private static readonly Color ClaimDisabledColor = new Color(0.35f, 0.35f, 0.35f, 0.92f);
         private const string RewardHint = "1-3 \uC120\uD0DD / Enter\u00B7\uB354\uBE14\uD074\uB9AD \uD68D\uB4DD / ESC \uB2EB\uAE30";
+        private const string MandatoryRewardHint = "보상 선택 필수 / 1-3 선택 / Enter·더블클릭 획득";
         private const string ClaimText = "\uD68D\uB4DD";
-        private const float RewardIconSize = 76f;
-        private const float ArtifactRewardIconSize = 86f;
-        private const float RewardIconY = 52f;
+        private const float RewardIconSize = 96f;
+        private const float ArtifactRewardIconSize = 112f;
+        private const float RewardIconY = 48f;
 
         private static TreasureRewardMenuPresenter instance;
         private static bool missingPresenterWarned;
@@ -43,6 +44,7 @@ namespace CorridorCommander
 
         [Header("Reward Panel")]
         [SerializeField] private GameObject panelRoot;
+        [SerializeField] private DotweenUiPanelTransition panelTransition;
         [SerializeField] private Text titleText;
         [SerializeField] private TMP_Text titleTmpText;
         [SerializeField] private Button[] choiceButtons = new Button[MaxChoiceCount];
@@ -115,7 +117,7 @@ namespace CorridorCommander
             WarnIfMissingReferences();
             BindButtons();
             SetPromptActive(false);
-            SetPanelActive(false);
+            SetPanelActive(false, true);
             SetStatusActive(false);
         }
 
@@ -144,14 +146,7 @@ namespace CorridorCommander
                 if (KeyboardInputMessenger.WasMenuSlotPressed(i + 1)
                     && UiInputCoordinator.Instance.TryConsumeMenuSlot(activeOwner, i + 1))
                 {
-                    if (selectedIndex == i)
-                    {
-                        ClaimSelectedReward();
-                    }
-                    else
-                    {
-                        SelectReward(i);
-                    }
+                    SelectReward(i);
 
                     return;
                 }
@@ -264,14 +259,6 @@ namespace CorridorCommander
                 ApplyRewardCard(i, i < visibleRewards.Count ? visibleRewards[i] : null);
             }
 
-            if (hintText != null)
-            {
-                hintText.text = "1-3 선택 / Enter·더블클릭 획득 / ESC 닫기";
-            }
-            SetText(hintTmpText, "1-3 선택 / Enter·더블클릭 획득 / ESC 닫기");
-
-            SetRewardHintText();
-
             if (claimButtonText != null)
             {
                 claimButtonText.text = "획득";
@@ -279,6 +266,8 @@ namespace CorridorCommander
             SetText(claimButtonTmpText, "획득");
 
             SetCleanRewardStaticTexts();
+            SetRewardHintText(owner);
+            ConfigureClosePolicy(owner);
             SetPanelActive(true);
             SelectReward(0);
             SelectCurrentButton();
@@ -340,6 +329,11 @@ namespace CorridorCommander
                 UiInputCoordinator.EndContextIfActive(owner);
             }
 
+            ShowStatus(message);
+        }
+
+        public void ShowStatus(string message)
+        {
             if (statusText != null)
             {
                 statusText.text = message;
@@ -358,7 +352,6 @@ namespace CorridorCommander
             }
 
             float now = Time.unscaledTime;
-            bool wasAlreadySelected = selectedIndex == index;
             bool isDoubleClick = selectedIndex == index
                 && lastClickedIndex == index
                 && now - lastClickAt <= Mathf.Max(0.05f, doubleClickWindow);
@@ -367,7 +360,7 @@ namespace CorridorCommander
             lastClickedIndex = index;
             lastClickAt = now;
 
-            if (claimButton == null || wasAlreadySelected || isDoubleClick)
+            if (isDoubleClick)
             {
                 ClaimSelectedReward();
             }
@@ -435,15 +428,21 @@ namespace CorridorCommander
 
         private void HandleBackRequested()
         {
+            if (activeOwner is WaveRewardController)
+            {
+                ShowStatus("보상을 선택해야 다음 웨이브가 진행됩니다.");
+                return;
+            }
+
             if (activeOwner != null)
             {
                 Hide(activeOwner);
             }
         }
 
-        private void SetRewardHintText()
+        private void SetRewardHintText(UnityEngine.Object owner)
         {
-            const string hint = "1-3 선택 / Enter·더블클릭 획득 / ESC 닫기";
+            string hint = owner is WaveRewardController ? MandatoryRewardHint : RewardHint;
             if (hintText != null)
             {
                 hintText.text = hint;
@@ -451,15 +450,16 @@ namespace CorridorCommander
             SetText(hintTmpText, hint);
         }
 
+        private void ConfigureClosePolicy(UnityEngine.Object owner)
+        {
+            if (closeButton != null)
+            {
+                closeButton.gameObject.SetActive(!(owner is WaveRewardController));
+            }
+        }
+
         private void SetCleanRewardStaticTexts()
         {
-            if (hintText != null)
-            {
-                hintText.text = RewardHint;
-            }
-
-            SetText(hintTmpText, RewardHint);
-
             if (claimButtonText != null)
             {
                 claimButtonText.text = ClaimText;
@@ -562,9 +562,9 @@ namespace CorridorCommander
             TMP_Text nameText = GetText(choiceTmpTexts, index);
             TMP_Text amountText = GetText(choiceAmountTmpTexts, index);
             TMP_Text descriptionText = GetText(choiceExplanationTmpTexts, index);
-            ConfigureCardText(nameText, TextAlignmentOptions.Center, TextWrappingModes.Normal, 13f, 17f, RewardCardTextRole.Name);
-            ConfigureCardText(amountText, TextAlignmentOptions.Center, TextWrappingModes.NoWrap, 13f, 18f, RewardCardTextRole.Amount);
-            ConfigureCardText(descriptionText, TextAlignmentOptions.Center, TextWrappingModes.Normal, 9f, 12f, RewardCardTextRole.Description);
+            ConfigureCardText(nameText, TextAlignmentOptions.Center, TextWrappingModes.Normal, 15f, 20f, RewardCardTextRole.Name);
+            ConfigureCardText(amountText, TextAlignmentOptions.Center, TextWrappingModes.NoWrap, 15f, 20f, RewardCardTextRole.Amount);
+            ConfigureCardText(descriptionText, TextAlignmentOptions.Center, TextWrappingModes.Normal, 11f, 14f, RewardCardTextRole.Description);
             SetRewardTextColor(nameText, RewardTextColor);
             SetRewardTextColor(amountText, RewardAmountColor);
             SetRewardTextColor(descriptionText, RewardMutedTextColor);
@@ -645,9 +645,9 @@ namespace CorridorCommander
             }
             else
             {
-                rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 172f);
-                rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 42f);
-                rectTransform.anchoredPosition = new Vector2(0f, -116f);
+                rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 260f);
+                rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 58f);
+                rectTransform.anchoredPosition = new Vector2(0f, -112f);
             }
         }
 
@@ -711,6 +711,7 @@ namespace CorridorCommander
             }
 
             rectTransform.localScale = Vector3.one;
+            rectTransform.localRotation = Quaternion.identity;
             float size = reward != null && reward.GrantType == TreasureRewardGrantType.Artifact
                 ? ArtifactRewardIconSize
                 : RewardIconSize;
@@ -752,9 +753,24 @@ namespace CorridorCommander
             }
         }
 
-        private void SetPanelActive(bool active)
+        private void SetPanelActive(bool active, bool immediate = false)
         {
-            if (panelRoot != null)
+            if (panelTransition != null)
+            {
+                if (active)
+                {
+                    panelTransition.Show();
+                }
+                else if (immediate)
+                {
+                    panelTransition.HideImmediate();
+                }
+                else
+                {
+                    panelTransition.Hide();
+                }
+            }
+            else if (panelRoot != null)
             {
                 if (active)
                 {
@@ -918,12 +934,6 @@ namespace CorridorCommander
         private void RefreshArtifactDescription()
         {
             if (selectedIndex < 0 || selectedIndex >= visibleRewards.Count)
-            {
-                SetArtifactDescriptionActive(false);
-                return;
-            }
-
-            if (HasText(choiceExplanationTmpTexts, selectedIndex))
             {
                 SetArtifactDescriptionActive(false);
                 return;
@@ -1166,6 +1176,8 @@ namespace CorridorCommander
                     return new Color(0.54f, 0.95f, 0.48f, 0.9f);
                 case TreasureRewardGrantType.Item:
                     return new Color(0.9f, 0.76f, 1f, 0.9f);
+                case TreasureRewardGrantType.Artifact:
+                    return new Color(0.64f, 0.46f, 1f, 0.92f);
                 default:
                     return new Color(0.86f, 0.9f, 1f, 0.7f);
             }
@@ -1295,7 +1307,7 @@ namespace CorridorCommander
 
             layoutElement.ignoreLayout = true;
             numberText.alignment = TextAlignmentOptions.Center;
-            numberText.fontSize = 40f;
+            numberText.fontSize = 30f;
             numberText.fontStyle = FontStyles.Bold;
             numberText.color = Color.white;
             numberText.textWrappingMode = TextWrappingModes.NoWrap;
@@ -1478,7 +1490,7 @@ namespace CorridorCommander
 
         private static string BuildCleanTitleText(UnityEngine.Object owner)
         {
-            return owner is WaveRewardController ? "웨이브 보상" : "보물 선택";
+            return owner is WaveRewardController ? "보스 웨이브 보상" : "보물 선택";
         }
 
         private static string GetCleanTargetLabel(ArtifactTarget target)

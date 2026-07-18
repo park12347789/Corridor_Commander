@@ -14,6 +14,7 @@ namespace CorridorCommander
 
         [Header("Roots")]
         [SerializeField] private GameObject menuRoot;
+        [SerializeField] private DotweenUiPanelTransition menuTransition;
         [SerializeField] private GameObject mainRoot;
         [SerializeField] private GameObject optionsRoot;
 
@@ -135,7 +136,11 @@ namespace CorridorCommander
 
         private void ShowPauseMenu()
         {
-            if (menuRoot != null)
+            if (menuTransition != null)
+            {
+                menuTransition.Show();
+            }
+            else if (menuRoot != null)
             {
                 menuRoot.SetActive(true);
             }
@@ -156,7 +161,14 @@ namespace CorridorCommander
             Time.timeScale = timeScaleBeforePause;
             optionsController?.Save();
             UiInputCoordinator.EndContextIfActive(this);
-            HideImmediate();
+            if (menuTransition != null)
+            {
+                menuTransition.Hide();
+            }
+            else
+            {
+                HideImmediate();
+            }
             PopupDimOverlayController.Release(this);
         }
 

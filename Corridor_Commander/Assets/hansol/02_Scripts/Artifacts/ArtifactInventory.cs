@@ -22,7 +22,11 @@ namespace CorridorCommander
 
             for (int i = 0; i < artifacts.Count; i++)
             {
-                if (artifacts[i] == artifact)
+                ArtifactDefinitionSO ownedArtifact = artifacts[i];
+                if (ownedArtifact == artifact
+                    || ownedArtifact != null
+                    && !string.IsNullOrWhiteSpace(ownedArtifact.ArtifactId)
+                    && ownedArtifact.ArtifactId == artifact.ArtifactId)
                 {
                     return true;
                 }
@@ -36,6 +40,12 @@ namespace CorridorCommander
             if (artifact == null)
             {
                 message = "Artifact data missing";
+                return false;
+            }
+
+            if (HasArtifact(artifact))
+            {
+                message = $"이미 보유 중: {artifact.DisplayName}";
                 return false;
             }
 

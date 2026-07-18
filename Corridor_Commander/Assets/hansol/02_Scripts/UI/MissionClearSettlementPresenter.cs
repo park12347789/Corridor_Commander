@@ -1,6 +1,7 @@
 using CorridorCommander.PlayerControl;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -14,6 +15,7 @@ namespace CorridorCommander
 
         [Header("Roots")]
         [SerializeField] private GameObject screenRoot;
+        [SerializeField] private DotweenUiPanelTransition screenTransition;
 
         [Header("Text")]
         [SerializeField] private TMP_Text titleTmpText;
@@ -45,18 +47,20 @@ namespace CorridorCommander
         private int spentMoney;
         private float missionStartedAt;
         private bool walletEventsBound;
+        private bool startingValuesCaptured;
 
         private void Awake()
         {
             missionStartedAt = Time.realtimeSinceStartup;
             ResolveRuntimeSources();
-            CaptureStartingValues();
+            CaptureStartingValuesIfReady();
             HideImmediate();
         }
 
         private void OnEnable()
         {
             ResolveRuntimeSources();
+            CaptureStartingValuesIfReady();
             BindWalletEvents();
             lobbyButton?.onClick.AddListener(ReturnToLobby);
         }
@@ -72,22 +76,31 @@ namespace CorridorCommander
         public void ShowFinalSettlement(bool pauseGameplay = true)
         {
             ResolveRuntimeSources();
+            CaptureStartingValuesIfReady();
             BindWalletEvents();
 
-            if (pauseGameplay)
+            UiInputCoordinator coordinator = UiInputCoordinator.Instance;
+            bool contextStarted = pauseGameplay
+                ? coordinator != null && coordinator.TryBeginPausedContext(this, UiInputContext.MissionClearScreen, true)
+                : coordinator != null && coordinator.TryBeginContext(this, UiInputContext.MissionClearScreen, true);
+            if (!contextStarted)
             {
-                Time.timeScale = 0f;
+                Debug.LogError("[MissionClearSettlementPresenter] Could not enter mission-clear UI context.", this);
+                return;
             }
 
-            UiInputCoordinator.Instance?.TryBeginContext(this, UiInputContext.MissionClearScreen, true);
-
-            if (screenRoot != null)
+            if (screenTransition != null)
+            {
+                screenTransition.Show();
+            }
+            else if (screenRoot != null)
             {
                 screenRoot.SetActive(true);
             }
 
             PopupDimOverlayController.RequestShow(this, screenRoot != null ? screenRoot.transform : transform);
             RefreshText();
+            SelectLobbyButton();
         }
 
         public void ReturnToLobby()
@@ -135,11 +148,17 @@ namespace CorridorCommander
             }
         }
 
-        private void CaptureStartingValues()
+        private void CaptureStartingValuesIfReady()
         {
-            startingMoney = currencyWallet != null ? currencyWallet.CurrentMoney : 0;
+            if (startingValuesCaptured || currencyWallet == null)
+            {
+                return;
+            }
+
+            startingMoney = currencyWallet.CurrentMoney;
             earnedMoney = 0;
             spentMoney = 0;
+            startingValuesCaptured = true;
         }
 
         private void BindWalletEvents()
@@ -178,9 +197,21 @@ namespace CorridorCommander
 
         private void HideImmediate()
         {
-            if (screenRoot != null)
+            if (screenTransition != null)
+            {
+                screenTransition.HideImmediate();
+            }
+            else if (screenRoot != null)
             {
                 screenRoot.SetActive(false);
+            }
+        }
+
+        private void SelectLobbyButton()
+        {
+            if (EventSystem.current != null && lobbyButton != null && lobbyButton.interactable)
+            {
+                EventSystem.current.SetSelectedGameObject(lobbyButton.gameObject);
             }
         }
 

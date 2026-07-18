@@ -59,6 +59,7 @@ namespace CorridorCommander
         private sealed class ListFrameView
         {
             public GameObject Root;
+            public CanvasGroup CanvasGroup;
             public Button Button;
             public TMP_Text NameText;
             public TMP_Text NumberText;
@@ -69,6 +70,7 @@ namespace CorridorCommander
 
         [Header("Legacy References")]
         [SerializeField] private GameObject panelRoot;
+        [SerializeField] private DotweenUiPanelTransition panelTransition;
         [SerializeField] private Text titleText;
         [SerializeField] private Button turretButton;
         [SerializeField] private Text turretButtonText;
@@ -116,7 +118,7 @@ namespace CorridorCommander
         {
             BindLegacyButtons();
             BindNewPanelIfNeeded();
-            SetPanelActive(false);
+            SetPanelActive(false, true);
             ShowCategorySelection();
         }
 
@@ -174,7 +176,7 @@ namespace CorridorCommander
         {
             currentInteraction?.NotifyMenuClosed(this);
             currentInteraction = null;
-            SetPanelActive(false);
+            SetPanelActive(false, true);
         }
 
         private void SubmitSlot(int slotIndex)
@@ -360,6 +362,13 @@ namespace CorridorCommander
             }
 
             bool canBuild = CanBuildEntry(entry);
+
+            if (frameView.CanvasGroup != null)
+            {
+                frameView.CanvasGroup.alpha = canBuild ? 1f : 0.4f;
+                frameView.CanvasGroup.interactable = canBuild;
+                frameView.CanvasGroup.blocksRaycasts = canBuild;
+            }
 
             if (frameView.NumberText != null)
             {
@@ -644,6 +653,7 @@ namespace CorridorCommander
             frameViews[slotIndex] = new ListFrameView
             {
                 Root = frame,
+                CanvasGroup = frame.GetComponent<CanvasGroup>(),
                 Button = EnsureButton(frame),
                 NameText = FindNamedText(root, "Text_name"),
                 NumberText = FindNamedText(root, "Text_Num"),
@@ -1014,9 +1024,24 @@ namespace CorridorCommander
             frameViews.Clear();
         }
 
-        private void SetPanelActive(bool active)
+        private void SetPanelActive(bool active, bool immediate = false)
         {
-            if (panelRoot != null)
+            if (panelTransition != null)
+            {
+                if (active)
+                {
+                    panelTransition.Show();
+                }
+                else if (immediate)
+                {
+                    panelTransition.HideImmediate();
+                }
+                else
+                {
+                    panelTransition.Hide();
+                }
+            }
+            else if (panelRoot != null)
             {
                 panelRoot.SetActive(active);
             }

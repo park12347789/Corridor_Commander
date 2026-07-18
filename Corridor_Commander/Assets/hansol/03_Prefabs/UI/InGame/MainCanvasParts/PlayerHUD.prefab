@@ -147,6 +147,7 @@ GameObject:
   - component: {fileID: 8637465856046319502}
   - component: {fileID: 2263265781534302464}
   - component: {fileID: 4171837826255556614}
+  - component: {fileID: 5025085661689794336}
   m_Layer: 0
   m_Name: ValueText
   m_TagString: Untagged
@@ -308,6 +309,22 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.88}
   m_EffectDistance: {x: 2, y: -2}
   m_UseGraphicAlpha: 1
+--- !u!114 &5025085661689794336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 470504087454065405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37fda0e214532d149b6811970a45b171, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiValueChangeFeedback
+  observedText: {fileID: 0}
+  motionRoot: {fileID: 0}
+  pulseScaleMultiplier: 1.05
+  pulseDuration: 0.14
 --- !u!1 &1008375395847978276
 GameObject:
   m_ObjectHideFlags: 0
@@ -321,6 +338,7 @@ GameObject:
   - component: {fileID: 863453911374634727}
   - component: {fileID: 8286102264737623190}
   - component: {fileID: 1780911627260193163}
+  - component: {fileID: 7289686532928189019}
   m_Layer: 0
   m_Name: StatPointText
   m_TagString: Untagged
@@ -482,6 +500,22 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.88}
   m_EffectDistance: {x: 2, y: -2}
   m_UseGraphicAlpha: 1
+--- !u!114 &7289686532928189019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1008375395847978276}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37fda0e214532d149b6811970a45b171, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiValueChangeFeedback
+  observedText: {fileID: 0}
+  motionRoot: {fileID: 0}
+  pulseScaleMultiplier: 1.05
+  pulseDuration: 0.14
 --- !u!1 &1345018169133257453
 GameObject:
   m_ObjectHideFlags: 0
@@ -580,6 +614,7 @@ GameObject:
   - component: {fileID: 1771208583620994730}
   - component: {fileID: 7368247482068264699}
   - component: {fileID: 7516939319746218955}
+  - component: {fileID: 960302440814475198}
   m_Layer: 0
   m_Name: ValueText
   m_TagString: Untagged
@@ -741,6 +776,22 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.88}
   m_EffectDistance: {x: 2, y: -2}
   m_UseGraphicAlpha: 1
+--- !u!114 &960302440814475198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1514956855420260381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37fda0e214532d149b6811970a45b171, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiValueChangeFeedback
+  observedText: {fileID: 0}
+  motionRoot: {fileID: 0}
+  pulseScaleMultiplier: 1.05
+  pulseDuration: 0.14
 --- !u!1 &1552429698679038129
 GameObject:
   m_ObjectHideFlags: 0
@@ -1177,6 +1228,7 @@ GameObject:
   - component: {fileID: 7349061116152259119}
   - component: {fileID: 4427310902912348981}
   - component: {fileID: 6198898904149732362}
+  - component: {fileID: 5883048938038294649}
   m_Layer: 0
   m_Name: StaminaUpgradeLevelText
   m_TagString: Untagged
@@ -1338,6 +1390,22 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.88}
   m_EffectDistance: {x: 2, y: -2}
   m_UseGraphicAlpha: 1
+--- !u!114 &5883048938038294649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2909357049916037767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37fda0e214532d149b6811970a45b171, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiValueChangeFeedback
+  observedText: {fileID: 0}
+  motionRoot: {fileID: 0}
+  pulseScaleMultiplier: 1.05
+  pulseDuration: 0.14
 --- !u!1 &2951934715199015644
 GameObject:
   m_ObjectHideFlags: 0
@@ -1794,6 +1862,7 @@ GameObject:
   - component: {fileID: 6366928093907087758}
   - component: {fileID: 6795010397764708126}
   - component: {fileID: 5747203295852137709}
+  - component: {fileID: 1439469730871540857}
   m_Layer: 0
   m_Name: MoneyText
   m_TagString: Untagged
@@ -1957,6 +2026,22 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.88}
   m_EffectDistance: {x: 2, y: -2}
   m_UseGraphicAlpha: 1
+--- !u!114 &1439469730871540857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4988875281438335698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37fda0e214532d149b6811970a45b171, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiValueChangeFeedback
+  observedText: {fileID: 0}
+  motionRoot: {fileID: 0}
+  pulseScaleMultiplier: 1.05
+  pulseDuration: 0.14
 --- !u!1 &5487449838547130064
 GameObject:
   m_ObjectHideFlags: 0
@@ -1970,6 +2055,7 @@ GameObject:
   - component: {fileID: 6054357086209998697}
   - component: {fileID: 1092408483858202117}
   - component: {fileID: 1721574261138222155}
+  - component: {fileID: 5050697777644547005}
   m_Layer: 0
   m_Name: MoveSpeedUpgradeLevelText
   m_TagString: Untagged
@@ -2131,6 +2217,22 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.88}
   m_EffectDistance: {x: 2, y: -2}
   m_UseGraphicAlpha: 1
+--- !u!114 &5050697777644547005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5487449838547130064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37fda0e214532d149b6811970a45b171, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiValueChangeFeedback
+  observedText: {fileID: 0}
+  motionRoot: {fileID: 0}
+  pulseScaleMultiplier: 1.05
+  pulseDuration: 0.14
 --- !u!1 &5533192364465855849
 GameObject:
   m_ObjectHideFlags: 0
@@ -2393,6 +2495,7 @@ GameObject:
   - component: {fileID: 2473247138831548365}
   - component: {fileID: 4184186920749926256}
   - component: {fileID: 3994134538161966859}
+  - component: {fileID: 5642134415863881763}
   m_Layer: 0
   m_Name: DamageUpgradeLevelText
   m_TagString: Untagged
@@ -2554,6 +2657,22 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.88}
   m_EffectDistance: {x: 2, y: -2}
   m_UseGraphicAlpha: 1
+--- !u!114 &5642134415863881763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6446624877834576215}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37fda0e214532d149b6811970a45b171, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiValueChangeFeedback
+  observedText: {fileID: 0}
+  motionRoot: {fileID: 0}
+  pulseScaleMultiplier: 1.05
+  pulseDuration: 0.14
 --- !u!1 &6498346928631228613
 GameObject:
   m_ObjectHideFlags: 0
@@ -2931,6 +3050,7 @@ GameObject:
   - component: {fileID: 6700523606737369387}
   - component: {fileID: 4256005130860480572}
   - component: {fileID: 6857398689528871902}
+  - component: {fileID: 4371668226326175566}
   m_Layer: 0
   m_Name: HealthUpgradeLevelText
   m_TagString: Untagged
@@ -3092,6 +3212,22 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.88}
   m_EffectDistance: {x: 2, y: -2}
   m_UseGraphicAlpha: 1
+--- !u!114 &4371668226326175566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7555008147905961615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37fda0e214532d149b6811970a45b171, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiValueChangeFeedback
+  observedText: {fileID: 0}
+  motionRoot: {fileID: 0}
+  pulseScaleMultiplier: 1.05
+  pulseDuration: 0.14
 --- !u!1 &7567853414832369057
 GameObject:
   m_ObjectHideFlags: 0
@@ -4046,6 +4182,7 @@ GameObject:
   - component: {fileID: 8236499682512499267}
   - component: {fileID: 2711444010144545636}
   - component: {fileID: 7643811992324172774}
+  - component: {fileID: 8994055976970185315}
   m_Layer: 0
   m_Name: ValueText
   m_TagString: Untagged
@@ -4207,6 +4344,22 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.88}
   m_EffectDistance: {x: 2, y: -2}
   m_UseGraphicAlpha: 1
+--- !u!114 &8994055976970185315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8966071757140614244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37fda0e214532d149b6811970a45b171, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiValueChangeFeedback
+  observedText: {fileID: 0}
+  motionRoot: {fileID: 0}
+  pulseScaleMultiplier: 1.05
+  pulseDuration: 0.14
 --- !u!1 &9021727447387904253
 GameObject:
   m_ObjectHideFlags: 0

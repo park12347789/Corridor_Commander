@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8805398432560592599}
   - component: {fileID: 3425946145825266132}
   - component: {fileID: 2567073859375703615}
+  - component: {fileID: 1894368084407886997}
   m_Layer: 0
   m_Name: Button_priece
   m_TagString: Untagged
@@ -121,6 +122,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1894368084407886997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 12521559517495142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec1a6fba8de74174697ec65e67fa683d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiButtonFeedback
+  motionRoot: {fileID: 0}
+  hoverScaleMultiplier: 1.035
+  pressedScaleMultiplier: 0.96
+  hoverDuration: 0.1
+  pressedDuration: 0.06
+  hoverEase: 9
+  pressedEase: 6
 --- !u!1 &144409040772992345
 GameObject:
   m_ObjectHideFlags: 0
@@ -1219,6 +1239,7 @@ GameObject:
   - component: {fileID: 4088448490838758679}
   - component: {fileID: 2482862352558840795}
   - component: {fileID: 8550433359894862777}
+  - component: {fileID: 3116234410124493362}
   m_Layer: 0
   m_Name: Button_priece
   m_TagString: Untagged
@@ -1328,6 +1349,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3116234410124493362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1280277224464129787}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec1a6fba8de74174697ec65e67fa683d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiButtonFeedback
+  motionRoot: {fileID: 0}
+  hoverScaleMultiplier: 1.035
+  pressedScaleMultiplier: 0.96
+  hoverDuration: 0.1
+  pressedDuration: 0.06
+  hoverEase: 9
+  pressedEase: 6
 --- !u!1 &1434917578763569894
 GameObject:
   m_ObjectHideFlags: 0
@@ -4861,6 +4901,7 @@ GameObject:
   - component: {fileID: 3569794204639851325}
   - component: {fileID: 7162878423290539020}
   - component: {fileID: 6288700131080484157}
+  - component: {fileID: 6409719150976241514}
   m_Layer: 0
   m_Name: Button01_sm
   m_TagString: Untagged
@@ -4970,6 +5011,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &6409719150976241514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5943341012502352994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec1a6fba8de74174697ec65e67fa683d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiButtonFeedback
+  motionRoot: {fileID: 0}
+  hoverScaleMultiplier: 1.035
+  pressedScaleMultiplier: 0.96
+  hoverDuration: 0.1
+  pressedDuration: 0.06
+  hoverEase: 9
+  pressedEase: 6
 --- !u!1 &5965005855547507893
 GameObject:
   m_ObjectHideFlags: 0
@@ -5194,6 +5254,7 @@ GameObject:
   - component: {fileID: 1069817372695596412}
   - component: {fileID: 2912267458634980877}
   - component: {fileID: 3082655073017682365}
+  - component: {fileID: 3638987005709506639}
   m_Layer: 0
   m_Name: Button_priece
   m_TagString: Untagged
@@ -5303,6 +5364,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3638987005709506639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6001851302705043949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec1a6fba8de74174697ec65e67fa683d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiButtonFeedback
+  motionRoot: {fileID: 0}
+  hoverScaleMultiplier: 1.035
+  pressedScaleMultiplier: 0.96
+  hoverDuration: 0.1
+  pressedDuration: 0.06
+  hoverEase: 9
+  pressedEase: 6
 --- !u!1 &6250110592415023423
 GameObject:
   m_ObjectHideFlags: 0

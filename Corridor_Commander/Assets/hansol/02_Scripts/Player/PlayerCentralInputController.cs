@@ -60,7 +60,6 @@ namespace CorridorCommander.PlayerControl
         public event Action ItemRadialOpenRequested;
         public event Action ItemRadialCloseRequested;
         public event Action ItemRadialConfirmRequested;
-        public event Action QuickItemUseRequested;
 
         public event Action<int> CommandSlotRequested;
         public event Action<int> CommandSlotPressed;

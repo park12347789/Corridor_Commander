@@ -45,6 +45,7 @@ namespace CorridorCommander
         public bool IsWaitingForWave => isWaiting;
         public bool IsRunningWave => isRunning;
         public bool IsHoldingWaveReward => isHoldingNextWave;
+        public bool HasBossSchedule => bossSchedule != null;
         public string CurrentWaveId => CurrentWave != null ? CurrentWave.WaveId : string.Empty;
         public float CurrentWaveRemainingSeconds =>
             isWaiting && CurrentWave != null
@@ -115,12 +116,15 @@ namespace CorridorCommander
                 return;
             }
 
-            if (KeyboardInputMessenger.WasWavePopupPressed() && !ShouldSuppressWavePopupHotkey())
+            bool useDirectKeyboardInput = inputController == null;
+            if (useDirectKeyboardInput
+                && KeyboardInputMessenger.WasWavePopupPressed()
+                && !ShouldSuppressWavePopupHotkey())
             {
                 ShowReadyPopup();
             }
 
-            if (readyPopup != null && readyPopup.IsOpen)
+            if (useDirectKeyboardInput && readyPopup != null && readyPopup.IsOpen)
             {
                 if (KeyboardInputMessenger.WasWaveConfirmPressed()
                     && UiInputCoordinator.Instance.TryConsumeContextInput(this))

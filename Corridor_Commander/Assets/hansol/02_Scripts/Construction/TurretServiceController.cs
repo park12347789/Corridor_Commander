@@ -201,7 +201,25 @@ namespace CorridorCommander
 
             if (runtimeAttackDefinition != null)
             {
-                targetingController.Configure(runtimeAttackDefinition, upgradeLevel);
+                float runtimeRange = ArtifactStatManager.Apply(
+                    ArtifactTarget.Turret,
+                    ArtifactStat.Range,
+                    runtimeAttackDefinition.GetRange(upgradeLevel));
+                float runtimeFireInterval = ArtifactStatManager.Apply(
+                    ArtifactTarget.Turret,
+                    ArtifactStat.AttackInterval,
+                    runtimeAttackDefinition.GetFireInterval(upgradeLevel));
+                float runtimeDamage = ArtifactStatManager.Apply(
+                    ArtifactTarget.Turret,
+                    ArtifactStat.Damage,
+                    runtimeAttackDefinition.GetDamage(upgradeLevel));
+                targetingController.Configure(
+                    runtimeRange,
+                    runtimeFireInterval,
+                    runtimeDamage,
+                    runtimeAttackDefinition.HitEffects,
+                    runtimeAttackDefinition.AttackMode,
+                    runtimeAttackDefinition.AttackWindupTime);
                 ShowCurrentRange();
                 return;
             }

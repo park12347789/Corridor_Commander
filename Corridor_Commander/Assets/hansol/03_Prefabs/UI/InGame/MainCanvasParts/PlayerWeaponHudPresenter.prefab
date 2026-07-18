@@ -343,6 +343,7 @@ GameObject:
   - component: {fileID: 3635302908311182072}
   - component: {fileID: 5001446770734811330}
   - component: {fileID: 7936880917409999328}
+  - component: {fileID: 7057811270254238974}
   m_Layer: 0
   m_Name: AmmoText
   m_TagString: Untagged
@@ -469,6 +470,22 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &7057811270254238974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8292364683687480495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37fda0e214532d149b6811970a45b171, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiValueChangeFeedback
+  observedText: {fileID: 0}
+  motionRoot: {fileID: 0}
+  pulseScaleMultiplier: 1.05
+  pulseDuration: 0.14
 --- !u!1 &8935853632727425981
 GameObject:
   m_ObjectHideFlags: 0

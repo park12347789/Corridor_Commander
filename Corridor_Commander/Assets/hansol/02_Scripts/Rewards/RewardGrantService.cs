@@ -16,6 +16,7 @@ namespace CorridorCommander
         [SerializeField] private ArtifactInventory artifactInventory;
 
         public static RewardGrantService Current => current;
+        public ArtifactInventory ArtifactInventory => artifactInventory;
 
         public void Configure(
             PlayerCurrencyWallet configuredCurrencyWallet,

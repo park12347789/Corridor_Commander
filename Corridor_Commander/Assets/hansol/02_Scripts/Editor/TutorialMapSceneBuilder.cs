@@ -7,6 +7,8 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
 
 namespace CorridorCommander.EditorTools
 {
@@ -149,6 +151,7 @@ namespace CorridorCommander.EditorTools
             RequireComponent<SupportTruckShopInteraction>("SupportTruckShopInteraction", failures);
             RequireComponent<PlayerCurrencyWallet>("PlayerCurrencyWallet", failures);
             RequireComponent<PlayerWeaponAudioController>("PlayerWeaponAudioController", failures);
+            RequireTutorialUiAuthoredContracts(failures);
             RequireTutorialNavMesh(failures);
             RequireLayerLabSprite(LayerLabPanelFramePath, failures);
             RequireLayerLabSprite(LayerLabDialogueBubblePath, failures);
@@ -194,6 +197,424 @@ namespace CorridorCommander.EditorTools
             if (component == null)
             {
                 failures.Add(label + " is missing.");
+            }
+        }
+
+        private static void RequireTutorialUiAuthoredContracts(List<string> failures)
+        {
+            TutorialChapterSelectPresenter chapterSelect =
+                UnityEngine.Object.FindFirstObjectByType<TutorialChapterSelectPresenter>(FindObjectsInactive.Include);
+            if (chapterSelect != null)
+            {
+                SerializedObject serialized = new SerializedObject(chapterSelect);
+                serialized.UpdateIfRequiredOrScript();
+
+                GameObject panelRoot = RequireObjectReference(
+                    serialized,
+                    "panelRoot",
+                    "TutorialChapterSelectPresenter.panelRoot",
+                    failures) as GameObject;
+                RequireAnyObjectReference(
+                    serialized,
+                    "titleText",
+                    "titleTmpText",
+                    "TutorialChapterSelectPresenter title Text/TMP",
+                    failures);
+                RequireAnyObjectReference(
+                    serialized,
+                    "detailText",
+                    "detailTmpText",
+                    "TutorialChapterSelectPresenter detail Text/TMP",
+                    failures);
+                RequireAnyObjectReference(
+                    serialized,
+                    "hintText",
+                    "hintTmpText",
+                    "TutorialChapterSelectPresenter hint Text/TMP",
+                    failures);
+                RequireObjectReferenceArray(
+                    serialized,
+                    "chapterButtons",
+                    7,
+                    "TutorialChapterSelectPresenter.chapterButtons",
+                    failures);
+                RequireObjectReference(
+                    serialized,
+                    "closeButton",
+                    "TutorialChapterSelectPresenter.closeButton",
+                    failures);
+                RequirePanelTransitionContract(panelRoot, "TutorialChapterSelectPanel", failures);
+            }
+
+            TutorialDialoguePresenter dialogue =
+                UnityEngine.Object.FindFirstObjectByType<TutorialDialoguePresenter>(FindObjectsInactive.Include);
+            if (dialogue != null)
+            {
+                SerializedObject serialized = new SerializedObject(dialogue);
+                serialized.UpdateIfRequiredOrScript();
+
+                GameObject panelRoot = RequireObjectReference(
+                    serialized,
+                    "panelRoot",
+                    "TutorialDialoguePresenter.panelRoot",
+                    failures) as GameObject;
+                RequireAnyObjectReference(
+                    serialized,
+                    "speakerText",
+                    "speakerTmpText",
+                    "TutorialDialoguePresenter speaker Text/TMP",
+                    failures);
+                RequireAnyObjectReference(
+                    serialized,
+                    "bodyText",
+                    "bodyTmpText",
+                    "TutorialDialoguePresenter body Text/TMP",
+                    failures);
+                RequireAnyObjectReference(
+                    serialized,
+                    "hintText",
+                    "hintTmpText",
+                    "TutorialDialoguePresenter hint Text/TMP",
+                    failures);
+                GameObject controlHintRoot = RequireObjectReference(
+                    serialized,
+                    "controlHintRoot",
+                    "TutorialDialoguePresenter.controlHintRoot",
+                    failures) as GameObject;
+                RequireAnyObjectReference(
+                    serialized,
+                    "controlHintText",
+                    "controlHintTmpText",
+                    "TutorialDialoguePresenter control hint Text/TMP",
+                    failures);
+                Button nextButton = RequireObjectReference(
+                    serialized,
+                    "nextButton",
+                    "TutorialDialoguePresenter.nextButton",
+                    failures) as Button;
+                Button previousButton = RequireObjectReference(
+                    serialized,
+                    "previousButton",
+                    "TutorialDialoguePresenter.previousButton",
+                    failures) as Button;
+                RequireObjectReference(
+                    serialized,
+                    "historyButton",
+                    "TutorialDialoguePresenter.historyButton",
+                    failures);
+                RequireObjectReference(
+                    serialized,
+                    "resumeRoot",
+                    "TutorialDialoguePresenter.resumeRoot",
+                    failures);
+                RequireObjectReference(
+                    serialized,
+                    "historyRoot",
+                    "TutorialDialoguePresenter.historyRoot",
+                    failures);
+                RequireAnyObjectReference(
+                    serialized,
+                    "historyText",
+                    "historyTmpText",
+                    "TutorialDialoguePresenter history Text/TMP",
+                    failures);
+                RequireObjectReference(
+                    serialized,
+                    "mouseIconPresenter",
+                    "TutorialDialoguePresenter.mouseIconPresenter",
+                    failures);
+                RequireObjectReference(
+                    serialized,
+                    "portraitRoot",
+                    "TutorialDialoguePresenter.portraitRoot",
+                    failures);
+                RequireObjectReference(
+                    serialized,
+                    "portraitAvatarImage",
+                    "TutorialDialoguePresenter.portraitAvatarImage",
+                    failures);
+
+                RequirePanelTransitionContract(panelRoot, "TutorialDialoguePanel", failures);
+                RequireButtonLayout(previousButton, "TutorialDialoguePresenter.previousButton", failures);
+                RequireButtonLayout(nextButton, "TutorialDialoguePresenter.nextButton", failures);
+                RequireMinimumRect(
+                    controlHintRoot != null ? controlHintRoot.GetComponent<RectTransform>() : null,
+                    420f,
+                    36f,
+                    "TutorialDialoguePresenter.controlHintRoot",
+                    failures);
+            }
+
+            TutorialChapterCompletionPresenter completion =
+                UnityEngine.Object.FindFirstObjectByType<TutorialChapterCompletionPresenter>(FindObjectsInactive.Include);
+            if (completion != null)
+            {
+                SerializedObject serialized = new SerializedObject(completion);
+                serialized.UpdateIfRequiredOrScript();
+
+                GameObject panelRoot = RequireObjectReference(
+                    serialized,
+                    "panelRoot",
+                    "TutorialChapterCompletionPresenter.panelRoot",
+                    failures) as GameObject;
+                RequireAnyObjectReference(
+                    serialized,
+                    "titleText",
+                    "titleTmpText",
+                    "TutorialChapterCompletionPresenter title Text/TMP",
+                    failures);
+                RequireAnyObjectReference(
+                    serialized,
+                    "detailText",
+                    "detailTmpText",
+                    "TutorialChapterCompletionPresenter detail Text/TMP",
+                    failures);
+                RequireAnyObjectReference(
+                    serialized,
+                    "hintText",
+                    "hintTmpText",
+                    "TutorialChapterCompletionPresenter hint Text/TMP",
+                    failures);
+                RequireObjectReference(
+                    serialized,
+                    "nextButton",
+                    "TutorialChapterCompletionPresenter.nextButton",
+                    failures);
+                RequireObjectReference(
+                    serialized,
+                    "chapterSelectButton",
+                    "TutorialChapterCompletionPresenter.chapterSelectButton",
+                    failures);
+                RequireObjectReference(
+                    serialized,
+                    "lobbyButton",
+                    "TutorialChapterCompletionPresenter.lobbyButton",
+                    failures);
+                RequirePanelTransitionContract(panelRoot, "TutorialChapterCompletionPanel", failures);
+            }
+        }
+
+        private static UnityEngine.Object RequireObjectReference(
+            SerializedObject serialized,
+            string propertyName,
+            string label,
+            List<string> failures)
+        {
+            SerializedProperty property = serialized.FindProperty(propertyName);
+            if (property == null || property.propertyType != SerializedPropertyType.ObjectReference)
+            {
+                failures.Add(label + " serialized field is missing.");
+                return null;
+            }
+
+            if (property.objectReferenceValue == null)
+            {
+                failures.Add(label + " serialized reference is missing.");
+                return null;
+            }
+
+            return property.objectReferenceValue;
+        }
+
+        private static void RequireAnyObjectReference(
+            SerializedObject serialized,
+            string firstPropertyName,
+            string secondPropertyName,
+            string label,
+            List<string> failures)
+        {
+            SerializedProperty first = serialized.FindProperty(firstPropertyName);
+            SerializedProperty second = serialized.FindProperty(secondPropertyName);
+            bool hasFirst = first != null
+                && first.propertyType == SerializedPropertyType.ObjectReference
+                && first.objectReferenceValue != null;
+            bool hasSecond = second != null
+                && second.propertyType == SerializedPropertyType.ObjectReference
+                && second.objectReferenceValue != null;
+
+            if (!hasFirst && !hasSecond)
+            {
+                failures.Add(label + " serialized reference is missing.");
+            }
+        }
+
+        private static void RequireObjectReferenceArray(
+            SerializedObject serialized,
+            string propertyName,
+            int minimumAssignedCount,
+            string label,
+            List<string> failures)
+        {
+            SerializedProperty property = serialized.FindProperty(propertyName);
+            if (property == null || !property.isArray)
+            {
+                failures.Add(label + " serialized array is missing.");
+                return;
+            }
+
+            int assignedCount = 0;
+            for (int i = 0; i < property.arraySize; i++)
+            {
+                SerializedProperty element = property.GetArrayElementAtIndex(i);
+                if (element.propertyType == SerializedPropertyType.ObjectReference
+                    && element.objectReferenceValue != null)
+                {
+                    assignedCount++;
+                }
+            }
+
+            if (assignedCount < minimumAssignedCount)
+            {
+                failures.Add(label + " needs at least " + minimumAssignedCount + " assigned references.");
+            }
+        }
+
+        private static void RequirePanelTransitionContract(
+            GameObject panelRoot,
+            string label,
+            List<string> failures)
+        {
+            if (panelRoot == null)
+            {
+                return;
+            }
+
+            DotweenUiPanelTransition[] transitions = panelRoot.GetComponents<DotweenUiPanelTransition>();
+            if (transitions.Length != 1)
+            {
+                failures.Add(label + " needs exactly one DotweenUiPanelTransition on the panel root.");
+                return;
+            }
+
+            RectTransform panelRect = panelRoot.GetComponent<RectTransform>();
+            CanvasGroup panelCanvasGroup = panelRoot.GetComponent<CanvasGroup>();
+            if (panelRect == null)
+            {
+                failures.Add(label + " panel root is missing RectTransform.");
+            }
+
+            if (panelCanvasGroup == null)
+            {
+                failures.Add(label + " panel root is missing CanvasGroup.");
+            }
+
+            SerializedObject serialized = new SerializedObject(transitions[0]);
+            serialized.UpdateIfRequiredOrScript();
+            RequireSameObjectReference(
+                serialized,
+                "activationRoot",
+                panelRoot,
+                label + " transition.activationRoot",
+                failures);
+            RequireSameObjectReference(
+                serialized,
+                "motionRoot",
+                panelRect,
+                label + " transition.motionRoot",
+                failures);
+            RequireSameObjectReference(
+                serialized,
+                "canvasGroup",
+                panelCanvasGroup,
+                label + " transition.canvasGroup",
+                failures);
+
+            SerializedProperty playShowOnEnable = serialized.FindProperty("playShowOnEnable");
+            if (playShowOnEnable == null
+                || playShowOnEnable.propertyType != SerializedPropertyType.Boolean
+                || !playShowOnEnable.boolValue)
+            {
+                failures.Add(label + " transition.playShowOnEnable must be true.");
+            }
+        }
+
+        private static void RequireSameObjectReference(
+            SerializedObject serialized,
+            string propertyName,
+            UnityEngine.Object expected,
+            string label,
+            List<string> failures)
+        {
+            SerializedProperty property = serialized.FindProperty(propertyName);
+            if (expected == null
+                || property == null
+                || property.propertyType != SerializedPropertyType.ObjectReference
+                || property.objectReferenceValue != expected)
+            {
+                failures.Add(label + " must reference the same panel root.");
+            }
+        }
+
+        private static void RequireButtonLayout(Button button, string label, List<string> failures)
+        {
+            if (button == null)
+            {
+                return;
+            }
+
+            RequireMinimumRect(button.transform as RectTransform, 96f, 48f, label, failures);
+
+            RectTransform labelRect = FindButtonLabelRect(button);
+            if (labelRect == null)
+            {
+                failures.Add(label + " child label is missing.");
+                return;
+            }
+
+            RequireMinimumRect(labelRect, 80f, 36f, label + " child label", failures);
+        }
+
+        private static RectTransform FindButtonLabelRect(Button button)
+        {
+            TMP_Text[] tmpLabels = button.GetComponentsInChildren<TMP_Text>(true);
+            for (int i = 0; i < tmpLabels.Length; i++)
+            {
+                if (tmpLabels[i].transform != button.transform)
+                {
+                    return tmpLabels[i].rectTransform;
+                }
+            }
+
+            Text[] labels = button.GetComponentsInChildren<Text>(true);
+            for (int i = 0; i < labels.Length; i++)
+            {
+                if (labels[i].transform != button.transform)
+                {
+                    return labels[i].rectTransform;
+                }
+            }
+
+            return null;
+        }
+
+        private static void RequireMinimumRect(
+            RectTransform rectTransform,
+            float minimumWidth,
+            float minimumHeight,
+            string label,
+            List<string> failures)
+        {
+            if (rectTransform == null)
+            {
+                failures.Add(label + " RectTransform is missing.");
+                return;
+            }
+
+            float width = Mathf.Abs(rectTransform.rect.width);
+            float height = Mathf.Abs(rectTransform.rect.height);
+            if (width < minimumWidth || height < minimumHeight)
+            {
+                failures.Add(
+                    label
+                    + " rect must be at least "
+                    + minimumWidth
+                    + "x"
+                    + minimumHeight
+                    + ". Current="
+                    + width
+                    + "x"
+                    + height
+                    + ".");
             }
         }
 

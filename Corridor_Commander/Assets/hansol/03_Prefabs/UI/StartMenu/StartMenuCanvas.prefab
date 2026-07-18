@@ -134,6 +134,8 @@ MonoBehaviour:
   mainRoot: {fileID: 1920503275711035045}
   optionsRoot: {fileID: 2082707179974010768}
   stageSelectPopup: {fileID: 5398977667757942275}
+  mainTransition: {fileID: 1707434710286579081}
+  optionsTransition: {fileID: 3947940372229686836}
   startGameButton: {fileID: 7290577232925447056}
   tutorialButton: {fileID: 5215181438297103977}
   optionsButton: {fileID: 9069394728408142558}
@@ -186,6 +188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.StartMenuStageSelectPresenter
   panelRoot: {fileID: 5662323652512242468}
+  panelTransition: {fileID: 5362074827304786913}
   titleText: {fileID: 3444980123178215049}
   detailText: {fileID: 3991673136945067388}
   hintText: {fileID: 2535651614673238778}
@@ -754,6 +757,7 @@ GameObject:
   - component: {fileID: 5249089279884046342}
   - component: {fileID: 3488631691770287646}
   - component: {fileID: 5215181438297103977}
+  - component: {fileID: 2967412034718834167}
   m_Layer: 0
   m_Name: Button_Tutorial
   m_TagString: Untagged
@@ -863,6 +867,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2967412034718834167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 783873130590111288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec1a6fba8de74174697ec65e67fa683d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiButtonFeedback
+  motionRoot: {fileID: 0}
+  hoverScaleMultiplier: 1.035
+  pressedScaleMultiplier: 0.96
+  hoverDuration: 0.1
+  pressedDuration: 0.06
+  hoverEase: 9
+  pressedEase: 6
 --- !u!1 &822451873631845747
 GameObject:
   m_ObjectHideFlags: 0
@@ -1142,6 +1165,7 @@ GameObject:
   - component: {fileID: 7707143197081555192}
   - component: {fileID: 4853993451675969121}
   - component: {fileID: 7290577232925447056}
+  - component: {fileID: 5171480504677875246}
   m_Layer: 0
   m_Name: Button_StartGame
   m_TagString: Untagged
@@ -1251,6 +1275,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5171480504677875246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1022026364085171604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec1a6fba8de74174697ec65e67fa683d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiButtonFeedback
+  motionRoot: {fileID: 0}
+  hoverScaleMultiplier: 1.035
+  pressedScaleMultiplier: 0.96
+  hoverDuration: 0.1
+  pressedDuration: 0.06
+  hoverEase: 9
+  pressedEase: 6
 --- !u!1 &1058039273273031118
 GameObject:
   m_ObjectHideFlags: 0
@@ -1506,6 +1549,7 @@ GameObject:
   - component: {fileID: 5547995509589169302}
   - component: {fileID: 1605319903408224449}
   - component: {fileID: 6793634049797327766}
+  - component: {fileID: 644874922580186967}
   m_Layer: 0
   m_Name: Button_StageSelectClose
   m_TagString: Untagged
@@ -1615,6 +1659,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &644874922580186967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1296858597722369513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec1a6fba8de74174697ec65e67fa683d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiButtonFeedback
+  motionRoot: {fileID: 0}
+  hoverScaleMultiplier: 1.035
+  pressedScaleMultiplier: 0.96
+  hoverDuration: 0.1
+  pressedDuration: 0.06
+  hoverEase: 9
+  pressedEase: 6
 --- !u!1 &1303499791590780152
 GameObject:
   m_ObjectHideFlags: 0
@@ -2305,6 +2368,7 @@ GameObject:
   - component: {fileID: 4383242599243179044}
   - component: {fileID: 8657648413292705069}
   - component: {fileID: 575883407040456951}
+  - component: {fileID: 2218254121910976282}
   m_Layer: 0
   m_Name: MasterVolumeValue
   m_TagString: Untagged
@@ -2446,6 +2510,22 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.72}
   m_EffectDistance: {x: 2, y: -2}
   m_UseGraphicAlpha: 1
+--- !u!114 &2218254121910976282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1752710009474953130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37fda0e214532d149b6811970a45b171, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiValueChangeFeedback
+  observedText: {fileID: 0}
+  motionRoot: {fileID: 0}
+  pulseScaleMultiplier: 1.05
+  pulseDuration: 0.14
 --- !u!1 &1920503275711035045
 GameObject:
   m_ObjectHideFlags: 0
@@ -2455,6 +2535,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2354929918619126113}
+  - component: {fileID: 2842919657441192110}
+  - component: {fileID: 1707434710286579081}
   m_Layer: 0
   m_Name: StartMenu_MainRoot
   m_TagString: Untagged
@@ -2486,6 +2568,46 @@ RectTransform:
   m_AnchoredPosition: {x: 87, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &2842919657441192110
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1920503275711035045}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &1707434710286579081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1920503275711035045}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3ee6a656bb7202428402a875390e921, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiPanelTransition
+  activationRoot: {fileID: 1920503275711035045}
+  motionRoot: {fileID: 2354929918619126113}
+  canvasGroup: {fileID: 2842919657441192110}
+  useFade: 1
+  useScale: 0
+  useHorizontalOffset: 1
+  useVerticalOffset: 0
+  playShowOnEnable: 1
+  manageCanvasInteraction: 1
+  hiddenScaleMultiplier: 1
+  hiddenHorizontalOffset: -16
+  hiddenVerticalOffset: 0
+  showDuration: 0.2
+  hideDuration: 0.1
+  showEase: 9
+  hideEase: 8
 --- !u!1 &1952876312701108157
 GameObject:
   m_ObjectHideFlags: 0
@@ -2681,6 +2803,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5785610693281209518}
+  - component: {fileID: 1550577314021311732}
+  - component: {fileID: 3947940372229686836}
   m_Layer: 0
   m_Name: StartMenu_OptionsRoot
   m_TagString: Untagged
@@ -2709,6 +2833,46 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &1550577314021311732
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2082707179974010768}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &3947940372229686836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2082707179974010768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3ee6a656bb7202428402a875390e921, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiPanelTransition
+  activationRoot: {fileID: 2082707179974010768}
+  motionRoot: {fileID: 5785610693281209518}
+  canvasGroup: {fileID: 1550577314021311732}
+  useFade: 1
+  useScale: 0
+  useHorizontalOffset: 1
+  useVerticalOffset: 0
+  playShowOnEnable: 0
+  manageCanvasInteraction: 1
+  hiddenScaleMultiplier: 1
+  hiddenHorizontalOffset: 16
+  hiddenVerticalOffset: 0
+  showDuration: 0.16
+  hideDuration: 0.1
+  showEase: 9
+  hideEase: 8
 --- !u!1 &2115926160230099476
 GameObject:
   m_ObjectHideFlags: 0
@@ -2721,6 +2885,7 @@ GameObject:
   - component: {fileID: 5402579641206307534}
   - component: {fileID: 8058391916120607871}
   - component: {fileID: 2435960309360150403}
+  - component: {fileID: 5455258576672837857}
   m_Layer: 0
   m_Name: MouseSensitivityValue
   m_TagString: Untagged
@@ -2862,6 +3027,22 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.72}
   m_EffectDistance: {x: 2, y: -2}
   m_UseGraphicAlpha: 1
+--- !u!114 &5455258576672837857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2115926160230099476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37fda0e214532d149b6811970a45b171, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiValueChangeFeedback
+  observedText: {fileID: 0}
+  motionRoot: {fileID: 0}
+  pulseScaleMultiplier: 1.05
+  pulseDuration: 0.14
 --- !u!1 &2122862251043226918
 GameObject:
   m_ObjectHideFlags: 0
@@ -3307,6 +3488,7 @@ GameObject:
   - component: {fileID: 6433177679856299639}
   - component: {fileID: 3714611978548093866}
   - component: {fileID: 219187591460998708}
+  - component: {fileID: 65428167382359796}
   m_Layer: 0
   m_Name: Button_FullscreenLocked
   m_TagString: Untagged
@@ -3416,6 +3598,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &65428167382359796
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2296962466998999076}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec1a6fba8de74174697ec65e67fa683d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiButtonFeedback
+  motionRoot: {fileID: 0}
+  hoverScaleMultiplier: 1.035
+  pressedScaleMultiplier: 0.96
+  hoverDuration: 0.1
+  pressedDuration: 0.06
+  hoverEase: 9
+  pressedEase: 6
 --- !u!1 &2355067210761118290
 GameObject:
   m_ObjectHideFlags: 0
@@ -3581,6 +3782,7 @@ GameObject:
   - component: {fileID: 2016856493346841553}
   - component: {fileID: 1320590861016489752}
   - component: {fileID: 6741235308306904000}
+  - component: {fileID: 3994050726437466053}
   m_Layer: 0
   m_Name: CloseOptionsButton
   m_TagString: Untagged
@@ -3691,6 +3893,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3994050726437466053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2415993032180809283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec1a6fba8de74174697ec65e67fa683d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiButtonFeedback
+  motionRoot: {fileID: 0}
+  hoverScaleMultiplier: 1.035
+  pressedScaleMultiplier: 0.96
+  hoverDuration: 0.1
+  pressedDuration: 0.06
+  hoverEase: 9
+  pressedEase: 6
 --- !u!1 &2652355705793940213
 GameObject:
   m_ObjectHideFlags: 0
@@ -4549,6 +4770,7 @@ GameObject:
   - component: {fileID: 6419314062822853772}
   - component: {fileID: 5386297539741499824}
   - component: {fileID: 6978402106979626629}
+  - component: {fileID: 3362290724193594438}
   m_Layer: 0
   m_Name: Button_WindowFree
   m_TagString: Untagged
@@ -4658,6 +4880,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3362290724193594438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4385745788518782673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec1a6fba8de74174697ec65e67fa683d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiButtonFeedback
+  motionRoot: {fileID: 0}
+  hoverScaleMultiplier: 1.035
+  pressedScaleMultiplier: 0.96
+  hoverDuration: 0.1
+  pressedDuration: 0.06
+  hoverEase: 9
+  pressedEase: 6
 --- !u!1 &4453682555073518690
 GameObject:
   m_ObjectHideFlags: 0
@@ -5496,6 +5737,7 @@ GameObject:
   - component: {fileID: 8540748228579543328}
   - component: {fileID: 3040372117174084262}
   - component: {fileID: 4450995200175447260}
+  - component: {fileID: 5472645489621284420}
   m_Layer: 0
   m_Name: BgmVolumeValue
   m_TagString: Untagged
@@ -5637,6 +5879,22 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.72}
   m_EffectDistance: {x: 2, y: -2}
   m_UseGraphicAlpha: 1
+--- !u!114 &5472645489621284420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5190095734888160542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37fda0e214532d149b6811970a45b171, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiValueChangeFeedback
+  observedText: {fileID: 0}
+  motionRoot: {fileID: 0}
+  pulseScaleMultiplier: 1.05
+  pulseDuration: 0.14
 --- !u!1 &5371834149437686117
 GameObject:
   m_ObjectHideFlags: 0
@@ -5650,6 +5908,7 @@ GameObject:
   - component: {fileID: 873333457844519933}
   - component: {fileID: 2007895569221965754}
   - component: {fileID: 4343858871182923391}
+  - component: {fileID: 8924992063217736061}
   m_Layer: 0
   m_Name: StageSlot_02
   m_TagString: Untagged
@@ -5783,6 +6042,25 @@ MonoBehaviour:
   dummyColor: {r: 0.08, g: 0.08, b: 0.1, a: 0.88}
   availableTextColor: {r: 1, g: 1, b: 1, a: 1}
   dummyTextColor: {r: 0.55, g: 0.58, b: 0.62, a: 1}
+--- !u!114 &8924992063217736061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5371834149437686117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec1a6fba8de74174697ec65e67fa683d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiButtonFeedback
+  motionRoot: {fileID: 0}
+  hoverScaleMultiplier: 1.035
+  pressedScaleMultiplier: 0.96
+  hoverDuration: 0.1
+  pressedDuration: 0.06
+  hoverEase: 9
+  pressedEase: 6
 --- !u!1 &5403028681525734329
 GameObject:
   m_ObjectHideFlags: 0
@@ -5948,6 +6226,7 @@ GameObject:
   - component: {fileID: 5352394306380785166}
   - component: {fileID: 6703397402748551337}
   - component: {fileID: 403482384467359164}
+  - component: {fileID: 4593661200009970251}
   m_Layer: 0
   m_Name: Button_WindowConfined
   m_TagString: Untagged
@@ -6057,6 +6336,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4593661200009970251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5422990851700134822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec1a6fba8de74174697ec65e67fa683d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiButtonFeedback
+  motionRoot: {fileID: 0}
+  hoverScaleMultiplier: 1.035
+  pressedScaleMultiplier: 0.96
+  hoverDuration: 0.1
+  pressedDuration: 0.06
+  hoverEase: 9
+  pressedEase: 6
 --- !u!1 &5585817508387963886
 GameObject:
   m_ObjectHideFlags: 0
@@ -6141,6 +6439,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5062199692689652613}
+  - component: {fileID: 3875973874332511846}
+  - component: {fileID: 5362074827304786913}
   m_Layer: 0
   m_Name: StartMenu_StageSelectRoot
   m_TagString: Untagged
@@ -6169,6 +6469,46 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &3875973874332511846
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5662323652512242468}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &5362074827304786913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5662323652512242468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3ee6a656bb7202428402a875390e921, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiPanelTransition
+  activationRoot: {fileID: 5662323652512242468}
+  motionRoot: {fileID: 5062199692689652613}
+  canvasGroup: {fileID: 3875973874332511846}
+  useFade: 1
+  useScale: 1
+  useHorizontalOffset: 0
+  useVerticalOffset: 1
+  playShowOnEnable: 0
+  manageCanvasInteraction: 1
+  hiddenScaleMultiplier: 0.965
+  hiddenHorizontalOffset: 0
+  hiddenVerticalOffset: -16
+  showDuration: 0.18
+  hideDuration: 0.13
+  showEase: 9
+  hideEase: 8
 --- !u!1 &5763972437355295717
 GameObject:
   m_ObjectHideFlags: 0
@@ -6505,6 +6845,7 @@ GameObject:
   - component: {fileID: 1519122161617984645}
   - component: {fileID: 1642731848252694794}
   - component: {fileID: 2987816742569932576}
+  - component: {fileID: 7236200559370885172}
   m_Layer: 0
   m_Name: StageSlot_03
   m_TagString: Untagged
@@ -6638,6 +6979,25 @@ MonoBehaviour:
   dummyColor: {r: 0.08, g: 0.08, b: 0.1, a: 0.88}
   availableTextColor: {r: 1, g: 1, b: 1, a: 1}
   dummyTextColor: {r: 0.55, g: 0.58, b: 0.62, a: 1}
+--- !u!114 &7236200559370885172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6290463871093751880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec1a6fba8de74174697ec65e67fa683d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiButtonFeedback
+  motionRoot: {fileID: 0}
+  hoverScaleMultiplier: 1.035
+  pressedScaleMultiplier: 0.96
+  hoverDuration: 0.1
+  pressedDuration: 0.06
+  hoverEase: 9
+  pressedEase: 6
 --- !u!1 &6405911619389506784
 GameObject:
   m_ObjectHideFlags: 0
@@ -6686,6 +7046,7 @@ GameObject:
   - component: {fileID: 5295769450989466016}
   - component: {fileID: 6435688029545496750}
   - component: {fileID: 9069394728408142558}
+  - component: {fileID: 7410447954994085405}
   m_Layer: 0
   m_Name: Button_Options
   m_TagString: Untagged
@@ -6796,6 +7157,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7410447954994085405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6619672746350446838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec1a6fba8de74174697ec65e67fa683d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiButtonFeedback
+  motionRoot: {fileID: 0}
+  hoverScaleMultiplier: 1.035
+  pressedScaleMultiplier: 0.96
+  hoverDuration: 0.1
+  pressedDuration: 0.06
+  hoverEase: 9
+  pressedEase: 6
 --- !u!1 &6632871252281833152
 GameObject:
   m_ObjectHideFlags: 0
@@ -7037,6 +7417,7 @@ GameObject:
   - component: {fileID: 20617292385833865}
   - component: {fileID: 2281750556953718717}
   - component: {fileID: 2070725589990229750}
+  - component: {fileID: 1620085646809561666}
   m_Layer: 0
   m_Name: StageSlot_01
   m_TagString: Untagged
@@ -7170,6 +7551,25 @@ MonoBehaviour:
   dummyColor: {r: 0.08, g: 0.08, b: 0.1, a: 0.88}
   availableTextColor: {r: 1, g: 1, b: 1, a: 1}
   dummyTextColor: {r: 0.55, g: 0.58, b: 0.62, a: 1}
+--- !u!114 &1620085646809561666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6791376643110602620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec1a6fba8de74174697ec65e67fa683d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiButtonFeedback
+  motionRoot: {fileID: 0}
+  hoverScaleMultiplier: 1.035
+  pressedScaleMultiplier: 0.96
+  hoverDuration: 0.1
+  pressedDuration: 0.06
+  hoverEase: 9
+  pressedEase: 6
 --- !u!1 &6953034914816865889
 GameObject:
   m_ObjectHideFlags: 0
@@ -7332,6 +7732,7 @@ GameObject:
   - component: {fileID: 7565481285138570022}
   - component: {fileID: 6582738357714488147}
   - component: {fileID: 6051378016697873548}
+  - component: {fileID: 1010869999283785309}
   m_Layer: 0
   m_Name: SfxVolumeValue
   m_TagString: Untagged
@@ -7473,6 +7874,22 @@ MonoBehaviour:
   m_EffectColor: {r: 0, g: 0, b: 0, a: 0.72}
   m_EffectDistance: {x: 2, y: -2}
   m_UseGraphicAlpha: 1
+--- !u!114 &1010869999283785309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6972007862553682325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37fda0e214532d149b6811970a45b171, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiValueChangeFeedback
+  observedText: {fileID: 0}
+  motionRoot: {fileID: 0}
+  pulseScaleMultiplier: 1.05
+  pulseDuration: 0.14
 --- !u!1 &7072891071572632181
 GameObject:
   m_ObjectHideFlags: 0
@@ -7713,6 +8130,7 @@ GameObject:
   - component: {fileID: 4674233361985220654}
   - component: {fileID: 7884849454097642553}
   - component: {fileID: 3688641575390183536}
+  - component: {fileID: 4965379155852452423}
   m_Layer: 0
   m_Name: Button_Quit
   m_TagString: Untagged
@@ -7822,6 +8240,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4965379155852452423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7234525188818702965}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec1a6fba8de74174697ec65e67fa683d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiButtonFeedback
+  motionRoot: {fileID: 0}
+  hoverScaleMultiplier: 1.035
+  pressedScaleMultiplier: 0.96
+  hoverDuration: 0.1
+  pressedDuration: 0.06
+  hoverEase: 9
+  pressedEase: 6
 --- !u!1 &7323306546941618875
 GameObject:
   m_ObjectHideFlags: 0
@@ -9185,6 +9622,7 @@ GameObject:
   - component: {fileID: 8331097219991616505}
   - component: {fileID: 1251155933365980296}
   - component: {fileID: 5043218889315053673}
+  - component: {fileID: 623675555928111938}
   m_Layer: 0
   m_Name: Button_OptionsClose
   m_TagString: Untagged
@@ -9294,6 +9732,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &623675555928111938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8854201759920656976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec1a6fba8de74174697ec65e67fa683d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiButtonFeedback
+  motionRoot: {fileID: 0}
+  hoverScaleMultiplier: 1.035
+  pressedScaleMultiplier: 0.96
+  hoverDuration: 0.1
+  pressedDuration: 0.06
+  hoverEase: 9
+  pressedEase: 6
 --- !u!1 &8855766426339700527
 GameObject:
   m_ObjectHideFlags: 0
