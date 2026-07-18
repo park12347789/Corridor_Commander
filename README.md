@@ -13,6 +13,8 @@ The player moves through connected corridor rooms, installs defensive objects, s
 
 The build zip includes a controls README text file with basic controls and play-flow notes.
 
+Latest verified portfolio package: `2026-07-18` (`Unity 6000.3.9f1`, Windows build succeeded with 0 errors). The current snapshot also includes stabilized popup close/input handling and locked install-option visuals.
+
 ## Controls
 
 - Move: `WASD`

@@ -67,6 +67,7 @@ namespace CorridorCommander
         [SerializeField] private GameObject promptRoot;
         [SerializeField] private Text promptText;
         [SerializeField] private GameObject panelRoot;
+        [SerializeField] private DotweenUiPanelTransition panelTransition;
         [SerializeField] private Text titleText;
         [SerializeField] private Text currencyText;
         [SerializeField] private Button[] choiceButtons = new Button[MaxVisibleOfferCount];
@@ -159,7 +160,7 @@ namespace CorridorCommander
             ResolveWeaponInventory();
             ResolveStatUpgradeReferences();
             SetPromptActive(false);
-            SetPanelActive(false);
+            SetPanelActive(false, true);
         }
 
         private void OnEnable()
@@ -2106,9 +2107,30 @@ namespace CorridorCommander
             }
         }
 
-        private void SetPanelActive(bool active)
+        private void SetPanelActive(bool active, bool immediate = false)
         {
-            if (newPanelBound)
+            if (panelTransition != null)
+            {
+                if (active)
+                {
+                    if (newRoot != null)
+                    {
+                        newRoot.gameObject.SetActive(true);
+                    }
+
+                    panelTransition.Show();
+                    EnsureNewBackgroundVisible();
+                }
+                else if (immediate)
+                {
+                    panelTransition.HideImmediate();
+                }
+                else
+                {
+                    panelTransition.Hide();
+                }
+            }
+            else if (newPanelBound)
             {
                 if (panelRoot != null)
                 {

@@ -93,6 +93,11 @@ namespace CorridorCommander
 
         private bool ShouldOfferReward(int waveIndex)
         {
+            if (waveDirector != null && waveDirector.HasBossSchedule)
+            {
+                return waveDirector.IsBossWave(waveIndex);
+            }
+
             if (rewardEveryNWave <= 0 || waveIndex < firstRewardWaveIndex)
             {
                 return false;
@@ -110,18 +115,11 @@ namespace CorridorCommander
                 return;
             }
 
-            List<TreasureRewardEntry> candidates = new List<TreasureRewardEntry>();
-            rewardTable.GetAvailableRewards(waveIndex, rewardTable.Rewards.Count, candidates);
-            for (int i = 0; i < candidates.Count && offeredRewards.Count < TreasureRewardMenuPresenter.MaxChoiceCount; i++)
-            {
-                TreasureRewardEntry reward = candidates[i];
-                if (reward == null)
-                {
-                    continue;
-                }
-
-                offeredRewards.Add(reward);
-            }
+            rewardTable.GetAvailableRewards(
+                waveIndex,
+                TreasureRewardMenuPresenter.MaxChoiceCount,
+                artifactInventory,
+                offeredRewards);
         }
 
         private void ClaimReward(int index)
@@ -135,8 +133,7 @@ namespace CorridorCommander
             if (!rewardGrantService.TryGrant(reward, out string message))
             {
                 Debug.LogWarning($"[WaveRewardController] Reward grant failed: {message}", this);
-                rewardPresenter.ShowSelected(this, message);
-                ContinueWaves();
+                rewardPresenter.ShowStatus(message);
                 return;
             }
 
@@ -207,7 +204,9 @@ namespace CorridorCommander
 
             if (artifactInventory == null)
             {
-                artifactInventory = FindFirstObjectByType<ArtifactInventory>(FindObjectsInactive.Include);
+                artifactInventory = rewardGrantService != null && rewardGrantService.ArtifactInventory != null
+                    ? rewardGrantService.ArtifactInventory
+                    : FindFirstObjectByType<ArtifactInventory>(FindObjectsInactive.Include);
             }
         }
 

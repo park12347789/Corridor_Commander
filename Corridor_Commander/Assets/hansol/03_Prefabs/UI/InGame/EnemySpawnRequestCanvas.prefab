@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7701841951752473982}
   - component: {fileID: 6964581684113521630}
   - component: {fileID: 3701874317268360124}
+  - component: {fileID: 3915508658736015992}
   m_Layer: 0
   m_Name: SpawnButton_P
   m_TagString: Untagged
@@ -121,6 +122,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3915508658736015992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 678562472403509986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec1a6fba8de74174697ec65e67fa683d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiButtonFeedback
+  motionRoot: {fileID: 0}
+  hoverScaleMultiplier: 1.035
+  pressedScaleMultiplier: 0.96
+  hoverDuration: 0.1
+  pressedDuration: 0.06
+  hoverEase: 9
+  pressedEase: 6
 --- !u!1 &2123641906209359543
 GameObject:
   m_ObjectHideFlags: 0

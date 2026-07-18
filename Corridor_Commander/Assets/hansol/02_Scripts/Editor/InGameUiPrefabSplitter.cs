@@ -32,6 +32,7 @@ namespace CorridorCommander.EditorTools
             new PartSpec("WaveReadyPopupRoot", "WaveReadyPopupRoot.prefab"),
             new PartSpec("InstalledObjectAimInfoPresenter", "InstalledObjectAimInfoPresenter.prefab"),
             new PartSpec("SquadListRoot", "SquadListRoot.prefab"),
+            new PartSpec("PlayerStatsArtifactPopup", "PlayerStatsArtifactPopup.prefab"),
         };
 
         private static readonly PartSpec[] WaveDirectorParts =

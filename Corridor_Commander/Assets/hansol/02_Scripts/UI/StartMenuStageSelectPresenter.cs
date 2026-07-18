@@ -38,6 +38,7 @@ namespace CorridorCommander
 
         [Header("Roots")]
         [SerializeField] private GameObject panelRoot;
+        [SerializeField] private DotweenUiPanelTransition panelTransition;
 
         [Header("Text")]
         [SerializeField] private TMP_Text titleText;
@@ -66,7 +67,7 @@ namespace CorridorCommander
         private void Awake()
         {
             BindControls();
-            Hide();
+            HideImmediate();
         }
 
         private void OnEnable()
@@ -98,7 +99,14 @@ namespace CorridorCommander
             }
 
             selectedIndex = Mathf.Clamp(selectedIndex, 0, Mathf.Max(0, GetStageCount() - 1));
-            panelRoot.SetActive(true);
+            if (panelTransition != null)
+            {
+                panelTransition.Show();
+            }
+            else
+            {
+                panelRoot.SetActive(true);
+            }
             SetMouseIconVisible(true);
             Refresh();
             SelectCurrentButton();
@@ -106,7 +114,25 @@ namespace CorridorCommander
 
         public void Hide()
         {
-            if (panelRoot != null)
+            if (panelTransition != null)
+            {
+                panelTransition.Hide();
+            }
+            else if (panelRoot != null)
+            {
+                panelRoot.SetActive(false);
+            }
+
+            SetMouseIconVisible(false);
+        }
+
+        private void HideImmediate()
+        {
+            if (panelTransition != null)
+            {
+                panelTransition.HideImmediate();
+            }
+            else if (panelRoot != null)
             {
                 panelRoot.SetActive(false);
             }

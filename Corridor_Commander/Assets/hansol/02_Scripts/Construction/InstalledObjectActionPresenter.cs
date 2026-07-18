@@ -15,6 +15,7 @@ namespace CorridorCommander
         private static bool missingPresenterWarned;
 
         [SerializeField] private GameObject panelRoot;
+        [SerializeField] private DotweenUiPanelTransition panelTransition;
         [SerializeField] private Text titleText;
         [SerializeField] private Button[] actionButtons = new Button[MaxActionCount];
         [SerializeField] private Text[] actionTexts = new Text[MaxActionCount];
@@ -74,7 +75,16 @@ namespace CorridorCommander
             missingPresenterWarned = false;
             ResolveMissingUiReferences();
             BindButtons();
-            SetPanelActive(false);
+            if (panelTransition != null)
+            {
+                panelTransition.HideImmediate();
+                SetSupplementalRootsActive(false);
+                PopupDimOverlayController.Release(this);
+            }
+            else
+            {
+                SetPanelActive(false);
+            }
         }
 
         private void OnDestroy()
@@ -320,19 +330,31 @@ namespace CorridorCommander
                 gameObject.SetActive(true);
             }
 
-            if (panelRoot != null)
+            if (active)
             {
-                panelRoot.SetActive(active);
+                SetSupplementalRootsActive(true);
+                if (panelTransition != null)
+                {
+                    panelTransition.Show();
+                }
+                else if (panelRoot != null)
+                {
+                    panelRoot.SetActive(true);
+                }
             }
-
-            if (popupFrameRoot != null)
+            else if (panelTransition != null)
             {
-                popupFrameRoot.SetActive(active);
+                SetSupplementalRootsActive(false);
+                panelTransition.Hide();
             }
-
-            if (closeButton != null)
+            else
             {
-                closeButton.gameObject.SetActive(active);
+                if (panelRoot != null)
+                {
+                    panelRoot.SetActive(false);
+                }
+
+                SetSupplementalRootsActive(false);
             }
 
             if (active)
@@ -342,6 +364,19 @@ namespace CorridorCommander
             else
             {
                 PopupDimOverlayController.Release(this);
+            }
+        }
+
+        private void SetSupplementalRootsActive(bool active)
+        {
+            if (popupFrameRoot != null && popupFrameRoot != panelRoot)
+            {
+                popupFrameRoot.SetActive(active);
+            }
+
+            if (closeButton != null && closeButton.gameObject != panelRoot)
+            {
+                closeButton.gameObject.SetActive(active);
             }
         }
 

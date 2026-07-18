@@ -1,4 +1,4 @@
-using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -13,9 +13,15 @@ namespace CorridorCommander
         [SerializeField] private Text messageText;
         [SerializeField] private TMP_Text messageTmpText;
         [SerializeField] private CanvasGroup canvasGroup;
+        [SerializeField] private RectTransform motionRoot;
         [SerializeField, Min(0.1f)] private float visibleDuration = 1.6f;
+        [SerializeField, Min(0.01f)] private float showDuration = 0.14f;
+        [SerializeField, Min(0.01f)] private float hideDuration = 0.2f;
+        [SerializeField] private float hiddenVerticalOffset = 12f;
 
-        private Coroutine hideRoutine;
+        private Sequence activeSequence;
+        private Vector2 authoredAnchoredPosition;
+        private bool hasCapturedPosition;
 
         private void OnEnable()
         {
@@ -37,11 +43,7 @@ namespace CorridorCommander
                 waveDirector.WaveStarted -= HandleWaveStarted;
             }
 
-            if (hideRoutine != null)
-            {
-                StopCoroutine(hideRoutine);
-                hideRoutine = null;
-            }
+            KillSequence();
         }
 
         private void HandleWaveStarted(WaveStartedInfo info)
@@ -67,21 +69,39 @@ namespace CorridorCommander
             }
 
             SetText(message);
-            SetVisible(true);
+            ResolveMotionReferences();
+            KillSequence();
 
-            if (hideRoutine != null)
+            if (!root.activeSelf)
             {
-                StopCoroutine(hideRoutine);
+                root.SetActive(true);
             }
 
-            hideRoutine = StartCoroutine(HideAfterDelay());
-        }
+            canvasGroup.alpha = 0f;
+            canvasGroup.interactable = false;
+            canvasGroup.blocksRaycasts = false;
+            if (motionRoot != null)
+            {
+                motionRoot.anchoredPosition = authoredAnchoredPosition + Vector2.up * hiddenVerticalOffset;
+            }
 
-        private IEnumerator HideAfterDelay()
-        {
-            yield return new WaitForSecondsRealtime(Mathf.Max(0.1f, visibleDuration));
-            HideImmediate();
-            hideRoutine = null;
+            activeSequence = DOTween.Sequence().SetUpdate(true).SetLink(root, LinkBehaviour.KillOnDisable);
+            activeSequence.Join(canvasGroup.DOFade(1f, Mathf.Max(0.01f, showDuration)).SetEase(Ease.OutCubic));
+            if (motionRoot != null)
+            {
+                activeSequence.Join(
+                    motionRoot.DOAnchorPos(authoredAnchoredPosition, Mathf.Max(0.01f, showDuration))
+                        .SetEase(Ease.OutCubic));
+            }
+
+            activeSequence.AppendInterval(Mathf.Max(0.1f, visibleDuration));
+            activeSequence.Append(canvasGroup.DOFade(0f, Mathf.Max(0.01f, hideDuration)).SetEase(Ease.InCubic));
+            activeSequence.OnComplete(() =>
+            {
+                activeSequence = null;
+                HideImmediate();
+            });
+            activeSequence.OnKill(() => activeSequence = null);
         }
 
         private void HideImmediate()
@@ -112,6 +132,36 @@ namespace CorridorCommander
                 canvasGroup.interactable = false;
                 canvasGroup.blocksRaycasts = false;
             }
+        }
+
+        private void ResolveMotionReferences()
+        {
+            if (canvasGroup == null && root != null)
+            {
+                canvasGroup = root.GetComponent<CanvasGroup>();
+            }
+
+            if (canvasGroup == null && root != null)
+            {
+                canvasGroup = root.AddComponent<CanvasGroup>();
+            }
+
+            motionRoot = motionRoot != null ? motionRoot : root != null ? root.GetComponent<RectTransform>() : null;
+            if (!hasCapturedPosition && motionRoot != null)
+            {
+                authoredAnchoredPosition = motionRoot.anchoredPosition;
+                hasCapturedPosition = true;
+            }
+        }
+
+        private void KillSequence()
+        {
+            if (activeSequence != null && activeSequence.IsActive())
+            {
+                activeSequence.Kill(false);
+            }
+
+            activeSequence = null;
         }
 
         private void SetText(string message)

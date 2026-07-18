@@ -676,6 +676,7 @@ GameObject:
   - component: {fileID: 4934746331837900410}
   - component: {fileID: 3162255925482558756}
   - component: {fileID: 7025253406012570747}
+  - component: {fileID: 4320829985241755776}
   m_Layer: 0
   m_Name: ReadyButton
   m_TagString: Untagged
@@ -785,6 +786,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4320829985241755776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4041599710025206546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec1a6fba8de74174697ec65e67fa683d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiButtonFeedback
+  motionRoot: {fileID: 0}
+  hoverScaleMultiplier: 1.035
+  pressedScaleMultiplier: 0.96
+  hoverDuration: 0.1
+  pressedDuration: 0.06
+  hoverEase: 9
+  pressedEase: 6
 --- !u!1 &4468587025180172957
 GameObject:
   m_ObjectHideFlags: 0
@@ -974,6 +994,7 @@ GameObject:
   - component: {fileID: 1611916921725408737}
   - component: {fileID: 100434559330020065}
   - component: {fileID: 318064173008171655}
+  - component: {fileID: 298217914374832795}
   m_Layer: 0
   m_Name: CancelButton
   m_TagString: Untagged
@@ -1083,6 +1104,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &298217914374832795
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5155332373639485676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec1a6fba8de74174697ec65e67fa683d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiButtonFeedback
+  motionRoot: {fileID: 0}
+  hoverScaleMultiplier: 1.035
+  pressedScaleMultiplier: 0.96
+  hoverDuration: 0.1
+  pressedDuration: 0.06
+  hoverEase: 9
+  pressedEase: 6
 --- !u!1 &5518504181975626843
 GameObject:
   m_ObjectHideFlags: 0

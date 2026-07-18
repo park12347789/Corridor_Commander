@@ -50,6 +50,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.InstalledObjectAimInfoPresenter
   panelRoot: {fileID: 6755392587726899635}
+  panelTransition: {fileID: 9071203787172876234}
   titleText: {fileID: 728406872284136637}
   levelText: {fileID: 3335270729992058924}
   statText: {fileID: 7510841786952729651}
@@ -281,6 +282,7 @@ GameObject:
   - component: {fileID: 4759059199463538348}
   - component: {fileID: 1862161937482926518}
   - component: {fileID: 5194190612299755055}
+  - component: {fileID: 8820984060975172232}
   m_Layer: 0
   m_Name: HealthText
   m_TagString: Untagged
@@ -407,6 +409,22 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &8820984060975172232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3292348748189381955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37fda0e214532d149b6811970a45b171, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiValueChangeFeedback
+  observedText: {fileID: 0}
+  motionRoot: {fileID: 0}
+  pulseScaleMultiplier: 1.05
+  pulseDuration: 0.14
 --- !u!1 &5612508033927107691
 GameObject:
   m_ObjectHideFlags: 0
@@ -493,6 +511,8 @@ GameObject:
   - component: {fileID: 1019801638164996760}
   - component: {fileID: 6451740648477596724}
   - component: {fileID: 4796745862464165714}
+  - component: {fileID: 5370880782578820445}
+  - component: {fileID: 9071203787172876234}
   m_Layer: 0
   m_Name: InstalledObjectAimInfoRoot
   m_TagString: Untagged
@@ -560,6 +580,46 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &5370880782578820445
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6755392587726899635}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &9071203787172876234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6755392587726899635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3ee6a656bb7202428402a875390e921, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiPanelTransition
+  activationRoot: {fileID: 6755392587726899635}
+  motionRoot: {fileID: 1019801638164996760}
+  canvasGroup: {fileID: 5370880782578820445}
+  useFade: 1
+  useScale: 1
+  useHorizontalOffset: 0
+  useVerticalOffset: 0
+  playShowOnEnable: 0
+  manageCanvasInteraction: 1
+  hiddenScaleMultiplier: 0.98
+  hiddenHorizontalOffset: 0
+  hiddenVerticalOffset: 0
+  showDuration: 0.1
+  hideDuration: 0.07
+  showEase: 9
+  hideEase: 8
 --- !u!1 &7079949979973031872
 GameObject:
   m_ObjectHideFlags: 0
@@ -785,6 +845,7 @@ GameObject:
   - component: {fileID: 6807700751819349589}
   - component: {fileID: 5776285666177171136}
   - component: {fileID: 3335270729992058924}
+  - component: {fileID: 5067804411762761891}
   m_Layer: 0
   m_Name: LevelText
   m_TagString: Untagged
@@ -911,3 +972,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &5067804411762761891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8393262506009836772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37fda0e214532d149b6811970a45b171, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiValueChangeFeedback
+  observedText: {fileID: 0}
+  motionRoot: {fileID: 0}
+  pulseScaleMultiplier: 1.05
+  pulseDuration: 0.14

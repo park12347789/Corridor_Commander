@@ -1,7 +1,9 @@
 using CorridorCommander;
 using TMPro;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace CorridorCommander.EditorTools
@@ -9,12 +11,26 @@ namespace CorridorCommander.EditorTools
     public static class MissionClearSettlementUiBuilder
     {
         private const string MainCanvasPrefabPath = "Assets/hansol/03_Prefabs/UI/InGame/MainCanvas.prefab";
+        private const string MainScenePath = "Assets/hansol/01_Scenes/MainScene.unity";
         private const string SupportShopPresenterPrefabPath = "Assets/hansol/03_Prefabs/UI/InGame/MainCanvasParts/SupportTruckShopPresenter.prefab";
         private const string PauseMenuPresenterPrefabPath = "Assets/hansol/03_Prefabs/UI/InGame/MainCanvasParts/PauseMenuPresenter.prefab";
         private const string PresenterName = "MissionClearSettlementPresenter";
         private const string RootName = "MissionClearSettlementRoot";
         private const string ShopFrameRootName = "Background_Common";
         private const string OptionsFrameRootName = "OptionsFrame";
+        private const string InstallRequestPath = "Library/MissionClearSettlementUiBuilder.request";
+
+        [InitializeOnLoadMethod]
+        private static void ScheduleRequestedBuild()
+        {
+            if (!System.IO.File.Exists(InstallRequestPath))
+            {
+                return;
+            }
+
+            System.IO.File.Delete(InstallRequestPath);
+            EditorApplication.delayCall += BuildMainCanvasMissionClearSettlementUi;
+        }
 
         [MenuItem("Corridor Commander/UI/Build Mission Clear Settlement UI")]
         public static void BuildMainCanvasMissionClearSettlementUi()
@@ -25,12 +41,47 @@ namespace CorridorCommander.EditorTools
                 InGameUiChromeAssets assets = InGameUiChromeAssets.Load();
                 BuildOrUpdate(prefabRoot.transform, assets);
                 PrefabUtility.SaveAsPrefabAsset(prefabRoot, MainCanvasPrefabPath);
-                Debug.Log("[MissionClearSettlementUiBuilder] MainCanvas mission clear settlement UI built.");
             }
             finally
             {
                 PrefabUtility.UnloadPrefabContents(prefabRoot);
             }
+
+            WireMainScene();
+            ValidateForAutomation();
+            Debug.Log("[MissionClearSettlementUiBuilder] MainCanvas mission clear settlement UI built and wired.");
+        }
+
+        [MenuItem("Corridor Commander/UI/Validate Mission Clear Settlement UI")]
+        public static void Validate()
+        {
+            ValidateForAutomation();
+        }
+
+        [MenuItem("Corridor Commander/UI/Smoke Mission Clear Settlement")]
+        public static void SmokeMissionClearSettlement()
+        {
+            if (!EditorApplication.isPlaying)
+            {
+                throw new System.InvalidOperationException(
+                    "Enter Play Mode before running the mission-clear smoke check.");
+            }
+
+            MissionClearSettlementPresenter presenter = Object.FindFirstObjectByType<MissionClearSettlementPresenter>(
+                FindObjectsInactive.Include);
+            if (presenter == null)
+            {
+                throw new System.InvalidOperationException("Mission-clear presenter is missing in the active scene.");
+            }
+
+            presenter.ShowFinalSettlement();
+            Debug.Log("Mission clear settlement runtime smoke requested.");
+        }
+
+        [MenuItem("Corridor Commander/UI/Smoke Mission Clear Settlement", true)]
+        private static bool CanSmokeMissionClearSettlement()
+        {
+            return EditorApplication.isPlaying;
         }
 
         private static void BuildOrUpdate(Transform canvasTransform, InGameUiChromeAssets assets)
@@ -69,6 +120,7 @@ namespace CorridorCommander.EditorTools
 
             RectTransform rootRect = rootObject.GetComponent<RectTransform>();
             InGameUiChromeFactory.ApplyBounds(rootRect, InGameUiChromeFactory.Stretch());
+            CanvasGroup canvasGroup = rootObject.GetComponent<CanvasGroup>() ?? rootObject.AddComponent<CanvasGroup>();
             rootObject.SetActive(false);
 
             Transform panel = CreateSettlementFrame(rootObject.transform);
@@ -117,8 +169,13 @@ namespace CorridorCommander.EditorTools
                 InGameUiChromeFunction.PrimaryButton,
                 assets);
 
+            DotweenUiPanelTransition transition = presenterObject.GetComponent<DotweenUiPanelTransition>()
+                ?? presenterObject.AddComponent<DotweenUiPanelTransition>();
+            ConfigureTransition(transition, rootObject, panel as RectTransform, canvasGroup);
+
             SerializedObject serializedPresenter = new SerializedObject(presenter);
             SetObject(serializedPresenter, "screenRoot", rootObject);
+            SetObject(serializedPresenter, "screenTransition", transition);
             SetObject(serializedPresenter, "titleTmpText", titleText);
             SetObject(serializedPresenter, "summaryTmpText", summaryText);
             SetObject(serializedPresenter, "moneyTmpText", moneyText);
@@ -129,6 +186,107 @@ namespace CorridorCommander.EditorTools
             SetObject(serializedPresenter, "timeTmpText", timeText);
             SetObject(serializedPresenter, "lobbyButton", lobbyButton);
             serializedPresenter.ApplyModifiedPropertiesWithoutUndo();
+        }
+
+        private static void ConfigureTransition(
+            DotweenUiPanelTransition transition,
+            GameObject activationRoot,
+            RectTransform motionRoot,
+            CanvasGroup canvasGroup)
+        {
+            if (motionRoot == null)
+            {
+                throw new System.InvalidOperationException("Mission clear settlement motion root is missing.");
+            }
+
+            SerializedObject serializedTransition = new SerializedObject(transition);
+            SetObject(serializedTransition, "activationRoot", activationRoot);
+            SetObject(serializedTransition, "motionRoot", motionRoot);
+            SetObject(serializedTransition, "canvasGroup", canvasGroup);
+            serializedTransition.FindProperty("useFade").boolValue = true;
+            serializedTransition.FindProperty("useScale").boolValue = true;
+            serializedTransition.FindProperty("useHorizontalOffset").boolValue = false;
+            serializedTransition.FindProperty("useVerticalOffset").boolValue = true;
+            serializedTransition.FindProperty("playShowOnEnable").boolValue = false;
+            serializedTransition.FindProperty("manageCanvasInteraction").boolValue = true;
+            serializedTransition.FindProperty("hiddenScaleMultiplier").floatValue = 0.965f;
+            serializedTransition.FindProperty("hiddenHorizontalOffset").floatValue = 0f;
+            serializedTransition.FindProperty("hiddenVerticalOffset").floatValue = -18f;
+            serializedTransition.FindProperty("showDuration").floatValue = 0.22f;
+            serializedTransition.FindProperty("hideDuration").floatValue = 0.14f;
+            serializedTransition.ApplyModifiedPropertiesWithoutUndo();
+        }
+
+        private static void WireMainScene()
+        {
+            Scene scene = EditorSceneManager.OpenScene(MainScenePath, OpenSceneMode.Single);
+            MissionClearSettlementPresenter presenter = Object.FindFirstObjectByType<MissionClearSettlementPresenter>(
+                FindObjectsInactive.Include);
+            ExtractionObjectiveController objective = Object.FindFirstObjectByType<ExtractionObjectiveController>(
+                FindObjectsInactive.Include);
+            if (presenter == null || objective == null)
+            {
+                throw new System.InvalidOperationException(
+                    "MainScene mission-clear presenter or extraction objective is missing.");
+            }
+
+            SerializedObject serializedObjective = new SerializedObject(objective);
+            SetObject(serializedObjective, "missionClearSettlementPresenter", presenter);
+            serializedObjective.ApplyModifiedPropertiesWithoutUndo();
+            EditorUtility.SetDirty(objective);
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
+        }
+
+        public static void ValidateForAutomation()
+        {
+            Scene scene = EditorSceneManager.OpenScene(MainScenePath, OpenSceneMode.Single);
+            MissionClearSettlementPresenter presenter = Object.FindFirstObjectByType<MissionClearSettlementPresenter>(
+                FindObjectsInactive.Include);
+            ExtractionObjectiveController objective = Object.FindFirstObjectByType<ExtractionObjectiveController>(
+                FindObjectsInactive.Include);
+            if (presenter == null || objective == null)
+            {
+                throw new System.InvalidOperationException(
+                    "MainScene mission-clear presenter or extraction objective is missing.");
+            }
+
+            SerializedObject serializedPresenter = new SerializedObject(presenter);
+            GameObject screenRoot = serializedPresenter.FindProperty("screenRoot").objectReferenceValue as GameObject;
+            if (screenRoot == null || screenRoot.activeSelf)
+            {
+                throw new System.InvalidOperationException(
+                    "Mission clear screen root must exist and be inactive by default.");
+            }
+
+            RequireReference(serializedPresenter, "screenTransition");
+            RequireReference(serializedPresenter, "titleTmpText");
+            RequireReference(serializedPresenter, "summaryTmpText");
+            RequireReference(serializedPresenter, "moneyTmpText");
+            RequireReference(serializedPresenter, "spentTmpText");
+            RequireReference(serializedPresenter, "levelTmpText");
+            RequireReference(serializedPresenter, "killProgressTmpText");
+            RequireReference(serializedPresenter, "statPointTmpText");
+            RequireReference(serializedPresenter, "timeTmpText");
+            RequireReference(serializedPresenter, "lobbyButton");
+
+            SerializedObject serializedObjective = new SerializedObject(objective);
+            if (serializedObjective.FindProperty("missionClearSettlementPresenter").objectReferenceValue != presenter)
+            {
+                throw new System.InvalidOperationException(
+                    "Extraction objective is not wired to the mission-clear presenter.");
+            }
+
+            Debug.Log("Mission clear settlement UI validation passed. Scene=" + scene.path);
+        }
+
+        private static void RequireReference(SerializedObject serializedObject, string propertyName)
+        {
+            SerializedProperty property = serializedObject.FindProperty(propertyName);
+            if (property == null || property.objectReferenceValue == null)
+            {
+                throw new System.InvalidOperationException("Missing mission-clear reference: " + propertyName);
+            }
         }
 
         private static TMP_Text CreateRow(Transform parent, InGameUiChromeAssets assets, string name, string value, float centerY)
@@ -267,7 +425,6 @@ namespace CorridorCommander.EditorTools
             }
 
             return behaviour is not Graphic
-                && behaviour is not CanvasGroup
                 && behaviour is not LayoutGroup
                 && behaviour is not LayoutElement
                 && behaviour is not ContentSizeFitter

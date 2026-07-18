@@ -11,7 +11,16 @@ namespace CorridorCommander
 
         public IReadOnlyList<TreasureRewardEntry> Rewards => rewards;
 
-        public void GetAvailableRewards(int roomIndex, int count, List<TreasureRewardEntry> results)
+        public void GetAvailableRewards(int offerSeed, int count, List<TreasureRewardEntry> results)
+        {
+            GetAvailableRewards(offerSeed, count, null, results);
+        }
+
+        public void GetAvailableRewards(
+            int offerSeed,
+            int count,
+            ArtifactInventory artifactInventory,
+            List<TreasureRewardEntry> results)
         {
             if (results == null)
             {
@@ -24,48 +33,67 @@ namespace CorridorCommander
                 return;
             }
 
-            int targetCount = Mathf.Min(count, rewards.Count);
+            int targetCount = Mathf.Min(Mathf.Max(0, count), rewards.Count);
+            bool preferStatPoint = (offerSeed & 1) != 0;
             TreasureRewardGrantType[] preferredTypes =
             {
                 TreasureRewardGrantType.Money,
-                TreasureRewardGrantType.KillProgress,
-                TreasureRewardGrantType.Artifact
+                preferStatPoint ? TreasureRewardGrantType.StatPoint : TreasureRewardGrantType.KillProgress,
+                TreasureRewardGrantType.Artifact,
+                preferStatPoint ? TreasureRewardGrantType.KillProgress : TreasureRewardGrantType.StatPoint,
+                TreasureRewardGrantType.Item
             };
 
             for (int i = 0; i < preferredTypes.Length && results.Count < targetCount; i++)
             {
-                AddFirstMatchingReward(preferredTypes[i], roomIndex + i, results);
+                AddFirstMatchingReward(preferredTypes[i], offerSeed + i, artifactInventory, results);
             }
 
-            int startIndex = Mathf.Abs(roomIndex) % rewards.Count;
+            int startIndex = PositiveIndex(offerSeed, rewards.Count);
             for (int i = 0; i < rewards.Count && results.Count < targetCount; i++)
             {
-                AddRewardIfUsable(rewards[(startIndex + i) % rewards.Count], roomIndex + i, results);
+                AddRewardIfUsable(
+                    rewards[(startIndex + i) % rewards.Count],
+                    offerSeed + i,
+                    artifactInventory,
+                    results);
             }
         }
 
-        private void AddFirstMatchingReward(TreasureRewardGrantType grantType, int lineupIndex, List<TreasureRewardEntry> results)
+        private void AddFirstMatchingReward(
+            TreasureRewardGrantType grantType,
+            int lineupIndex,
+            ArtifactInventory artifactInventory,
+            List<TreasureRewardEntry> results)
         {
-            int startIndex = Mathf.Abs(lineupIndex) % rewards.Count;
+            int startIndex = PositiveIndex(lineupIndex, rewards.Count);
             for (int i = 0; i < rewards.Count; i++)
             {
                 TreasureRewardEntry reward = rewards[(startIndex + i) % rewards.Count];
-                if (reward != null && reward.GrantType == grantType && AddRewardIfUsable(reward, lineupIndex, results))
+                if (reward != null
+                    && reward.GrantType == grantType
+                    && AddRewardIfUsable(reward, lineupIndex, artifactInventory, results))
                 {
                     return;
                 }
             }
         }
 
-        private bool AddRewardIfUsable(TreasureRewardEntry reward, int lineupIndex, List<TreasureRewardEntry> results)
+        private bool AddRewardIfUsable(
+            TreasureRewardEntry reward,
+            int lineupIndex,
+            ArtifactInventory artifactInventory,
+            List<TreasureRewardEntry> results)
         {
             if (reward == null || ContainsReward(results, reward))
             {
                 return false;
             }
 
-            TreasureRewardEntry resolvedReward = ResolveReward(reward, lineupIndex);
-            if (resolvedReward == null || ContainsReward(results, resolvedReward))
+            TreasureRewardEntry resolvedReward = ResolveReward(reward, lineupIndex, artifactInventory);
+            if (resolvedReward == null
+                || ContainsReward(results, resolvedReward)
+                || IsOwnedArtifact(resolvedReward, artifactInventory))
             {
                 return false;
             }
@@ -91,12 +119,23 @@ namespace CorridorCommander
                 {
                     return true;
                 }
+
+                if (candidate != null
+                    && reward != null
+                    && candidate.ArtifactDefinition != null
+                    && candidate.ArtifactDefinition == reward.ArtifactDefinition)
+                {
+                    return true;
+                }
             }
 
             return false;
         }
 
-        private TreasureRewardEntry ResolveReward(TreasureRewardEntry reward, int lineupIndex)
+        private TreasureRewardEntry ResolveReward(
+            TreasureRewardEntry reward,
+            int lineupIndex,
+            ArtifactInventory artifactInventory)
         {
             if (reward == null
                 || reward.GrantType != TreasureRewardGrantType.Artifact
@@ -106,12 +145,15 @@ namespace CorridorCommander
                 return reward;
             }
 
-            return artifactLineup.TryGetArtifactReward(lineupIndex, out TreasureRewardEntry lineupReward)
+            return artifactLineup.TryGetArtifactReward(lineupIndex, artifactInventory, out TreasureRewardEntry lineupReward)
                 ? lineupReward
                 : reward;
         }
 
-        private bool TryGetArtifactReward(int lineupIndex, out TreasureRewardEntry reward)
+        private bool TryGetArtifactReward(
+            int lineupIndex,
+            ArtifactInventory artifactInventory,
+            out TreasureRewardEntry reward)
         {
             reward = null;
             if (rewards == null || rewards.Count == 0)
@@ -125,7 +167,8 @@ namespace CorridorCommander
                 TreasureRewardEntry candidate = rewards[i];
                 if (candidate != null
                     && candidate.GrantType == TreasureRewardGrantType.Artifact
-                    && candidate.ArtifactDefinition != null)
+                    && candidate.ArtifactDefinition != null
+                    && !IsOwnedArtifact(candidate, artifactInventory))
                 {
                     artifactCount++;
                 }
@@ -136,14 +179,15 @@ namespace CorridorCommander
                 return false;
             }
 
-            int targetIndex = Mathf.Abs(lineupIndex) % artifactCount;
+            int targetIndex = PositiveIndex(lineupIndex, artifactCount);
             int currentIndex = 0;
             for (int i = 0; i < rewards.Count; i++)
             {
                 TreasureRewardEntry candidate = rewards[i];
                 if (candidate == null
                     || candidate.GrantType != TreasureRewardGrantType.Artifact
-                    || candidate.ArtifactDefinition == null)
+                    || candidate.ArtifactDefinition == null
+                    || IsOwnedArtifact(candidate, artifactInventory))
                 {
                     continue;
                 }
@@ -158,6 +202,20 @@ namespace CorridorCommander
             }
 
             return false;
+        }
+
+        private static bool IsOwnedArtifact(TreasureRewardEntry reward, ArtifactInventory artifactInventory)
+        {
+            return artifactInventory != null
+                && reward != null
+                && reward.GrantType == TreasureRewardGrantType.Artifact
+                && reward.ArtifactDefinition != null
+                && artifactInventory.HasArtifact(reward.ArtifactDefinition);
+        }
+
+        private static int PositiveIndex(int value, int count)
+        {
+            return count > 0 ? (value & int.MaxValue) % count : 0;
         }
     }
 }

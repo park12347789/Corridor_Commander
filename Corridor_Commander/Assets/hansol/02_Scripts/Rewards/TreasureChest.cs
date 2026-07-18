@@ -107,7 +107,14 @@ namespace CorridorCommander
                 return false;
             }
 
-            rewardTable.GetAvailableRewards(roomIndex, TreasureRewardMenuPresenter.MaxChoiceCount, offeredRewards);
+            ArtifactInventory artifactInventory = RewardGrantService.Current != null
+                ? RewardGrantService.Current.ArtifactInventory
+                : FindFirstObjectByType<ArtifactInventory>(FindObjectsInactive.Include);
+            rewardTable.GetAvailableRewards(
+                ResolveRewardOfferSeed(),
+                TreasureRewardMenuPresenter.MaxChoiceCount,
+                artifactInventory,
+                offeredRewards);
             if (offeredRewards.Count == 0)
             {
                 return false;
@@ -294,6 +301,19 @@ namespace CorridorCommander
             }
 
             return service.TryGrant(reward, out message);
+        }
+
+        private int ResolveRewardOfferSeed()
+        {
+            Vector3 position = transform.position;
+            unchecked
+            {
+                int seed = roomIndex * 397;
+                seed = seed * 31 + Mathf.RoundToInt(position.x * 10f);
+                seed = seed * 31 + Mathf.RoundToInt(position.y * 10f);
+                seed = seed * 31 + Mathf.RoundToInt(position.z * 10f);
+                return seed;
+            }
         }
 
         private PlayerCurrencyWallet ResolveCurrencyWallet()

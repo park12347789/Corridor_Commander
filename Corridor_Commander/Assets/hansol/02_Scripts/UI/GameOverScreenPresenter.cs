@@ -15,6 +15,7 @@ namespace CorridorCommander
 
         [Header("Roots")]
         [SerializeField] private GameObject screenRoot;
+        [SerializeField] private DotweenUiPanelTransition screenTransition;
 
         [Header("Text")]
         [SerializeField] private TMP_Text reasonText;
@@ -63,7 +64,11 @@ namespace CorridorCommander
             Time.timeScale = 0f;
             UiInputCoordinator.Instance?.TryBeginContext(this, UiInputContext.GameOverScreen, true);
 
-            if (screenRoot != null)
+            if (screenTransition != null)
+            {
+                screenTransition.Show();
+            }
+            else if (screenRoot != null)
             {
                 screenRoot.SetActive(true);
             }
@@ -128,7 +133,11 @@ namespace CorridorCommander
 
         private void HideImmediate()
         {
-            if (screenRoot != null)
+            if (screenTransition != null)
+            {
+                screenTransition.HideImmediate();
+            }
+            else if (screenRoot != null)
             {
                 screenRoot.SetActive(false);
             }

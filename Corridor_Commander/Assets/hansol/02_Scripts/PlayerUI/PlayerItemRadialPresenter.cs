@@ -18,6 +18,7 @@ namespace CorridorCommander.PlayerUI
 
         [Header("References")]
         [SerializeField] private GameObject panelRoot;
+        [SerializeField] private DotweenUiPanelTransition panelTransition;
         [SerializeField] private Text titleText;
         [SerializeField] private Text[] itemTexts = new Text[MaxItemCount];
         [SerializeField] private Image[] itemImages = new Image[MaxItemCount];
@@ -42,7 +43,7 @@ namespace CorridorCommander.PlayerUI
         private void Awake()
         {
             WarnIfMissingReferences();
-            Hide();
+            HideImmediate();
         }
 
         public void Show(IReadOnlyList<PlayerItemRuntimeEntry> items)
@@ -68,7 +69,11 @@ namespace CorridorCommander.PlayerUI
             selectedIndex = visibleItems.Count > 0 ? 0 : -1;
             Refresh();
 
-            if (panelRoot != null)
+            if (panelTransition != null)
+            {
+                panelTransition.Show();
+            }
+            else if (panelRoot != null)
             {
                 panelRoot.SetActive(true);
             }
@@ -76,7 +81,23 @@ namespace CorridorCommander.PlayerUI
 
         public void Hide()
         {
-            if (panelRoot != null)
+            if (panelTransition != null)
+            {
+                panelTransition.Hide();
+            }
+            else if (panelRoot != null)
+            {
+                panelRoot.SetActive(false);
+            }
+        }
+
+        private void HideImmediate()
+        {
+            if (panelTransition != null)
+            {
+                panelTransition.HideImmediate();
+            }
+            else if (panelRoot != null)
             {
                 panelRoot.SetActive(false);
             }

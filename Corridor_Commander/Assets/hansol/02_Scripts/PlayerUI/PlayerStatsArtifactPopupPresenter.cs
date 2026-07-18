@@ -31,7 +31,8 @@ namespace CorridorCommander
 
         [Header("Popup Prefab")]
         [SerializeField] private GameObject panelRoot;
-        [SerializeField] private Vector2 panelSize = new Vector2(660f, 660f);
+        [SerializeField] private DotweenUiPanelTransition panelTransition;
+        [SerializeField] private Vector2 panelSize = new Vector2(660f, 760f);
         [SerializeField] private Vector2 anchoredPosition = new Vector2(-24f, -86f);
 
         [Header("Target Icons")]
@@ -51,6 +52,7 @@ namespace CorridorCommander
         private ArtifactInventory artifactInventory;
         private ArtifactStatManager artifactStatManager;
         private bool isOpen;
+        private bool authoredPanelFailureLogged;
 #if UNITY_EDITOR
         private bool editorEnsureQueued;
 #endif
@@ -60,8 +62,15 @@ namespace CorridorCommander
             if (Application.isPlaying)
             {
                 ResolveRuntimeReferences();
-                EnsurePanel();
-                SetOpen(false);
+                if (!EnsurePanel())
+                {
+                    enabled = false;
+                    return;
+                }
+
+                isOpen = false;
+                panelTransition.HideImmediate();
+                PopupDimOverlayController.Release(this);
             }
 #if UNITY_EDITOR
             else
@@ -102,13 +111,16 @@ namespace CorridorCommander
             if (Application.isPlaying)
             {
                 Unsubscribe();
+                isOpen = false;
+                UiInputCoordinator.EndContextIfActive(this);
+                PopupDimOverlayController.Release(this);
             }
         }
 
 #if UNITY_EDITOR
         private void QueueEditorEnsurePanel()
         {
-            if (editorEnsureQueued)
+            if (EditorUtility.IsPersistent(this) || editorEnsureQueued)
             {
                 return;
             }
@@ -120,7 +132,7 @@ namespace CorridorCommander
         private void EnsurePanelAfterValidation()
         {
             editorEnsureQueued = false;
-            if (this == null || Application.isPlaying)
+            if (this == null || Application.isPlaying || EditorUtility.IsPersistent(this))
             {
                 return;
             }
@@ -141,12 +153,21 @@ namespace CorridorCommander
                 return;
             }
 
-            if (KeyboardInputMessenger.CurrentKeyboard.iKey.wasPressedThisFrame && (isOpen || !UiInputCoordinator.BlocksHotkeys))
+            if (KeyboardInputMessenger.CurrentKeyboard.iKey.wasPressedThisFrame)
             {
-                SetOpen(!isOpen);
+                if (isOpen)
+                {
+                    SetOpen(false);
+                }
+                else if (!UiInputCoordinator.BlocksHotkeys)
+                {
+                    SetOpen(true);
+                }
             }
 
-            if (isOpen && KeyboardInputMessenger.WasCancelPressed())
+            if (isOpen
+                && KeyboardInputMessenger.WasCancelPressed()
+                && UiInputCoordinator.Instance.TryConsumeCancel(this))
             {
                 SetOpen(false);
             }
@@ -228,10 +249,27 @@ namespace CorridorCommander
 
         private void SetOpen(bool open)
         {
-            isOpen = open;
-            if (panelRoot != null)
+            if (panelTransition == null)
             {
-                panelRoot.SetActive(open);
+                return;
+            }
+
+            if (open && !UiInputCoordinator.Instance.TryBeginContext(this, UiInputContext.PlayerStatsArtifactPopup, true))
+            {
+                return;
+            }
+
+            isOpen = open;
+            if (open)
+            {
+                panelTransition.Show();
+                PopupDimOverlayController.RequestShow(this, panelRoot != null ? panelRoot.transform : transform);
+            }
+            else
+            {
+                panelTransition.Hide();
+                UiInputCoordinator.EndContextIfActive(this);
+                PopupDimOverlayController.Release(this);
             }
 
             if (open)
@@ -356,53 +394,72 @@ namespace CorridorCommander
             return builder.ToString();
         }
 
-        private void EnsurePanel()
+        private bool EnsurePanel()
         {
-            if (panelRoot == null)
+#if UNITY_EDITOR
+            if (EditorUtility.IsPersistent(this))
             {
-                panelRoot = CreateFallbackPanel();
+                return false;
+            }
+#endif
+
+            if (panelRoot == null
+                || !panelRoot.scene.IsValid()
+                || panelRoot.scene != gameObject.scene
+                || panelRoot.transform.parent != transform)
+            {
+                return FailAuthoredPanel(
+                    "PanelRoot must be an authored child instance in the presenter's scene.");
             }
 
-            ConfigurePanelRect(panelRoot);
-            HidePrefabSampleContent(panelRoot.transform);
-            EnsureContent(panelRoot.transform);
+            RectTransform rect = panelRoot.GetComponent<RectTransform>();
+            CanvasGroup canvasGroup = panelRoot.GetComponent<CanvasGroup>();
+            if (rect == null
+                || canvasGroup == null
+                || panelTransition == null
+                || panelTransition.gameObject != panelRoot
+                || panelTransition.ActivationRoot != panelRoot
+                || panelTransition.MotionRoot != rect
+                || panelTransition.CanvasGroup != canvasGroup)
+            {
+                return FailAuthoredPanel(
+                    "PanelRoot, RectTransform, CanvasGroup, and DOTween transition must be assigned in the prefab.");
+            }
+
+            if ((rect.sizeDelta - panelSize).sqrMagnitude > 0.01f
+                || (rect.anchoredPosition - anchoredPosition).sqrMagnitude > 0.01f)
+            {
+                return FailAuthoredPanel(
+                    "PanelRoot layout must match the authored presenter size and position.");
+            }
+
+            Transform content = panelRoot.transform.Find(ContentRootName);
+            if (content == null || content.Find(ContentVersionMarkerName) == null)
+            {
+                return FailAuthoredPanel(
+                    "Authored stats content and its layout marker are required.");
+            }
+
+            BindContent(content);
+            if (summaryText == null || artifactListText == null || targetBonusViews.Count != 4)
+            {
+                return FailAuthoredPanel(
+                    "Authored stats content references are incomplete.");
+            }
+
+            authoredPanelFailureLogged = false;
+            return true;
         }
 
-        private GameObject CreateFallbackPanel()
+        private bool FailAuthoredPanel(string message)
         {
-            GameObject root = new GameObject("PlayerStatsArtifactPopup", typeof(RectTransform), typeof(CanvasGroup), typeof(Image));
-            root.transform.SetParent(transform, false);
-            Image background = root.GetComponent<Image>();
-            background.color = new Color(0.02f, 0.12f, 0.23f, 0.94f);
-            background.raycastTarget = false;
-            return root;
-        }
-
-        private void ConfigurePanelRect(GameObject root)
-        {
-            root.transform.SetParent(transform, false);
-            RectTransform rect = root.GetComponent<RectTransform>();
-            if (rect == null)
+            if (!authoredPanelFailureLogged)
             {
-                rect = root.AddComponent<RectTransform>();
+                Debug.LogError("[PlayerStatsArtifactPopupPresenter] " + message, this);
+                authoredPanelFailureLogged = true;
             }
 
-            rect.anchorMin = Vector2.one;
-            rect.anchorMax = Vector2.one;
-            rect.pivot = Vector2.one;
-            rect.anchoredPosition = anchoredPosition;
-            rect.sizeDelta = panelSize;
-            rect.localScale = Vector3.one;
-            rect.localRotation = Quaternion.identity;
-
-            CanvasGroup canvasGroup = root.GetComponent<CanvasGroup>();
-            if (canvasGroup == null)
-            {
-                canvasGroup = root.AddComponent<CanvasGroup>();
-            }
-
-            canvasGroup.interactable = false;
-            canvasGroup.blocksRaycasts = false;
+            return false;
         }
 
         private void HidePrefabSampleContent(Transform root)

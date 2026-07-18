@@ -900,6 +900,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.PlayerUI.PlayerItemRadialPresenter
   panelRoot: {fileID: 6109071120960480558}
+  panelTransition: {fileID: 390595319227523457}
   titleText: {fileID: 8764366229463131846}
   itemTexts:
   - {fileID: 279031610518970615}
@@ -2718,6 +2719,8 @@ GameObject:
   m_Component:
   - component: {fileID: 330483888815739135}
   - component: {fileID: 7406653350000325912}
+  - component: {fileID: 826476106090859608}
+  - component: {fileID: 390595319227523457}
   m_Layer: 0
   m_Name: PlayerItemRadialPanel
   m_TagString: Untagged
@@ -2766,6 +2769,46 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6109071120960480558}
   m_CullTransparentMesh: 1
+--- !u!225 &826476106090859608
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6109071120960480558}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &390595319227523457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6109071120960480558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b3ee6a656bb7202428402a875390e921, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CorridorCommander.DotweenUiPanelTransition
+  activationRoot: {fileID: 6109071120960480558}
+  motionRoot: {fileID: 330483888815739135}
+  canvasGroup: {fileID: 826476106090859608}
+  useFade: 1
+  useScale: 1
+  useHorizontalOffset: 0
+  useVerticalOffset: 0
+  playShowOnEnable: 0
+  manageCanvasInteraction: 1
+  hiddenScaleMultiplier: 0.9
+  hiddenHorizontalOffset: 0
+  hiddenVerticalOffset: 0
+  showDuration: 0.08
+  hideDuration: 0.06
+  showEase: 9
+  hideEase: 8
 --- !u!1 &6251743478435914173
 GameObject:
   m_ObjectHideFlags: 0

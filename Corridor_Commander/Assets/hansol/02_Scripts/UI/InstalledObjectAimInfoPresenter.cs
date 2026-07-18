@@ -8,6 +8,7 @@ namespace CorridorCommander
     public sealed class InstalledObjectAimInfoPresenter : MonoBehaviour
     {
         [SerializeField] private GameObject panelRoot;
+        [SerializeField] private DotweenUiPanelTransition panelTransition;
         [SerializeField] private TMP_Text titleText;
         [SerializeField] private TMP_Text levelText;
         [SerializeField] private TMP_Text statText;
@@ -19,7 +20,7 @@ namespace CorridorCommander
 
         private void Awake()
         {
-            Hide();
+            HideImmediate();
         }
 
         public void Show(InstalledAimInfo info)
@@ -46,12 +47,38 @@ namespace CorridorCommander
             healthText.text = info.HealthText;
             healthFillImage.fillAmount = Mathf.Clamp01(info.HealthFillAmount);
             UpdatePosition(worldCamera, target);
-            panelRoot.SetActive(true);
+            if (!panelRoot.activeSelf)
+            {
+                if (panelTransition != null)
+                {
+                    panelTransition.Show();
+                }
+                else
+                {
+                    panelRoot.SetActive(true);
+                }
+            }
         }
 
         public void Hide()
         {
-            if (panelRoot != null)
+            if (panelTransition != null && panelRoot != null && panelRoot.activeSelf)
+            {
+                panelTransition.Hide();
+            }
+            else if (panelRoot != null)
+            {
+                panelRoot.SetActive(false);
+            }
+        }
+
+        private void HideImmediate()
+        {
+            if (panelTransition != null)
+            {
+                panelTransition.HideImmediate();
+            }
+            else if (panelRoot != null)
             {
                 panelRoot.SetActive(false);
             }

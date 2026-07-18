@@ -311,9 +311,11 @@ namespace CorridorCommander
         private float ResolveAttackRange(WeaponFireDefinitionSO fireDefinition)
         {
             float configuredAttackRange = Mathf.Max(0f, attackRange);
+            float resolvedRange;
             if (fireDefinition == null)
             {
-                return configuredAttackRange;
+                resolvedRange = configuredAttackRange;
+                return ArtifactStatManager.Apply(ArtifactTarget.Squad, ArtifactStat.Range, resolvedRange);
             }
 
             switch (fireDefinition.resolveType)
@@ -322,14 +324,19 @@ namespace CorridorCommander
                     float hitscanRange = fireDefinition.hitscanDefinition != null
                         ? fireDefinition.hitscanDefinition.range
                         : configuredAttackRange;
-                    return Mathf.Min(configuredAttackRange, Mathf.Max(0f, hitscanRange));
+                    resolvedRange = Mathf.Min(configuredAttackRange, Mathf.Max(0f, hitscanRange));
+                    break;
 
                 case WeaponFireResolveType.Projectile:
-                    return configuredAttackRange;
+                    resolvedRange = configuredAttackRange;
+                    break;
 
                 default:
-                    return configuredAttackRange;
+                    resolvedRange = configuredAttackRange;
+                    break;
             }
+
+            return ArtifactStatManager.Apply(ArtifactTarget.Squad, ArtifactStat.Range, resolvedRange);
         }
 
         private float ResolveFireInterval(WeaponFireDefinitionSO fireDefinition)
@@ -692,7 +699,8 @@ namespace CorridorCommander
                 projectileDefinition,
                 gameObject,
                 direction,
-                projectilePool != null ? projectilePool.Release : null);
+                projectilePool != null ? projectilePool.Release : null,
+                ArtifactStatManager.Apply(ArtifactTarget.Squad, ArtifactStat.Damage, 1f));
         }
 
         private void FireHitscan(
@@ -747,7 +755,11 @@ namespace CorridorCommander
                 return;
             }
 
-            damageable?.TakeDamage(new DamageInfo(hitscanDefinition.damage, gameObject, hit.point));
+            float damage = ArtifactStatManager.Apply(
+                ArtifactTarget.Squad,
+                ArtifactStat.Damage,
+                hitscanDefinition.damage);
+            damageable?.TakeDamage(new DamageInfo(damage, gameObject, hit.point));
         }
 
         private void ApplyHitscanSplashDamage(HitscanDefinitionSO hitscanDefinition, Vector3 center)
@@ -778,7 +790,10 @@ namespace CorridorCommander
                 }
 
                 damageable.TakeDamage(new DamageInfo(
-                    hitscanDefinition.splashDamage,
+                    ArtifactStatManager.Apply(
+                        ArtifactTarget.Squad,
+                        ArtifactStat.Damage,
+                        hitscanDefinition.splashDamage),
                     gameObject,
                     targetCollider.ClosestPoint(center)));
             }

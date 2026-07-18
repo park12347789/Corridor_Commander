@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,8 +15,12 @@ namespace CorridorCommander
         [SerializeField] private CanvasGroup canvasGroup;
         [SerializeField] private MousePositionIconPresenter mouseIconPresenter;
         [SerializeField, Range(0f, 1f)] private float dimAlpha = 0.48f;
+        [SerializeField, Min(0.01f)] private float fadeInDuration = 0.18f;
+        [SerializeField, Min(0.01f)] private float fadeOutDuration = 0.14f;
 
         private readonly Dictionary<Object, Transform> activeOwners = new Dictionary<Object, Transform>();
+        private Tween visibilityTween;
+        private bool targetVisible;
 
         public static bool HasActivePopup
         {
@@ -55,10 +60,17 @@ namespace CorridorCommander
 
         private void OnDestroy()
         {
+            KillVisibilityTween();
+
             if (instance == this)
             {
                 instance = null;
             }
+        }
+
+        private void OnDisable()
+        {
+            KillVisibilityTween();
         }
 
         public static void RequestShow(Object owner, Transform popupRoot)
@@ -185,7 +197,11 @@ namespace CorridorCommander
 
         private void SetVisible(bool visible)
         {
-            if (visible && !gameObject.activeSelf)
+            targetVisible = visible;
+            KillVisibilityTween();
+
+            bool wasInactive = !gameObject.activeSelf;
+            if (visible && wasInactive)
             {
                 gameObject.SetActive(true);
             }
@@ -193,16 +209,38 @@ namespace CorridorCommander
             if (overlayImage != null)
             {
                 Color color = overlayImage.color;
-                color.a = visible ? dimAlpha : 0f;
+                color.a = dimAlpha;
                 overlayImage.color = color;
                 overlayImage.raycastTarget = visible;
             }
 
             if (canvasGroup != null)
             {
-                canvasGroup.alpha = visible ? 1f : 0f;
                 canvasGroup.interactable = visible;
                 canvasGroup.blocksRaycasts = visible;
+
+                if (visible)
+                {
+                    if (wasInactive)
+                    {
+                        canvasGroup.alpha = 0f;
+                    }
+
+                    visibilityTween = canvasGroup
+                        .DOFade(1f, fadeInDuration)
+                        .SetEase(Ease.OutCubic)
+                        .SetUpdate(true)
+                        .SetLink(gameObject, LinkBehaviour.KillOnDestroy);
+                }
+                else if (gameObject.activeSelf)
+                {
+                    visibilityTween = canvasGroup
+                        .DOFade(0f, fadeOutDuration)
+                        .SetEase(Ease.InCubic)
+                        .SetUpdate(true)
+                        .SetLink(gameObject, LinkBehaviour.KillOnDestroy)
+                        .OnComplete(CompleteHide);
+                }
             }
 
             if (mouseIconPresenter != null)
@@ -217,10 +255,42 @@ namespace CorridorCommander
                 }
             }
 
-            if (!visible)
+            if (!visible && canvasGroup == null)
             {
-                gameObject.SetActive(false);
-                RestoreCursorPolicyAfterOverlayHidden();
+                CompleteHide();
+            }
+        }
+
+        private void LateUpdate()
+        {
+            if (!targetVisible
+                && gameObject.activeSelf
+                && (visibilityTween == null || !visibilityTween.IsActive()))
+            {
+                CompleteHide();
+            }
+        }
+
+        private void CompleteHide()
+        {
+            visibilityTween = null;
+            gameObject.SetActive(false);
+            RestoreCursorPolicyAfterOverlayHidden();
+        }
+
+        private void KillVisibilityTween()
+        {
+            if (visibilityTween == null)
+            {
+                return;
+            }
+
+            visibilityTween.Kill();
+            visibilityTween = null;
+
+            if (!targetVisible && gameObject.activeSelf)
+            {
+                CompleteHide();
             }
         }
 
